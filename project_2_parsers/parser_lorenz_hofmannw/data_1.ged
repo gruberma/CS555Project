@@ -1,0 +1,147 @@
+0 HEAD
+1 SOUR Family Echo
+1 NOTE Lorenz Hofmann-Wellenhof
+2 WWW http://www.familyecho.com/
+1 FILE My Family
+1 DATE 10 SEP 2018
+1 DEST ANSTFILE
+1 GEDC
+2 VERS 5.5.1
+2 FORM LINEAGE-LINKED
+1 SUBM @I1@
+2 NAME Lorenz Hofmann-Wellenhof
+1 SUBN
+1 CHAR UTF-8
+0 @I1@ INDI
+1 NAME Lorenz /Hofmann-Wellenhof/
+2 GIVN Lorenz
+2 SURN Hofmann-Wellenhof
+2 _MARNM Hofmann-Wellenhof
+1 SEX M
+1 BIRT
+2 DATE 21 NOV 1994
+1 FAMC @F1@
+0 @I2@ INDI
+1 NAME Bernhard /Hofmann-Wellenhof/
+2 GIVN Bernhard
+2 SURN Hofmann-Wellenhof
+2 _MARNM Hofmann-Wellenhof
+1 SEX M
+1 BIRT
+2 DATE 7 OCT 1951
+1 FAMS @F1@
+1 FAMS @F2@
+1 FAMC @F3@
+0 @I3@ INDI
+1 NAME Irene /Hofmann-Wellenhof/
+2 GIVN Irene
+2 SURN Hofmann-Wellenhof
+2 _MARNM Hofmann-Wellenhof
+1 SEX F
+1 BIRT
+2 DATE 3 JAN 1958
+1 DEAT Y
+2 DATE 3 SEP 2015
+1 FAMS @F1@
+1 FAMS @F4@
+1 FAMC @F5@
+0 @I4@ INDI
+1 NAME Jospeh /Dörfler/
+2 GIVN Jospeh
+2 SURN Dörfler
+2 _MARNM Dörfler
+1 SEX M
+1 BIRT
+2 DATE 13 AUG 1922
+1 FAMS @F5@
+0 @I5@ INDI
+1 NAME Gertrud /Dörfler/
+2 GIVN Gertrud
+2 SURN Dörfler
+2 _MARNM Dörfler
+1 SEX F
+1 BIRT
+2 DATE 1 FEB 1922
+1 DEAT Y
+2 DATE 4 JAN 2017
+1 FAMS @F5@
+0 @I6@ INDI
+1 NAME Friederike /Hofmann-Wellenhof/
+2 GIVN Friederike
+2 SURN Hofmann-Wellenhof
+2 _MARNM Hofmann-Wellenhof
+1 SEX F
+1 BIRT
+2 DATE 7 SEP 1992
+1 FAMC @F1@
+0 @I7@ INDI
+1 NAME Rainer /Hofmann-Wellenhof/
+2 GIVN Rainer
+2 SURN Hofmann-Wellenhof
+2 _MARNM Hofmann-Wellenhof
+1 SEX M
+1 BIRT
+2 DATE 13 JAN 1990
+1 FAMC @F1@
+0 @I8@ INDI
+1 NAME Johannes /Hofmann-Wellenhof/
+2 GIVN Johannes
+2 SURN Hofmann-Wellenhof
+2 _MARNM Hofmann-Wellenhof
+1 SEX M
+1 BIRT
+2 DATE 29 APR 1988
+1 FAMC @F1@
+0 @I9@ INDI
+1 NAME Irene2 /Hilfiger/
+2 GIVN Irene2
+2 SURN Hilfiger
+2 _MARNM Hofmann-Wellenhof
+1 SEX F
+1 BIRT
+2 DATE 2 FEB 1956
+1 FAMS @F2@
+0 @I10@ INDI
+1 NAME Tom /Hofmann-Wellenhof/
+2 GIVN Tom
+2 SURN Hofmann-Wellenhof
+2 _MARNM Hofmann-Wellenhof
+1 SEX M
+1 BIRT
+2 DATE 4 SEP 2016
+1 FAMC @F2@
+0 @F1@ FAM
+1 HUSB @I2@
+1 WIFE @I3@
+1 CHIL @I1@
+1 CHIL @I6@
+1 CHIL @I7@
+1 CHIL @I8@
+1 MARR
+2 DATE 5 JUL 1986
+2 PLAC Austria
+1 EVEN
+2 TYPE Ending
+1 _CURRENT N
+0 @F2@ FAM
+1 HUSB @I2@
+1 WIFE @I9@
+1 CHIL @I10@
+1 MARR
+2 DATE 6 DEC 2016
+2 PLAC Mount Doom
+1 _CURRENT Y
+0 @F3@ FAM
+1 CHIL @I2@
+1 _CURRENT N
+0 @F4@ FAM
+1 WIFE @I3@
+1 _CURRENT N
+0 @F5@ FAM
+1 HUSB @I4@
+1 WIFE @I5@
+1 CHIL @I3@
+1 MARR
+2 DATE 2 JAN 1950
+1 _CURRENT Y
+0 TRLR

@@ -1,0 +1,294 @@
+--> 0 HEAD
+<-- 0|HEAD|Y|
+--> 1 SOUR Family Echo
+<-- 1|SOUR|N|Family Echo
+--> 1 NOTE Lorenz Hofmann-Wellenhof
+<-- 1|NOTE|Y|Lorenz Hofmann-Wellenhof
+--> 2 WWW http://www.familyecho.com/
+<-- 2|WWW|N|http://www.familyecho.com/
+--> 1 FILE My Family
+<-- 1|FILE|N|My Family
+--> 1 DATE 10 SEP 2018
+<-- 1|DATE|N|10 SEP 2018
+--> 1 DEST ANSTFILE
+<-- 1|DEST|N|ANSTFILE
+--> 1 GEDC
+<-- 1|GEDC|N|
+--> 2 VERS 5.5.1
+<-- 2|VERS|N|5.5.1
+--> 2 FORM LINEAGE-LINKED
+<-- 2|FORM|N|LINEAGE-LINKED
+--> 1 SUBM @I1@
+<-- 1|SUBM|N|@I1@
+--> 2 NAME Lorenz Hofmann-Wellenhof
+<-- 2|NAME|N|Lorenz Hofmann-Wellenhof
+--> 1 SUBN
+<-- 1|SUBN|N|
+--> 1 CHAR UTF-8
+<-- 1|CHAR|N|UTF-8
+--> 0 @I1@ INDI
+<-- 0|INDI|Y|@I1@
+--> 1 NAME Lorenz /Hofmann-Wellenhof/
+<-- 1|NAME|Y|Lorenz /Hofmann-Wellenhof/
+--> 2 GIVN Lorenz
+<-- 2|GIVN|N|Lorenz
+--> 2 SURN Hofmann-Wellenhof
+<-- 2|SURN|N|Hofmann-Wellenhof
+--> 2 _MARNM Hofmann-Wellenhof
+<-- 2|_MARNM|N|Hofmann-Wellenhof
+--> 1 SEX M
+<-- 1|SEX|Y|M
+--> 1 BIRT
+<-- 1|BIRT|Y|
+--> 2 DATE 21 NOV 1994
+<-- 2|DATE|Y|21 NOV 1994
+--> 1 FAMC @F1@
+<-- 1|FAMC|Y|@F1@
+--> 0 @I2@ INDI
+<-- 0|INDI|Y|@I2@
+--> 1 NAME Bernhard /Hofmann-Wellenhof/
+<-- 1|NAME|Y|Bernhard /Hofmann-Wellenhof/
+--> 2 GIVN Bernhard
+<-- 2|GIVN|N|Bernhard
+--> 2 SURN Hofmann-Wellenhof
+<-- 2|SURN|N|Hofmann-Wellenhof
+--> 2 _MARNM Hofmann-Wellenhof
+<-- 2|_MARNM|N|Hofmann-Wellenhof
+--> 1 SEX M
+<-- 1|SEX|Y|M
+--> 1 BIRT
+<-- 1|BIRT|Y|
+--> 2 DATE 7 OCT 1951
+<-- 2|DATE|Y|7 OCT 1951
+--> 1 FAMS @F1@
+<-- 1|FAMS|Y|@F1@
+--> 1 FAMS @F2@
+<-- 1|FAMS|Y|@F2@
+--> 1 FAMC @F3@
+<-- 1|FAMC|Y|@F3@
+--> 0 @I3@ INDI
+<-- 0|INDI|Y|@I3@
+--> 1 NAME Irene /Hofmann-Wellenhof/
+<-- 1|NAME|Y|Irene /Hofmann-Wellenhof/
+--> 2 GIVN Irene
+<-- 2|GIVN|N|Irene
+--> 2 SURN Hofmann-Wellenhof
+<-- 2|SURN|N|Hofmann-Wellenhof
+--> 2 _MARNM Hofmann-Wellenhof
+<-- 2|_MARNM|N|Hofmann-Wellenhof
+--> 1 SEX F
+<-- 1|SEX|Y|F
+--> 1 BIRT
+<-- 1|BIRT|Y|
+--> 2 DATE 3 JAN 1958
+<-- 2|DATE|Y|3 JAN 1958
+--> 1 DEAT Y
+<-- 1|DEAT|Y|Y
+--> 2 DATE 3 SEP 2015
+<-- 2|DATE|Y|3 SEP 2015
+--> 1 FAMS @F1@
+<-- 1|FAMS|Y|@F1@
+--> 1 FAMS @F4@
+<-- 1|FAMS|Y|@F4@
+--> 1 FAMC @F5@
+<-- 1|FAMC|Y|@F5@
+--> 0 @I4@ INDI
+<-- 0|INDI|Y|@I4@
+--> 1 NAME Jospeh /Dörfler/
+<-- 1|NAME|Y|Jospeh /Dörfler/
+--> 2 GIVN Jospeh
+<-- 2|GIVN|N|Jospeh
+--> 2 SURN Dörfler
+<-- 2|SURN|N|Dörfler
+--> 2 _MARNM Dörfler
+<-- 2|_MARNM|N|Dörfler
+--> 1 SEX M
+<-- 1|SEX|Y|M
+--> 1 BIRT
+<-- 1|BIRT|Y|
+--> 2 DATE 13 AUG 1922
+<-- 2|DATE|Y|13 AUG 1922
+--> 1 FAMS @F5@
+<-- 1|FAMS|Y|@F5@
+--> 0 @I5@ INDI
+<-- 0|INDI|Y|@I5@
+--> 1 NAME Gertrud /Dörfler/
+<-- 1|NAME|Y|Gertrud /Dörfler/
+--> 2 GIVN Gertrud
+<-- 2|GIVN|N|Gertrud
+--> 2 SURN Dörfler
+<-- 2|SURN|N|Dörfler
+--> 2 _MARNM Dörfler
+<-- 2|_MARNM|N|Dörfler
+--> 1 SEX F
+<-- 1|SEX|Y|F
+--> 1 BIRT
+<-- 1|BIRT|Y|
+--> 2 DATE 1 FEB 1922
+<-- 2|DATE|Y|1 FEB 1922
+--> 1 DEAT Y
+<-- 1|DEAT|Y|Y
+--> 2 DATE 4 JAN 2017
+<-- 2|DATE|Y|4 JAN 2017
+--> 1 FAMS @F5@
+<-- 1|FAMS|Y|@F5@
+--> 0 @I6@ INDI
+<-- 0|INDI|Y|@I6@
+--> 1 NAME Friederike /Hofmann-Wellenhof/
+<-- 1|NAME|Y|Friederike /Hofmann-Wellenhof/
+--> 2 GIVN Friederike
+<-- 2|GIVN|N|Friederike
+--> 2 SURN Hofmann-Wellenhof
+<-- 2|SURN|N|Hofmann-Wellenhof
+--> 2 _MARNM Hofmann-Wellenhof
+<-- 2|_MARNM|N|Hofmann-Wellenhof
+--> 1 SEX F
+<-- 1|SEX|Y|F
+--> 1 BIRT
+<-- 1|BIRT|Y|
+--> 2 DATE 7 SEP 1992
+<-- 2|DATE|Y|7 SEP 1992
+--> 1 FAMC @F1@
+<-- 1|FAMC|Y|@F1@
+--> 0 @I7@ INDI
+<-- 0|INDI|Y|@I7@
+--> 1 NAME Rainer /Hofmann-Wellenhof/
+<-- 1|NAME|Y|Rainer /Hofmann-Wellenhof/
+--> 2 GIVN Rainer
+<-- 2|GIVN|N|Rainer
+--> 2 SURN Hofmann-Wellenhof
+<-- 2|SURN|N|Hofmann-Wellenhof
+--> 2 _MARNM Hofmann-Wellenhof
+<-- 2|_MARNM|N|Hofmann-Wellenhof
+--> 1 SEX M
+<-- 1|SEX|Y|M
+--> 1 BIRT
+<-- 1|BIRT|Y|
+--> 2 DATE 13 JAN 1990
+<-- 2|DATE|Y|13 JAN 1990
+--> 1 FAMC @F1@
+<-- 1|FAMC|Y|@F1@
+--> 0 @I8@ INDI
+<-- 0|INDI|Y|@I8@
+--> 1 NAME Johannes /Hofmann-Wellenhof/
+<-- 1|NAME|Y|Johannes /Hofmann-Wellenhof/
+--> 2 GIVN Johannes
+<-- 2|GIVN|N|Johannes
+--> 2 SURN Hofmann-Wellenhof
+<-- 2|SURN|N|Hofmann-Wellenhof
+--> 2 _MARNM Hofmann-Wellenhof
+<-- 2|_MARNM|N|Hofmann-Wellenhof
+--> 1 SEX M
+<-- 1|SEX|Y|M
+--> 1 BIRT
+<-- 1|BIRT|Y|
+--> 2 DATE 29 APR 1988
+<-- 2|DATE|Y|29 APR 1988
+--> 1 FAMC @F1@
+<-- 1|FAMC|Y|@F1@
+--> 0 @I9@ INDI
+<-- 0|INDI|Y|@I9@
+--> 1 NAME Irene2 /Hilfiger/
+<-- 1|NAME|Y|Irene2 /Hilfiger/
+--> 2 GIVN Irene2
+<-- 2|GIVN|N|Irene2
+--> 2 SURN Hilfiger
+<-- 2|SURN|N|Hilfiger
+--> 2 _MARNM Hofmann-Wellenhof
+<-- 2|_MARNM|N|Hofmann-Wellenhof
+--> 1 SEX F
+<-- 1|SEX|Y|F
+--> 1 BIRT
+<-- 1|BIRT|Y|
+--> 2 DATE 2 FEB 1956
+<-- 2|DATE|Y|2 FEB 1956
+--> 1 FAMS @F2@
+<-- 1|FAMS|Y|@F2@
+--> 0 @I10@ INDI
+<-- 0|INDI|Y|@I10@
+--> 1 NAME Tom /Hofmann-Wellenhof/
+<-- 1|NAME|Y|Tom /Hofmann-Wellenhof/
+--> 2 GIVN Tom
+<-- 2|GIVN|N|Tom
+--> 2 SURN Hofmann-Wellenhof
+<-- 2|SURN|N|Hofmann-Wellenhof
+--> 2 _MARNM Hofmann-Wellenhof
+<-- 2|_MARNM|N|Hofmann-Wellenhof
+--> 1 SEX M
+<-- 1|SEX|Y|M
+--> 1 BIRT
+<-- 1|BIRT|Y|
+--> 2 DATE 4 SEP 2016
+<-- 2|DATE|Y|4 SEP 2016
+--> 1 FAMC @F2@
+<-- 1|FAMC|Y|@F2@
+--> 0 @F1@ FAM
+<-- 0|FAM|Y|@F1@
+--> 1 HUSB @I2@
+<-- 1|HUSB|Y|@I2@
+--> 1 WIFE @I3@
+<-- 1|WIFE|Y|@I3@
+--> 1 CHIL @I1@
+<-- 1|CHIL|Y|@I1@
+--> 1 CHIL @I6@
+<-- 1|CHIL|Y|@I6@
+--> 1 CHIL @I7@
+<-- 1|CHIL|Y|@I7@
+--> 1 CHIL @I8@
+<-- 1|CHIL|Y|@I8@
+--> 1 MARR
+<-- 1|MARR|Y|
+--> 2 DATE 5 JUL 1986
+<-- 2|DATE|Y|5 JUL 1986
+--> 2 PLAC Austria
+<-- 2|PLAC|N|Austria
+--> 1 EVEN
+<-- 1|EVEN|N|
+--> 2 TYPE Ending
+<-- 2|TYPE|N|Ending
+--> 1 _CURRENT N
+<-- 1|_CURRENT|N|N
+--> 0 @F2@ FAM
+<-- 0|FAM|Y|@F2@
+--> 1 HUSB @I2@
+<-- 1|HUSB|Y|@I2@
+--> 1 WIFE @I9@
+<-- 1|WIFE|Y|@I9@
+--> 1 CHIL @I10@
+<-- 1|CHIL|Y|@I10@
+--> 1 MARR
+<-- 1|MARR|Y|
+--> 2 DATE 6 DEC 2016
+<-- 2|DATE|Y|6 DEC 2016
+--> 2 PLAC Mount Doom
+<-- 2|PLAC|N|Mount Doom
+--> 1 _CURRENT Y
+<-- 1|_CURRENT|N|Y
+--> 0 @F3@ FAM
+<-- 0|FAM|Y|@F3@
+--> 1 CHIL @I2@
+<-- 1|CHIL|Y|@I2@
+--> 1 _CURRENT N
+<-- 1|_CURRENT|N|N
+--> 0 @F4@ FAM
+<-- 0|FAM|Y|@F4@
+--> 1 WIFE @I3@
+<-- 1|WIFE|Y|@I3@
+--> 1 _CURRENT N
+<-- 1|_CURRENT|N|N
+--> 0 @F5@ FAM
+<-- 0|FAM|Y|@F5@
+--> 1 HUSB @I4@
+<-- 1|HUSB|Y|@I4@
+--> 1 WIFE @I5@
+<-- 1|WIFE|Y|@I5@
+--> 1 CHIL @I3@
+<-- 1|CHIL|Y|@I3@
+--> 1 MARR
+<-- 1|MARR|Y|
+--> 2 DATE 2 JAN 1950
+<-- 2|DATE|Y|2 JAN 1950
+--> 1 _CURRENT Y
+<-- 1|_CURRENT|N|Y
+--> 0 TRLR
+<-- 0|TRLR|Y|
