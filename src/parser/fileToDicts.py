@@ -48,6 +48,17 @@ def parseFile(filename: str):
     individual_list.append(cur_individual)
     # appends current family to family_list
     family_list.append(cur_family)
+
+    for indi in individual_list:
+        print("INDIVIDUAL: %s" % (indi))
+        # need to go through each individual and, for each family of which that individual
+        # is a child, check that it is in the family
+        cid = indi["CHILD"]
+        for family in family_list:
+            if cid == family["ID"]:
+                if not indi["ID"] in family["CHILDREN"]:
+                    family["CHILDREN"].add(indi["ID"])
+
     return individual_list, family_list
 
 
@@ -216,7 +227,7 @@ def parse_indi_fam(tokens):
                 cur_family = {}
             cur_family["ID"] = tokens[1]
             cur_family["DIVORCED"] = "N/A"
-            cur_family["CHILDREN"] = []
+            cur_family["CHILDREN"] = {}
         return True
     # write_it(["<-- ", tokens[0], "|", tokens[1], "|N|", "".join(str(e) for e in tokens[2:])])
     return False
@@ -288,7 +299,10 @@ def parse_famc_fams_husb_wife_chil(tokens):
         if tokens[1] == "FAMC":
             cur_individual["CHILD"] = tokens[2]
         elif tokens[1] == "FAMS":
-            cur_individual["SPOUSE"] = tokens[2]
+            if cur_individual["SPOUSE"] == "N/A":
+                cur_individual["SPOUSE"] = {tokens[2]}
+            else:
+                cur_individual["SPOUSE"].add(tokens[2])
         elif tokens[1] == "HUSB":
             cur_family["HUSBAND NAME"] = lookup_name(tokens[2])
             cur_family["HUSBAND ID"] = tokens[2]
@@ -297,9 +311,9 @@ def parse_famc_fams_husb_wife_chil(tokens):
             cur_family["WIFE ID"] = tokens[2]
         elif tokens[1] == "CHIL":
             if "CHILD ID" in cur_family.keys():
-                cur_family["CHILDREN"] = cur_family.get("CHILDREN").append(tokens[2])
+                cur_family["CHILDREN"] = cur_family.get("CHILDREN").add(tokens[2])
             else:
-                cur_family["CHILDREN"] = [tokens[2]]
+                cur_family["CHILDREN"] = {tokens[2]}
         # write_it(["<-- ", tokens[0], "|", tokens[1], "|Y|", tokens[2]])
         return True
     # write_it(["<-- ", tokens[0], "|", tokens[1], "|N|", " ".join(str(e) for e in tokens[2:])])
