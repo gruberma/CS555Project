@@ -218,7 +218,6 @@ def parse_indi_fam(tokens):
             cur_individual["DEATH"] = "N/A"
             cur_individual["CHILD"] = "N/A"
             cur_individual["SPOUSE"] = "N/A"
-            cur_individual["ALIVE"] = "True"
         elif tokens[2] == "FAM":
             # print("Family: %s" % (cur_family))
             if bool(cur_family):
@@ -327,7 +326,6 @@ def parse_date(tokens):
         if last_level_1 == "BIRT":
             cur_individual["BIRTHDAY"] = " ".join(tokens[2:])
         elif last_level_1 == "DEAT":
-            cur_individual["ALIVE"] = "False"
             cur_individual["DEATH"] = " ".join(tokens[2:])
         elif last_level_1 == "DIV":
             cur_family["DIVORCED"] = " ".join(tokens[2:])
