@@ -21,8 +21,12 @@ def parseFileToDFs(filename: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
                         relativedelta(parse_date(death) if death != 'N/A' else date.today(), parse_date(birth)).years
                         for birth, death in zip(indivs_df['BIRTHDAY'], indivs_df['DEATH'])]
 
+    # Calculate alive
+    indivs_df['ALIVE'] = [birth is not np.nan and death == 'N/A'
+                            for birth, death in zip(indivs_df['BIRTHDAY'], indivs_df['DEATH'])]
+
     # Reorder columns
-    indivs_df = indivs_df[['ID', 'NAME', 'GENDER', 'AGE', 'ALIVE', 'DEATH', 'CHILD', 'SPOUSE']]
+    indivs_df = indivs_df[['ID', 'NAME', 'GENDER', 'BIRTHDAY', 'AGE', 'ALIVE', 'DEATH', 'CHILD', 'SPOUSE']]
     families_df = families_df[['ID', 'MARRIED', 'DIVORCED', 'HUSBAND ID', 'HUSBAND NAME', 'WIFE ID', 'WIFE NAME', 'CHILDREN']]
 
     return indivs_df, families_df
