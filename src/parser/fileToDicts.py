@@ -50,7 +50,6 @@ def parseFile(filename: str):
     family_list.append(cur_family)
 
     for indi in individual_list:
-        print("INDIVIDUAL: %s" % (indi))
         # need to go through each individual and, for each family of which that individual
         # is a child, check that it is in the family
         cid = indi["CHILD"]
