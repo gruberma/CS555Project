@@ -45,6 +45,8 @@
 0 @luke@ INDI
 1 NAME Luke /Skywalker/
 1 SEX M
+1 BIRT
+2 DATE 19 MAY 2007
 1 FAMC @sky2@
 0 @lea@ INDI
 1 NAME Lea /Skywalker/
