@@ -1,5 +1,6 @@
-"""GEDCOM parser
-usage: gedcom-parser.py <gedcom filepath>"""
+#!/usr/bin/env python3
+"""GEDCOM Parser
+usage: ./fileToDicts.py <gedcom filepath>"""
 
 # Description:
 # last_level_0 and last_level_1 are used to track what the last tag of that
@@ -45,13 +46,16 @@ def parseFile(filename: str):
             pass
             # write_it(["<-- ", line_tokens[0], "|", line_tokens[1], "|N|", " ".join(str(e) for e in line_tokens[2:]), "\n"])
     # appends current individual to individual_list
-    individual_list.append(cur_individual)
+    if individual_list:
+        individual_list.append(cur_individual)
     # appends current family to family_list
-    family_list.append(cur_family)
+    if cur_family != {}:
+        family_list.append(cur_family)
 
     for indi in individual_list:
         # need to go through each individual and, for each family of which that individual
         # is a child, check that it is in the family
+        # TODO isn't this a story?
         cid = indi["CHILD"]
         for family in family_list:
             if cid == family["ID"]:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import fileToDicts
+from . import fileToDicts
 import pandas as pd
 import sys
 from tabulate import tabulate
@@ -17,7 +17,7 @@ def parseFileToDFs(filename: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     families_df = pd.DataFrame(families)
 
     # Calculate age
-    indivs_df['AGE'] = ['N/A' if birth is np.nan else
+    indivs_df['AGE'] = [np.nan if birth is np.nan else
                         relativedelta(parse_date(death) if death != 'N/A' else date.today(), parse_date(birth)).years
                         for birth, death in zip(indivs_df['BIRTHDAY'], indivs_df['DEATH'])]
 
@@ -26,8 +26,10 @@ def parseFileToDFs(filename: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
                             for birth, death in zip(indivs_df['BIRTHDAY'], indivs_df['DEATH'])]
 
     # Reorder columns
-    indivs_df = indivs_df[['ID', 'NAME', 'GENDER', 'BIRTHDAY', 'AGE', 'ALIVE', 'DEATH', 'CHILD', 'SPOUSE']]
-    families_df = families_df[['ID', 'MARRIED', 'DIVORCED', 'HUSBAND ID', 'HUSBAND NAME', 'WIFE ID', 'WIFE NAME', 'CHILDREN']]
+    if not indivs_df.empty:
+        indivs_df = indivs_df[['ID', 'NAME', 'GENDER', 'BIRTHDAY', 'AGE', 'ALIVE', 'DEATH', 'CHILD', 'SPOUSE']]
+    if not families_df.empty:
+        families_df = families_df[['ID', 'MARRIED', 'DIVORCED', 'HUSBAND ID', 'HUSBAND NAME', 'WIFE ID', 'WIFE NAME', 'CHILDREN']]
 
     return indivs_df, families_df
 
