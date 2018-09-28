@@ -1,0 +1,21 @@
+0 HEAD
+0 NOTE github repository: elliot-wasem/CS555Project
+0 @ani@ INDI
+1 NAME Anakin /Skywalker/
+1 SEX M
+1 BIRT
+2 DATE 25 MAY 1777
+1 DEAT
+2 DATE 19 MAY 2005
+1 FAMS @sky2@
+1 FAMC @sky1@
+0 @padme@ INDI
+1 NAME Padme /Amidala/
+1 SEX F
+1 FAMS @sky2@
+0 @luke@ INDI
+1 NAME Luke /Skywalker/
+1 SEX M
+1 BIRT
+2 DATE 26 SEP 1865
+0 TRLR
