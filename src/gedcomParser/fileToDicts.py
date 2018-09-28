@@ -32,6 +32,14 @@ def parseFile(filename: str):
     global individual_list
     global family_list
 
+    # reset global variables
+    last_level_0 = ""
+    last_level_1 = ""
+    cur_individual = {}
+    cur_family = {}
+    individual_list = []
+    family_list = []
+
     # strips file into lines
     lines = [line.rstrip('\n') for line in open(filename)]
     # parse each line
@@ -219,7 +227,6 @@ def parse_indi_fam(tokens):
                 individual_list.append(cur_individual)
                 cur_individual = {}
             cur_individual["ID"] = tokens[1]
-            cur_individual["DEATH"] = "N/A"
             cur_individual["CHILD"] = "N/A"
             cur_individual["SPOUSE"] = "N/A"
         elif tokens[2] == "FAM":
@@ -228,7 +235,6 @@ def parse_indi_fam(tokens):
                 family_list.append(cur_family)
                 cur_family = {}
             cur_family["ID"] = tokens[1]
-            cur_family["DIVORCED"] = "N/A"
             cur_family["CHILDREN"] = {}
         return True
     # write_it(["<-- ", tokens[0], "|", tokens[1], "|N|", "".join(str(e) for e in tokens[2:])])
@@ -360,4 +366,4 @@ if __name__ == "__main__":
     if len(arguments) > 1:
         print("usage:", program_name, "<gedcom filepath>")
     else:
-        parseFile(arguments[0])
+        print(parseFile(arguments[0]))
