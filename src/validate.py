@@ -1,14 +1,53 @@
 #!/usr/bin/env python3
 
+
 import pandas as pd
 import gedcomParser.fileToDataframes
 import sys
+import datetime
 from tabulate import tabulate
 from dateutil.parser import parse as parse_date
 
 
-# US 01
+# US 01 - Dates before current date
 def dates_before_current_date(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Detect all dates in file that are after current date
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
+
+    print("************************************************")
+    indsb = indivs_df[indivs_df.BIRTHDAY.notnull()]
+    indsb = indsb[indsb.BIRTHDAY.apply(parse_date) > datetime.datetime.now()]
+    indsd = indivs_df[indivs_df.DEATH.notnull()]
+    indsd = indsd[indsd.DEATH.apply(parse_date)  > datetime.datetime.now()]
+    print(indsb)
+    print(indsd)
+    print("************************************************")
+    inds = indsb.append(indsd)
+    inds = inds.drop_duplicates(subset=['ID'])
+    # fams: MARRIED, DIVORCED
+
+    famsm = families_df[families_df.MARRIED.notnull()]
+    famsm = famsm[famsm.MARRIED.apply(parse_date) > datetime.datetime.now()]
+    famsd = families_df[families_df.DIVORCED.notnull()]
+    famsd = famsd[famsd.DIVORCED.apply(parse_date)  > datetime.datetime.now()]
+    print(famsm)
+    print(famsd)
+    fams = famsm.append(famsd)
+    fams = fams.drop_duplicates(subset=['ID'])
+    return (inds, fams)
+
+# US 08 - Birth before marriage of parents
+def birth_before_parents_married(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Detect all individuals who are born after their parents marriage
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
     pass
 
 
@@ -68,7 +107,10 @@ def run_all_checks(filename: str):
     print()
     print('Individuals who got divorced after their death')
     print(tabulate_df(divorce_before_death(indivs_df, families_df)[['ID', 'NAME', 'DEATH', 'DIVORCED']]))
-
+    print()
+    print('Individuals or families containing date records that are before today')
+    print(tabulate_df(dates_before_current_date(indivs_df, families_df)[0]))
+    print(tabulate_df(dates_before_current_date(indivs_df, families_df)[1]))
 
 if __name__ == "__main__":
     # input parsing
