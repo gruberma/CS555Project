@@ -1,13 +1,12 @@
 import sys
 
 sys.path.append('..')
+sys.path.append('../gedcomValidater')
 
 from gedcomValidater import validate
 from gedcomValidater.gedcomParser.fileToDataframes import parseFileToDFs
 import unittest
 from unittest import TestCase
-import pytest
-import pandas as pd
 import numpy as np
 
 
