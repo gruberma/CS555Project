@@ -42,5 +42,15 @@ class TestMarriageBeforeDivorce(TestCase):
                          expected)
 
 
+class TestMarriageBeforeDeath(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_files/test_marriage_before_death.ged")
+        marriage_after_death = validate.marriage_before_death(indivs_df, fams_df)
+        expected = {'ID': {0: '@shmi@'}, 'NAME': {0: 'Shmi /Skywalker/'},
+                    'MARRIED': {0: '18 MAY 1977'}, 'DEATH': {0: '19 MAY 1976'}}
+        self.assertEqual(marriage_after_death[['ID', 'NAME', 'MARRIED', 'DEATH']].to_dict(),
+                         expected)
+
+
 if __name__ == '__main__':
     unittest.main()
