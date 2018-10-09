@@ -29,5 +29,13 @@ class TestLessThan150yearsOld(TestCase):
         self.assertEqual(indivs_150[['ID', 'NAME', 'BIRTHDAY', 'DEATH', 'AGE']].to_dict(), expected)
 
 
+class TestBirthBeforeMarriage(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_files/us02_test_birth_before_marriage.ged")
+        indivs_error = validate.birth_before_marriage(indivs_df, fams_df)
+        expected = {'ID':{2:'@ani@'}}
+        self.assertEqual(indivs_error[['ID']].to_dict(), expected)
+
+
 if __name__ == '__main__':
     unittest.main()
