@@ -74,9 +74,9 @@ def birth_before_parents_married(indivs_df: pd.DataFrame, families_df: pd.DataFr
     inds = indivs_df[indivs_df.BIRTHDAY.notnull()]
     fams = families_df[families_df.MARRIED.notnull()]
     joined = join_by_child(inds, fams)
-    joined = joined[joined.BIRTHDAY.apply(parse_date) > joined.MARRIED.apply(parse_date)]
-    print(tabulate_df(joined))
-    return (inds, fams)
+    joined = joined[joined.BIRTHDAY.apply(parse_date) < joined.MARRIED.apply(parse_date)]
+    joined = joined[['ID', 'NAME', 'GENDER', 'BIRTHDAY', 'AGE', 'ALIVE', 'DEATH', 'CHILD', 'SPOUSE']]
+    return joined
 
 # US 06
 def divorce_before_death(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
@@ -207,8 +207,7 @@ def run_all_checks(filename: str):
     print(tabulate_df(inds))
     print(tabulate_df(fams))
     print('Individuals who\'s birthday is before their parents marriage date')
-    print(tabulate_df(birth_before_parents_married(indivs_df, families_df)[0]))
-    print(tabulate_df(birth_before_parents_married(indivs_df, families_df)[1]))
+    print(tabulate_df(birth_before_parents_married(indivs_df, families_df)))
     print()
     print('Individuals birth occur before marriage of an individual')
     inds = birth_before_marriage(indivs_df, families_df)

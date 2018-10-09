@@ -58,6 +58,15 @@ class TestBirthBeforeMarriage(TestCase):
         expected = [['@ani@']]
         self.assertEqual(indivs_error[['ID']].values.tolist(), expected)
 
+class TestDatesBeforeCurrentDate(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_files/sprint1_acceptance_file.ged")
+        dates_indiv, _ = validate.dates_before_current_date(indivs_df, fams_df)
+        expected_indiv = {
+            'ID': {0: '@mystery@'},
+            'DEATH': {0: '20 MAY 2200'}}
+        self.assertEqual(dates_indiv[['ID', 'DEATH']].to_dict(), expected_indiv)
+
 class TestBirthBeforeDeath(TestCase):
     def test(self):
         indivs_df, fams_df = parseFileToDFs("../gedcom_files/us02_test_birth_before_marriage.ged")
