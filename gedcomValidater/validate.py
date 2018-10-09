@@ -17,29 +17,35 @@ def dates_before_current_date(indivs_df: pd.DataFrame, families_df: pd.DataFrame
     :param families_df:
     :return:
     """
+
+    # indsb -> individuals birthdates
     indsb = indivs_df[indivs_df.BIRTHDAY.notnull()]
     indsb = indsb[indsb.BIRTHDAY.apply(parse_date) > datetime.datetime.now()]
+    # indsd -> individuals death dates
     indsd = indivs_df[indivs_df.DEATH.notnull()]
     indsd = indsd[indsd.DEATH.apply(parse_date)  > datetime.datetime.now()]
+    # inds  -> combined individuals table
     inds = indsb.append(indsd)
     inds = inds.drop_duplicates(subset=['ID'])
 
+    # famsm -> date of marriage
     famsm = families_df[families_df.MARRIED.notnull()]
     famsm = famsm[famsm.MARRIED.apply(parse_date) > datetime.datetime.now()]
+    # famsd -> date of divorce
     famsd = families_df[families_df.DIVORCED.notnull()]
     famsd = famsd[famsd.DIVORCED.apply(parse_date)  > datetime.datetime.now()]
+    # fams  -> combined families table
     fams = famsm.append(famsd)
     fams = fams.drop_duplicates(subset=['ID'])
     return (inds, fams)
 
-
 # US 02 - Birth before marriage
 def birth_before_marriage(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
     """
-    :param indivs_df:
-    :param families_df:
-    :return:
-    """
+        :param indivs_df:
+        :param families_df:
+        :return:
+        """
     merged_data = join_by_spouse(indivs_df, families_df)
     all_married = merged_data[~merged_data['MARRIED'].isna() & ~merged_data['BIRTHDAY'].isna()]
     res = all_married[all_married['MARRIED'].apply(parse_date) < all_married['BIRTHDAY'].apply(parse_date)]
@@ -48,10 +54,10 @@ def birth_before_marriage(indivs_df: pd.DataFrame, families_df: pd.DataFrame) ->
 # US 03 - Birth before death
 def birth_before_death(indivs_df: pd.DataFrame) -> pd.DataFrame:
     """
-    :param indivs_df:
-    :param families_df:
-    :return:
-    """
+        :param indivs_df:
+        :param families_df:
+        :return:
+        """
     indivs = indivs_df[~indivs_df['DEATH'].isna() & ~indivs_df['DEATH'].isna()]
     res = indivs[indivs['BIRTHDAY'].apply(parse_date) > indivs['DEATH'].apply(parse_date)]
     return res
@@ -64,8 +70,13 @@ def birth_before_parents_married(indivs_df: pd.DataFrame, families_df: pd.DataFr
     :param families_df:
     :return:
     """
-    pass
-
+    result = ""
+    inds = indivs_df[indivs_df.BIRTHDAY.notnull()]
+    fams = families_df[families_df.MARRIED.notnull()]
+    joined = join_by_child(inds, fams)
+    joined = joined[joined.BIRTHDAY.apply(parse_date) > joined.MARRIED.apply(parse_date)]
+    print(tabulate_df(joined))
+    return (inds, fams)
 
 # US 06
 def divorce_before_death(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
@@ -91,6 +102,20 @@ def less_than_150_years_old(indivs_df: pd.DataFrame) -> pd.DataFrame:
     """
     return indivs_df[indivs_df['AGE'] > 150]
 
+def get_family_id_of_child(indivs_id, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Find id of family of which indivs_id is a child.
+    :param indivs_id:
+    :param families_df:
+    :return:
+    """
+    for famid in families_df['ID']:
+        for famc in families_df[families_df['ID'] == famid]['CHILDREN']: #families_df['CHILDREN'].get(indivs_id).notnull()]:
+            if indivs_id in famc:
+                print("indiv_id: %s - fam_id: %s" % (indivs_id, famid))
+                return famid
+    return None
+            
 
 def join_by_spouse(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -128,6 +153,9 @@ def run_all_checks(filename: str):
     inds, fams = dates_before_current_date(indivs_df, families_df)
     print(tabulate_df(inds))
     print(tabulate_df(fams))
+    print('Individuals who\'s birthday is before their parents marriage date')
+    print(tabulate_df(birth_before_parents_married(indivs_df, families_df)[0]))
+    print(tabulate_df(birth_before_parents_married(indivs_df, families_df)[1]))
     print()
     print('Individuals birth occur before marriage of an individual')
     inds = birth_before_marriage(indivs_df, families_df)
