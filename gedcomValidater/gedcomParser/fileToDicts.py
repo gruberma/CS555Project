@@ -40,37 +40,38 @@ def parseFile(filename: str):
     individual_list = []
     family_list = []
 
-    # strips file into lines
-    lines = [line.rstrip('\n') for line in open(filename)]
-    # parse each line
-    for line in lines:
-        # tokenizes line by spaces
-        line_tokens = re.sub("[^\w.*/@]", " ", line).split()
-        # prints line input
-        # print("-->", " ".join(str(e) for e in line_tokens))
-        # checks if it is a tag that we accept (if not, then prints generic "N" message)
-        if not is_level_zero_tag(line_tokens) and not is_level_one_tag(line_tokens) and not is_level_two_tag(
-                line_tokens):
-            pass
-            # write_it(["<-- ", line_tokens[0], "|", line_tokens[1], "|N|", " ".join(str(e) for e in line_tokens[2:]), "\n"])
-    # appends current individual to individual_list
-    if individual_list:
-        individual_list.append(cur_individual)
-    # appends current family to family_list
-    if cur_family != {}:
-        family_list.append(cur_family)
+    with open(filename) as file:
+        # strips file into lines
+        lines = [line.rstrip('\n') for line in file]
+        # parse each line
+        for line in lines:
+            # tokenizes line by spaces
+            line_tokens = re.sub("[^\w.*/@]", " ", line).split()
+            # prints line input
+            # print("-->", " ".join(str(e) for e in line_tokens))
+            # checks if it is a tag that we accept (if not, then prints generic "N" message)
+            if not is_level_zero_tag(line_tokens) and not is_level_one_tag(line_tokens) and not is_level_two_tag(
+                    line_tokens):
+                pass
+                # write_it(["<-- ", line_tokens[0], "|", line_tokens[1], "|N|", " ".join(str(e) for e in line_tokens[2:]), "\n"])
+        # appends current individual to individual_list
+        if individual_list:
+            individual_list.append(cur_individual)
+        # appends current family to family_list
+        if cur_family != {}:
+            family_list.append(cur_family)
 
-    for indi in individual_list:
-        # need to go through each individual and, for each family of which that individual
-        # is a child, check that it is in the family
-        # TODO isn't this a story?
-        cid = indi["CHILD"]
-        for family in family_list:
-            if cid == family["ID"]:
-                if not indi["ID"] in family["CHILDREN"]:
-                    family["CHILDREN"].add(indi["ID"])
+        for indi in individual_list:
+            # need to go through each individual and, for each family of which that individual
+            # is a child, check that it is in the family
+            # TODO isn't this a story?
+            cid = indi["CHILD"]
+            for family in family_list:
+                if cid == family["ID"]:
+                    if not indi["ID"] in family["CHILDREN"]:
+                        family["CHILDREN"].add(indi["ID"])
 
-    return individual_list, family_list
+        return individual_list, family_list
 
 
 # stupid function I wrote, not realizing that you can do something similar with regular print function.
