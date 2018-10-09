@@ -152,7 +152,7 @@ def marriage_before_death(indivs_df: pd.DataFrame, families_df: pd.DataFrame) ->
 
 def join_by_spouse(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
     """
-    Helper function to join an individual to all families we participates in as a spouse.
+    Helper function to join an individual to all families he participates in as a spouse.
     :param indivs_df: Individuals dataframe
     :param families_df: Families dataframe
     :return: Table listing all individuals together with the families they are a spouse in.
@@ -162,6 +162,25 @@ def join_by_spouse(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.Dat
     males: pd.DataFrame = indivs_df.merge(families_df, left_on='ID', right_on='HUSBAND ID', suffixes=('', '_fam'))
     females: pd.DataFrame = indivs_df.merge(families_df, left_on='ID', right_on='WIFE ID', suffixes=('', '_fam'))
     return males.append(females)
+
+
+def join_by_child(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Helper function to join an individual to all families he participates in as a child.
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
+    # Calculate cartesian product
+    indivs_df['key'] = 0
+    families_df['key'] = 0
+    product = indivs_df.merge(families_df, on='key', suffixes=('', '_fam'))
+    # Remove helping column key
+    indivs_df = indivs_df[indivs_df.columns.drop('key')]
+    families_df = families_df[families_df.columns.drop('key')]
+    product = product[product.columns.drop('key')]
+    # Filter
+    return product[[Id in children for Id, children in zip(product['ID'], product['CHILDREN'])]]
 
 
 def tabulate_df(df: pd.DataFrame) -> str:
