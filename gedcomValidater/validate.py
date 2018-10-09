@@ -171,13 +171,14 @@ def join_by_child(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.Data
     :param families_df:
     :return:
     """
+    # Clone arguments
+    indivs_df_temp: pd.DataFrame = indivs_df.copy()
+    families_df_temp: pd.DataFrame = families_df.copy()
     # Calculate cartesian product
-    indivs_df['key'] = 0
-    families_df['key'] = 0
-    product = indivs_df.merge(families_df, on='key', suffixes=('', '_fam'))
+    indivs_df_temp['key'] = 0
+    families_df_temp['key'] = 0
+    product: pd.DataFrame = indivs_df_temp.merge(families_df_temp, on='key', suffixes=('', '_fam'))
     # Remove helping column key
-    indivs_df = indivs_df[indivs_df.columns.drop('key')]
-    families_df = families_df[families_df.columns.drop('key')]
     product = product[product.columns.drop('key')]
     # Filter
     return product[[Id in children for Id, children in zip(product['ID'], product['CHILDREN'])]]
