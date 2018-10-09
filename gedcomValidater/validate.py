@@ -115,7 +115,40 @@ def get_family_id_of_child(indivs_id, families_df: pd.DataFrame) -> pd.DataFrame
                 print("indiv_id: %s - fam_id: %s" % (indivs_id, famid))
                 return famid
     return None
-            
+
+
+# US 04
+def marriage_before_divorce(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Detects all individuals where their marriage occured after divorce.
+    divorce is before the marriage.
+    :param indivs_df:
+    :param famalies_df:
+    :return:
+    """
+    indiv_fams: pd.DataFrame = join_by_spouse(indivs_df, families_df)
+    # Only consider married, divorced individuals ...
+    indiv_fams = indiv_fams[~indiv_fams['MARRIED'].isna() & ~indiv_fams['DIVORCED'].isna()]
+    # ... who got married after the divorce
+    return indiv_fams[
+        indiv_fams['MARRIED'].apply(parse_date) > indiv_fams['DIVORCED'].apply(parse_date)]
+
+
+# US 05
+def marriage_before_death(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Detects all individuals that were married after their death
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
+    indiv_fams: pd.DataFrame = join_by_spouse(indivs_df, families_df)
+    # Only consider married, death individuals ...
+    indiv_fams = indiv_fams[~indiv_fams['MARRIED'].isna() & ~indiv_fams['DEATH'].isna()]
+    # ... who got married after the death
+    return indiv_fams[
+        indiv_fams['MARRIED'].apply(parse_date) > indiv_fams['DEATH'].apply(parse_date)]
+
 
 def join_by_spouse(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
     """
