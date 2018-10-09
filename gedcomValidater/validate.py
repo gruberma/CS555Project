@@ -39,6 +39,29 @@ def dates_before_current_date(indivs_df: pd.DataFrame, families_df: pd.DataFrame
     fams = fams.drop_duplicates(subset=['ID'])
     return (inds, fams)
 
+# US 02 - Birth before marriage
+def birth_before_marriage(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+        :param indivs_df:
+        :param families_df:
+        :return:
+        """
+    merged_data = join_by_spouse(indivs_df, families_df)
+    all_married = merged_data[~merged_data['MARRIED'].isna() & ~merged_data['BIRTHDAY'].isna()]
+    res = all_married[all_married['MARRIED'].apply(parse_date) < all_married['BIRTHDAY'].apply(parse_date)]
+    return res
+
+# US 03 - Birth before death
+def birth_before_death(indivs_df: pd.DataFrame) -> pd.DataFrame:
+    """
+        :param indivs_df:
+        :param families_df:
+        :return:
+        """
+    indivs = indivs_df[~indivs_df['DEATH'].isna() & ~indivs_df['DEATH'].isna()]
+    res = indivs[indivs['BIRTHDAY'].apply(parse_date) > indivs['DEATH'].apply(parse_date)]
+    return res
+
 # US 08 - Birth before marriage of parents
 def birth_before_parents_married(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -166,6 +189,14 @@ def run_all_checks(filename: str):
     print('Individuals who\'s birthday is before their parents marriage date')
     print(tabulate_df(birth_before_parents_married(indivs_df, families_df)[0]))
     print(tabulate_df(birth_before_parents_married(indivs_df, families_df)[1]))
+    print()
+    print('Individuals birth occur before marriage of an individual')
+    inds = birth_before_marriage(indivs_df, families_df)
+    print(tabulate_df(inds))
+    print()
+    print('Individuals birth should occur before death of an individual')
+    inds = birth_before_death(indivs_df)
+    print(tabulate_df(inds))
 
 if __name__ == "__main__":
     # input parsing
