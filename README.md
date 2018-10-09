@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/gruberma/CS555Project.svg?branch=master)](https://travis-ci.org/gruberma/CS555Project)
+
 # Expectations (ProjectExpectations.pdf)
 
 * at least 2 user stories per member per sprint
