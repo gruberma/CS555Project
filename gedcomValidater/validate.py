@@ -233,14 +233,12 @@ def run_all_checks(filename: str):
     print()
 
     # US 06
-    print('Individuals who got divorced after their death')
-    print(tabulate_df(divorce_before_death(indivs_df, families_df)[['ID', 'NAME', 'DEATH', 'DIVORCED']]))
-    print()
+    for index, (indiv_id, divorce, death) in divorce_before_death(indivs_df, families_df)[['ID', 'DIVORCED', 'DEATH']].iterrows():
+        print("ERROR: INDIVIDUAL: US06: {}: Divorced after death - Divorce {}: Death {}".format(indiv_id, divorce, death))
 
     # US 07
-    print('Individuals who are more than 150 years old:')
-    print(tabulate_df(less_than_150_years_old(indivs_df)[['ID', 'NAME', 'BIRTHDAY', 'DEATH', 'AGE']]))
-    print()
+    for index, (indiv_id, birth, death) in less_than_150_years_old(indivs_df)[['ID', 'BIRTHDAY', 'DEATH']].iterrows():
+        print("ERROR: INDIVIDUAL: US07: {}: More than 150 years old - Birth {}: Death {}".format(indiv_id, birth, death))
 
     # US 08
     print('Individuals who\'s birthday is before their parents marriage date')
