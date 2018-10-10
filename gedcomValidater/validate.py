@@ -196,26 +196,51 @@ def tabulate_df(df: pd.DataFrame) -> str:
 def run_all_checks(filename: str):
     indivs_df, families_df = gedcomParser.fileToDataframes.parseFileToDFs(filename)
 
-    print('Individuals who are more than 150 years old:')
-    print(tabulate_df(less_than_150_years_old(indivs_df)[['ID', 'NAME', 'BIRTHDAY', 'DEATH', 'AGE']]))
-    print()
-    print('Individuals who got divorced after their death')
-    print(tabulate_df(divorce_before_death(indivs_df, families_df)[['ID', 'NAME', 'DEATH', 'DIVORCED']]))
-    print()
+    # US 01
     print('Individuals or families containing date records that are before today')
     inds, fams = dates_before_current_date(indivs_df, families_df)
     print(tabulate_df(inds))
     print(tabulate_df(fams))
-    print('Individuals who\'s birthday is before their parents marriage date')
-    print(tabulate_df(birth_before_parents_married(indivs_df, families_df)))
     print()
+
+    # US 02
     print('Individuals birth occur before marriage of an individual')
     inds = birth_before_marriage(indivs_df, families_df)
     print(tabulate_df(inds))
     print()
+
+    # US 03
     print('Individuals birth should occur before death of an individual')
     inds = birth_before_death(indivs_df)
     print(tabulate_df(inds))
+    print()
+
+    # US 04
+    print('Individuals who got married after their divorce')
+    print(tabulate_df(marriage_before_divorce(indivs_df, families_df)))
+    print()
+
+    # US 05
+    print('Individuals who got married after their death')
+    print(tabulate_df(marriage_before_death(indivs_df, families_df)))
+    print()
+
+    # US 06
+    print('Individuals who got divorced after their death')
+    print(tabulate_df(divorce_before_death(indivs_df, families_df)[['ID', 'NAME', 'DEATH', 'DIVORCED']]))
+    print()
+
+    # US 07
+    print('Individuals who are more than 150 years old:')
+    print(tabulate_df(less_than_150_years_old(indivs_df)[['ID', 'NAME', 'BIRTHDAY', 'DEATH', 'AGE']]))
+    print()
+
+    # US 08
+    print('Individuals who\'s birthday is before their parents marriage date')
+    print(tabulate_df(birth_before_parents_married(indivs_df, families_df)))
+    print()
+
+
 
 if __name__ == "__main__":
     # input parsing
