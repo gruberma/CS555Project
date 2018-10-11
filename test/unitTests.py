@@ -51,13 +51,6 @@ class TestMarriageBeforeDeath(TestCase):
         self.assertEqual(marriage_after_death[['ID', 'NAME', 'MARRIED', 'DEATH']].to_dict(),
                          expected)
 
-class TestBirthBeforeMarriage(TestCase):
-    def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_files/us02_test_birth_before_marriage.ged")
-        indivs_error = validate.birth_before_marriage(indivs_df, fams_df)
-        expected = [['@ani@']]
-        self.assertEqual(indivs_error[['ID']].values.tolist(), expected)
-
 class TestDatesBeforeCurrentDate(TestCase):
     def test(self):
         indivs_df, fams_df = parseFileToDFs("../gedcom_files/sprint1_acceptance_file.ged")
@@ -67,12 +60,24 @@ class TestDatesBeforeCurrentDate(TestCase):
             'DEATH': {0: '20 MAY 2200'}}
         self.assertEqual(dates_indiv[['ID', 'DEATH']].to_dict(), expected_indiv)
 
+
+# US 02 - Birth before marriage unit test.
+class TestBirthBeforeMarriage(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_files/sprint1_acceptance_file.ged")
+        indivs_error = validate.birth_before_marriage(indivs_df, fams_df)
+        expected = [['@shmi@']]
+        self.assertEqual(indivs_error[['ID']].values.tolist(), expected)
+
+
+# US 03 - Birth before death
 class TestBirthBeforeDeath(TestCase):
     def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_files/us02_test_birth_before_marriage.ged")
+        indivs_df, fams_df = parseFileToDFs("../gedcom_files/sprint1_acceptance_file.ged")
         indivs_error = validate.birth_before_death(indivs_df)
-        expected = [['@ani@']]
+        expected = [['@shmi@']]
         self.assertEqual(indivs_error[['ID']].values.tolist(), expected)
+
 
 if __name__ == '__main__':
     unittest.main()
