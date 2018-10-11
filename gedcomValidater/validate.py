@@ -211,7 +211,6 @@ def run_all_checks(filename: str):
     print()
 
     # US 01
-    print('Individuals or families containing date records that are before today')
     inds, fams = dates_before_current_date(indivs_df, families_df)
     for index, (indiv_id, birth, death) in inds[['ID', 'BIRTHDAY', 'DEATH']].iterrows():
         if not isinstance(birth, float) and birth != "nan" and parse_date(birth) > datetime.datetime.now():
@@ -223,30 +222,22 @@ def run_all_checks(filename: str):
             print("ERROR: FAMILY: US01: {}: Dates before current date - Married {}".format(fam_id, marr))
         if not isinstance(div, float) and div != "nan" and parse_date(div) > datetime.datetime.now():
             print("ERROR: FAMILY: US01: {}: Dates before current date - DIVORCE {}".format(fam_id, div))
-    print()
 
     # US 02
-    print('Individuals birth occur before marriage of an individual')
-    inds = birth_before_marriage(indivs_df, families_df)
-    print(tabulate_df(inds))
-    print()
+    for index, (indiv_id, birth, death) in birth_before_death(indivs_df)[['ID', 'BIRTHDAY', 'DEATH']].iterrows():
+        print("ERROR: INDIVIDUAL: US03: {}: Birth should occur before death - Birthday {} - Death {}".format(indiv_id, birth, death))
 
     # US 03
-    print('Individuals birth should occur before death of an individual')
-    inds = birth_before_death(indivs_df)
-    print(tabulate_df(inds))
-    print()
+    for index, (indiv_id, marriage, divorce) in marriage_before_divorce(indivs_df, families_df)[['ID', 'MARRIED', 'DIVORCED']].iterrows():
+        print("ERROR: INDIVIDUAL: US04: {}: Marriage after divorce - Marriage {}: Divorce {}".format(indiv_id, marriage, divorce))
 
     # US 04
-    print('Individuals who got married after their divorce')
     for index, (indiv_id, marriage, divorce) in marriage_before_divorce(indivs_df, families_df)[['ID', 'MARRIED', 'DIVORCED']].iterrows():
         print("ERROR: INDIVIDUAL: US04: {}: Marriage after divorce - Marriage {}: Divorce {}".format(indiv_id, marriage, divorce))
 
     # US 05
-   # print('Individuals who got married after their death')
     for index, (indiv_id, marriage, death) in marriage_before_death(indivs_df, families_df)[['ID', 'MARRIED', 'DEATH']].iterrows():
         print("ERROR: INDIVIDUAL: US05: {}: Marriage after death - Marriage {}: Death {}".format(indiv_id, marriage, death))
-
 
     # US 06
     for index, (indiv_id, divorce, death) in divorce_before_death(indivs_df, families_df)[['ID', 'DIVORCED', 'DEATH']].iterrows():
@@ -257,11 +248,9 @@ def run_all_checks(filename: str):
         print("ERROR: INDIVIDUAL: US07: {}: More than 150 years old - Birth {}: Death {}".format(indiv_id, birth, death))
 
     # US 08
-    print('Individuals who\'s birthday is before their parents marriage date')
     merge = join_by_child(birth_before_parents_married(indivs_df, families_df), families_df)
-    for index, (indiv_id, marr) in fams[['ID', 'MARRIED']].iterrows():
+    for index, (indiv_id, marr) in merge[['ID', 'MARRIED']].iterrows():
         print("ERROR: INDIVIDUAL: US08: {}: Individual's birthday is before parents' marriage date -  {}".format(indiv_id, marr))
-    print()
 
 
 if __name__ == "__main__":
