@@ -239,13 +239,14 @@ def run_all_checks(filename: str):
 
     # US 04
     print('Individuals who got married after their divorce')
-    print(tabulate_df(marriage_before_divorce(indivs_df, families_df)))
-    print()
+    for index, (indiv_id, marriage, divorce) in marriage_before_divorce(indivs_df, families_df)[['ID', 'MARRIED', 'DIVORCED']].iterrows():
+        print("ERROR: INDIVIDUAL: US04: {}: Marriage after divorce - Marriage {}: Divorce {}".format(indiv_id, marriage, divorce))
 
     # US 05
-    print('Individuals who got married after their death')
-    print(tabulate_df(marriage_before_death(indivs_df, families_df)))
-    print()
+   # print('Individuals who got married after their death')
+    for index, (indiv_id, marriage, death) in marriage_before_death(indivs_df, families_df)[['ID', 'MARRIED', 'DEATH']].iterrows():
+        print("ERROR: INDIVIDUAL: US05: {}: Marriage after death - Marriage {}: Death {}".format(indiv_id, marriage, death))
+
 
     # US 06
     for index, (indiv_id, divorce, death) in divorce_before_death(indivs_df, families_df)[['ID', 'DIVORCED', 'DEATH']].iterrows():
