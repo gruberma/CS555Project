@@ -1,0 +1,24 @@
+Individuals
++----+-----------+--------------------+----------+-------------+-------+---------+-------------+---------+----------------------+
+|    | ID        | NAME               | GENDER   | BIRTHDAY    | AGE   | ALIVE   | DEATH       | CHILD   | SPOUSE               |
+|----+-----------+--------------------+----------+-------------+-------+---------+-------------+---------+----------------------|
+|  0 | @mystery@ | The /Force/        | M        | nan         | N/A   | False   | N/A         | N/A     | {'@sky1@'}           |
+|  1 | @shmi@    | Shmi /Skywalker/   | F        | 25 MAY 1957 | 44    | False   | 16 MAY 2002 | N/A     | {'@lars@', '@sky1@'} |
+|  2 | @cliegg@  | Cliegg /Lars/      | M        | 25 MAY 1952 | 54    | False   | 19 MAY 2007 | N/A     | {'@lars@'}           |
+|  3 | @owen@    | Owen /Lars/        | M        | 25 MAY 1978 | 26    | False   | 19 MAY 2005 | @lars@  | N/A                  |
+|  4 | @ani@     | Anakin /Skywalker/ | M        | 25 MAY 1977 | 27    | False   | 19 MAY 2005 | @sky1@  | {'@sky2@'}           |
+|  5 | @padme@   | Padme /Amidala/    | F        | nan         | N/A   | False   | N/A         | N/A     | {'@sky2@'}           |
+|  6 | @luke@    | Luke /Skywalker/   | M        | 19 MAY 2007 | 11    | True    | N/A         | @sky2@  | N/A                  |
+|  7 | @lea@     | Lea /Skywalker/    | F        | nan         | N/A   | False   | N/A         | @sky2@  | {'@solo@'}           |
+|  8 | @han@     | Han /Solo/         | M        | nan         | N/A   | False   | N/A         | N/A     | {'@solo@'}           |
+|  9 | @kylo@    | Kylo /Ren/         | M        | nan         | N/A   | False   | N/A         | @solo@  | N/A                  |
++----+-----------+--------------------+----------+-------------+-------+---------+-------------+---------+----------------------+
+Families
++----+--------+-------------+-------------+--------------+--------------------+-----------+------------------+---------------------+
+|    | ID     | MARRIED     | DIVORCED    | HUSBAND ID   | HUSBAND NAME       | WIFE ID   | WIFE NAME        | CHILDREN            |
+|----+--------+-------------+-------------+--------------+--------------------+-----------+------------------+---------------------|
+|  0 | @sky1@ | 18 MAY 1977 | 10 MAY 1978 | @mystery@    | The /Force/        | @shmi@    | Shmi /Skywalker/ | {'@ani@'}           |
+|  1 | @lars@ | 19 MAY 1978 | N/A         | @cliegg@     | Cliegg /Lars/      | @shmi@    | Shmi /Skywalker/ | {'@owen@'}          |
+|  2 | @sky2@ | 16 MAY 2002 | N/A         | @ani@        | Anakin /Skywalker/ | @padme@   | Padme /Amidala/  | {'@luke@', '@lea@'} |
+|  3 | @solo@ | 19 MAY 2005 | N/A         | @han@        | Han /Solo/         | @lea@     | Lea /Skywalker/  | {'@kylo@'}          |
++----+--------+-------------+-------------+--------------+--------------------+-----------+------------------+---------------------+

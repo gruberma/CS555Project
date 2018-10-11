@@ -1,0 +1,26 @@
+Individuals:
++----+-----------+------------------+----------+-------------+-------+---------+-------------+---------+------------+
+|    | ID        | NAME             | GENDER   | BIRTHDAY    |   AGE | ALIVE   | DEATH       | CHILD   | SPOUSE     |
+|----+-----------+------------------+----------+-------------+-------+---------+-------------+---------+------------|
+|  0 | @mystery@ | The /Force/      | M        | 20 MAY 1780 |   420 | True    | 20 MAY 2200 | N/A     | {'@sky1@'} |
+|  1 | @shmi@    | Shmi /Skywalker/ | F        | 20 MAY 1980 |    -4 | True    | 20 MAY 1976 | N/A     | {'@sky1@'} |
+|  2 | @owen@    | Owen /Lars/      | M        | 20 MAY 1978 |    27 | True    | 20 MAY 2005 | @sky1@  | N/A        |
++----+-----------+------------------+----------+-------------+-------+---------+-------------+---------+------------+
+
+Families:
++----+--------+-------------+-------------+--------------+----------------+-----------+------------------+------------+
+|    | ID     | MARRIED     | DIVORCED    | HUSBAND ID   | HUSBAND NAME   | WIFE ID   | WIFE NAME        | CHILDREN   |
+|----+--------+-------------+-------------+--------------+----------------+-----------+------------------+------------|
+|  0 | @sky1@ | 20 MAY 1979 | 20 MAY 1977 | @mystery@    | The /Force/    | @shmi@    | Shmi /Skywalker/ | {'@owen@'} |
++----+--------+-------------+-------------+--------------+----------------+-----------+------------------+------------+
+
+ERROR: INDIVIDUAL: US01: @mystery@: Dates before current date - Death 20 MAY 2200
+ERROR: INDIVIDUAL: US03: @shmi@: Birth should occur before death - Birthday 20 MAY 1980 - Death 20 MAY 1976
+ERROR: INDIVIDUAL: US04: @mystery@: Marriage after divorce - Marriage 20 MAY 1979: Divorce 20 MAY 1977
+ERROR: INDIVIDUAL: US04: @shmi@: Marriage after divorce - Marriage 20 MAY 1979: Divorce 20 MAY 1977
+ERROR: INDIVIDUAL: US04: @mystery@: Marriage after divorce - Marriage 20 MAY 1979: Divorce 20 MAY 1977
+ERROR: INDIVIDUAL: US04: @shmi@: Marriage after divorce - Marriage 20 MAY 1979: Divorce 20 MAY 1977
+ERROR: INDIVIDUAL: US05: @shmi@: Marriage after death - Marriage 20 MAY 1979: Death 20 MAY 1976
+ERROR: INDIVIDUAL: US06: @shmi@: Divorced after death - Divorce 20 MAY 1977: Death 20 MAY 1976
+ERROR: INDIVIDUAL: US07: @mystery@: More than 150 years old - Birth 20 MAY 1780: Death 20 MAY 2200
+ERROR: INDIVIDUAL: US08: @owen@: Individual's birthday is before parents' marriage date -  20 MAY 1979
