@@ -227,11 +227,9 @@ def run_all_checks(filename: str):
     for index, (indiv_id, birth, marriage) in birth_before_marriage(indivs_df, families_df)[['ID', 'BIRTHDAY', 'MARRIED']].iterrows():
         print("ERROR: INDIVIDUAL: US02: {}: Birth should occur before marriage - Birthday {} - Death {}".format(indiv_id, birth, marriage))
 
-    """
     # US 03
     for index, (indiv_id, birth, death) in birth_before_death(indivs_df)[['ID', 'BIRTHDAY', 'DEATH']].iterrows():
         print("ERROR: INDIVIDUAL: US03: {}: Birth should occur before death - Birthday {}: Death {}".format(indiv_id, birth, death))
-    """
 
     # US 04
     for index, (indiv_id, marriage, divorce) in marriage_before_divorce(indivs_df, families_df)[['ID', 'MARRIED', 'DIVORCED']].iterrows():
