@@ -203,11 +203,26 @@ def tabulate_df(df: pd.DataFrame) -> str:
 def run_all_checks(filename: str):
     indivs_df, families_df = gedcomParser.fileToDataframes.parseFileToDFs(filename)
 
+    print("Individuals:")
+    print(tabulate_df(indivs_df))
+    print()
+    print("Families:")
+    print(tabulate_df(families_df))
+    print()
+
     # US 01
     print('Individuals or families containing date records that are before today')
     inds, fams = dates_before_current_date(indivs_df, families_df)
-    print(tabulate_df(inds))
-    print(tabulate_df(fams))
+    for index, (indiv_id, birth, death) in inds[['ID', 'BIRTHDAY', 'DEATH']].iterrows():
+        if not isinstance(birth, float) and birth != "nan" and parse_date(birth) > datetime.datetime.now():
+            print("ERROR: INDIVIDUAL: US01: {}: Dates before current date - Birth {}".format(indiv_id, birth))
+        if not isinstance(death, float) and death != "nan" and parse_date(death) > datetime.datetime.now():
+            print("ERROR: INDIVIDUAL: US01: {}: Dates before current date - Death {}".format(indiv_id, death))
+    for index, (fam_id, marr, div) in fams[['ID', 'MARRIED', 'DIVORCED']].iterrows():
+        if not isinstance(marr, float) and marr != "nan" and parse_date(marr) > datetime.datetime.now():
+            print("ERROR: FAMILY: US01: {}: Dates before current date - Married {}".format(fam_id, marr))
+        if not isinstance(div, float) and div != "nan" and parse_date(div) > datetime.datetime.now():
+            print("ERROR: FAMILY: US01: {}: Dates before current date - DIVORCE {}".format(fam_id, div))
     print()
 
     # US 02
@@ -244,7 +259,9 @@ def run_all_checks(filename: str):
 
     # US 08
     print('Individuals who\'s birthday is before their parents marriage date')
-    print(tabulate_df(birth_before_parents_married(indivs_df, families_df)))
+    merge = join_by_child(birth_before_parents_married(indivs_df, families_df), families_df)
+    for index, (indiv_id, marr) in fams[['ID', 'MARRIED']].iterrows():
+        print("ERROR: INDIVIDUAL: US08: {}: Individual's birthday is before parents' marriage date -  {}".format(indiv_id, marr))
     print()
 
 
