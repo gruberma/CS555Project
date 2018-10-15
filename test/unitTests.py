@@ -12,7 +12,7 @@ import numpy as np
 
 class TestDivorceBeforeDeath(TestCase):
     def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_files/test_divorce_before_death.ged")
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us06_divorce_before_death.ged")
         div_after_death = validate.divorce_before_death(indivs_df, fams_df)
         expected = {'ID': {0: '@shmi@'}, 'NAME': {0: 'Shmi /Skywalker/'},
                     'DEATH': {0: '16 MAY 1977'},
@@ -22,7 +22,7 @@ class TestDivorceBeforeDeath(TestCase):
 
 class TestLessThan150yearsOld(TestCase):
     def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_files/test_less_than_150_years_old.ged")
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us07_less_than_150_years_old.ged")
         indivs_150 = validate.less_than_150_years_old(indivs_df)
         expected = {'ID': {0: '@ani@', 2: '@luke@'},
                     'NAME': {0: 'Anakin /Skywalker/', 2: 'Luke /Skywalker/'},
@@ -34,7 +34,7 @@ class TestLessThan150yearsOld(TestCase):
 
 class TestMarriageBeforeDivorce(TestCase):
     def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_files/sprint1_acceptance_file.ged")
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
         marriage_after_divs = validate.marriage_before_divorce(indivs_df, fams_df)
         expected = {'ID': {0: '@shmi@'}, 'NAME': {0: 'Shmi /Skywalker/'},
                     'MARRIED': {0: '20 MAY 1979'}, 'DIVORCED': {0: '20 MAY 1977'}}
@@ -44,7 +44,7 @@ class TestMarriageBeforeDivorce(TestCase):
 
 class TestMarriageBeforeDeath(TestCase):
     def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_files/sprint1_acceptance_file.ged")
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
         marriage_after_death = validate.marriage_before_death(indivs_df, fams_df)
         expected = {'ID': {0: '@shmi@'}, 'NAME': {0: 'Shmi /Skywalker/'},
                     'MARRIED': {0: '20 MAY 1979'}, 'DEATH': {0: '20 MAY 1976'}}
@@ -53,7 +53,7 @@ class TestMarriageBeforeDeath(TestCase):
 
 class TestDatesBeforeCurrentDate(TestCase):
     def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_files/sprint1_acceptance_file.ged")
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
         dates_indiv, _ = validate.dates_before_current_date(indivs_df, fams_df)
         expected_indiv = {
             'ID': {0: '@mystery@'},
@@ -64,7 +64,7 @@ class TestDatesBeforeCurrentDate(TestCase):
 # US 02 - Birth before marriage unit test.
 class TestBirthBeforeMarriage(TestCase):
     def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_files/sprint1_acceptance_file.ged")
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
         indivs_error = validate.birth_before_marriage(indivs_df, fams_df)
         expected = [['@shmi@']]
         self.assertEqual(indivs_error[['ID']].values.tolist(), expected)
@@ -73,7 +73,7 @@ class TestBirthBeforeMarriage(TestCase):
 # US 03 - Birth before death
 class TestBirthBeforeDeath(TestCase):
     def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_files/sprint1_acceptance_file.ged")
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
         indivs_error = validate.birth_before_death(indivs_df)
         expected = [['@shmi@']]
         self.assertEqual(indivs_error[['ID']].values.tolist(), expected)
