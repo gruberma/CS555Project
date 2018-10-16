@@ -44,10 +44,11 @@ def dates_before_current_date(indivs_df: pd.DataFrame, families_df: pd.DataFrame
 # US 02 - Birth before marriage
 def birth_before_marriage(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
     """
-        :param indivs_df:
-        :param families_df:
-        :return:
-        """
+    Detect all Birth dates which are before marriage
+    :param indivs_df: Individual data frame
+    :param families_df: Family data frame
+    :return: All indivis which Birth date is before marriage
+    """
     merged_data = join_by_spouse(indivs_df, families_df)
     all_married = merged_data[~merged_data['MARRIED'].isna() & ~merged_data['BIRTHDAY'].isna()]
     res = all_married[all_married['MARRIED'].apply(parse_date) < all_married['BIRTHDAY'].apply(parse_date)]
@@ -57,10 +58,10 @@ def birth_before_marriage(indivs_df: pd.DataFrame, families_df: pd.DataFrame) ->
 # US 03 - Birth before death
 def birth_before_death(indivs_df: pd.DataFrame) -> pd.DataFrame:
     """
-        :param indivs_df:
-        :param families_df:
-        :return:
-        """
+    Detect all Birth dates which are before death
+    :param indivs_df: Individual data frame
+    :return: All indivis which Birth date is before death
+    """
     indivs = indivs_df[~indivs_df['BIRTHDAY'].isna() & ~indivs_df['DEATH'].isna()]
     res = indivs[indivs['BIRTHDAY'].apply(parse_date) > indivs['DEATH'].apply(parse_date)]
     return res
@@ -225,7 +226,7 @@ def run_all_checks(filename: str):
 
     # US 02
     for index, (indiv_id, birth, marriage) in birth_before_marriage(indivs_df, families_df)[['ID', 'BIRTHDAY', 'MARRIED']].iterrows():
-        print("ERROR: INDIVIDUAL: US02: {}: Birth should occur before marriage - Birthday {} - Death {}".format(indiv_id, birth, marriage))
+        print("ERROR: INDIVIDUAL: US02: {}: Birth should occur before marriage - Birthday {}: MARRIED {}".format(indiv_id, birth, marriage))
 
     # US 03
     for index, (indiv_id, birth, death) in birth_before_death(indivs_df)[['ID', 'BIRTHDAY', 'DEATH']].iterrows():
