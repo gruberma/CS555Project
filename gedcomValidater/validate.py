@@ -19,26 +19,19 @@ def dates_before_current_date(indivs_df: pd.DataFrame, families_df: pd.DataFrame
     :return:
     """
 
-    # indsb -> individuals birthdates
-    indsb = indivs_df[indivs_df.BIRTHDAY.notnull()]
-    indsb = indsb[indsb.BIRTHDAY.apply(parse_date) > datetime.datetime.now()]
-    # indsd -> individuals death dates
-    indsd = indivs_df[indivs_df.DEATH.notnull()]
-    indsd = indsd[indsd.DEATH.apply(parse_date) > datetime.datetime.now()]
-    # inds  -> combined individuals table
-    inds = indsb.append(indsd)
-    inds = inds.drop_duplicates(subset=['ID'])
+    # extract rows with bad dates from individuals
+    inds_birthday_no_null = indivs_df[indivs_df.BIRTHDAY.notnull()]
+    inds_birthday_violations = inds_birthday_no_null[inds_birthday_no_null.BIRTHDAY.apply(parse_date) > datetime.datetime.now()]
+    inds_death_no_null = indivs_df[indivs_df.DEATH.notnull()]
+    inds_death_violations = inds_death_no_null[inds_death_no_null.DEATH.apply(parse_date) > datetime.datetime.now()]
 
-    # famsm -> date of marriage
-    famsm = families_df[families_df.MARRIED.notnull()]
-    famsm = famsm[famsm.MARRIED.apply(parse_date) > datetime.datetime.now()]
-    # famsd -> date of divorce
-    famsd = families_df[families_df.DIVORCED.notnull()]
-    famsd = famsd[famsd.DIVORCED.apply(parse_date) > datetime.datetime.now()]
-    # fams  -> combined families table
-    fams = famsm.append(famsd)
-    fams = fams.drop_duplicates(subset=['ID'])
-    return (inds, fams)
+    # extract rows with bad dates from families
+    fams_marriage_no_null = families_df[families_df.MARRIED.notnull()]
+    fams_marriage_violations = fams_marriage_no_null[fams_marriage_no_null.MARRIED.apply(parse_date) > datetime.datetime.now()]
+    fams_divorce_no_null = families_df[families_df.DIVORCED.notnull()]
+    fams_divorce_violations = fams_divorce_no_null[fams_divorce_no_null.DIVORCED.apply(parse_date) > datetime.datetime.now()]
+
+    return (inds_birthday_violations, inds_death_violations, fams_marriage_violations, fams_divorce_violations)
 
 
 # US 02 - Birth before marriage
@@ -212,17 +205,15 @@ def run_all_checks(filename: str):
     print()
 
     # US 01
-    inds, fams = dates_before_current_date(indivs_df, families_df)
-    for index, (indiv_id, birth, death) in inds[['ID', 'BIRTHDAY', 'DEATH']].iterrows():
-        if not isinstance(birth, float) and birth != "nan" and parse_date(birth) > datetime.datetime.now():
+    inds_birth, inds_death, fams_marriage, fams_divorce = dates_before_current_date(indivs_df, families_df)
+    for index, (indiv_id, birth) in inds_birth[['ID', 'BIRTHDAY']].iterrows():
             print("ERROR: INDIVIDUAL: US01: {}: Dates before current date - Birth {}".format(indiv_id, birth))
-        if not isinstance(death, float) and death != "nan" and parse_date(death) > datetime.datetime.now():
+    for index, (indiv_id, death) in inds_death[['ID', 'DEATH']].iterrows():
             print("ERROR: INDIVIDUAL: US01: {}: Dates before current date - Death {}".format(indiv_id, death))
-    for index, (fam_id, marr, div) in fams[['ID', 'MARRIED', 'DIVORCED']].iterrows():
-        if not isinstance(marr, float) and marr != "nan" and parse_date(marr) > datetime.datetime.now():
-            print("ERROR: FAMILY: US01: {}: Dates before current date - Married {}".format(fam_id, marr))
-        if not isinstance(div, float) and div != "nan" and parse_date(div) > datetime.datetime.now():
-            print("ERROR: FAMILY: US01: {}: Dates before current date - DIVORCE {}".format(fam_id, div))
+    for index, (family_id, married) in fams_marriage[['ID', 'MARRIED']].iterrows():
+            print("ERROR: FAMILIES: US01: {}: Dates before current date - Married {}".format(family_id, married))
+    for index, (family_id, divorce) in fams_divorce[['ID', 'DIVORCED']].iterrows():
+            print("ERROR: FAMILIES: US01: {}: Dates before current date - Divorced {}".format(family_id, divorce))
 
     # US 02
     for index, (indiv_id, birth, marriage) in birth_before_marriage(indivs_df, families_df)[['ID', 'BIRTHDAY', 'MARRIED']].iterrows():
