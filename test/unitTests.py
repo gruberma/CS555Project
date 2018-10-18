@@ -11,6 +11,56 @@ import numpy as np
 import pandas as pd
 
 
+# US 01
+class TestDatesBeforeCurrentDate(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
+        _, dates_indiv, _, _ = validate.dates_before_current_date(indivs_df, fams_df)
+        expected_indiv = {
+            'ID': {0: '@mystery@'},
+            'DEATH': {0: '20 MAY 2200'}}
+        self.assertEqual(dates_indiv[['ID', 'DEATH']].to_dict(), expected_indiv)
+
+
+# US 02 - Birth before marriage unit test.
+class TestBirthBeforeMarriage(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
+        indivs_error = validate.birth_before_marriage(indivs_df, fams_df)
+        expected = [['@shmi@']]
+        self.assertEqual(indivs_error[['ID']].values.tolist(), expected)
+
+
+# US 03 - Birth before death
+class TestBirthBeforeDeath(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
+        indivs_error = validate.birth_before_death(indivs_df)
+        expected = [['@shmi@']]
+        self.assertEqual(indivs_error[['ID']].values.tolist(), expected)
+
+
+# US 04
+class TestMarriageBeforeDivorce(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
+        marriage_after_divs = validate.marriage_before_divorce(indivs_df, fams_df)
+        expected = {'ID': {0: '@shmi@'}, 'NAME': {0: 'Shmi /Skywalker/'},
+                    'MARRIED': {0: '20 MAY 1979'}, 'DIVORCED': {0: '20 MAY 1977'}}
+        self.assertEqual(marriage_after_divs[['ID', 'NAME', 'MARRIED', 'DIVORCED']].to_dict(),
+                         expected)
+
+
+# US 05
+class TestMarriageBeforeDeath(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
+        marriage_after_death = validate.marriage_before_death(indivs_df, fams_df)
+        expected = {'ID': {0: '@shmi@'}, 'NAME': {0: 'Shmi /Skywalker/'},
+                    'MARRIED': {0: '20 MAY 1979'}, 'DEATH': {0: '20 MAY 1976'}}
+        self.assertEqual(marriage_after_death[['ID', 'NAME', 'MARRIED', 'DEATH']].to_dict(),
+                         expected)
+
 # US 06
 class TestDivorceBeforeDeath(TestCase):
     def test_empty(self):
@@ -44,52 +94,7 @@ class TestLessThan150yearsOld(TestCase):
         self.assertEqual(indivs_150[['ID', 'NAME', 'BIRTHDAY', 'DEATH', 'AGE']].to_dict(), expected)
 
 
-class TestMarriageBeforeDivorce(TestCase):
-    def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
-        marriage_after_divs = validate.marriage_before_divorce(indivs_df, fams_df)
-        expected = {'ID': {0: '@shmi@'}, 'NAME': {0: 'Shmi /Skywalker/'},
-                    'MARRIED': {0: '20 MAY 1979'}, 'DIVORCED': {0: '20 MAY 1977'}}
-        self.assertEqual(marriage_after_divs[['ID', 'NAME', 'MARRIED', 'DIVORCED']].to_dict(),
-                         expected)
-
-
-class TestMarriageBeforeDeath(TestCase):
-    def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
-        marriage_after_death = validate.marriage_before_death(indivs_df, fams_df)
-        expected = {'ID': {0: '@shmi@'}, 'NAME': {0: 'Shmi /Skywalker/'},
-                    'MARRIED': {0: '20 MAY 1979'}, 'DEATH': {0: '20 MAY 1976'}}
-        self.assertEqual(marriage_after_death[['ID', 'NAME', 'MARRIED', 'DEATH']].to_dict(),
-                         expected)
-
-class TestDatesBeforeCurrentDate(TestCase):
-    def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
-        _, dates_indiv, _, _ = validate.dates_before_current_date(indivs_df, fams_df)
-        expected_indiv = {
-            'ID': {0: '@mystery@'},
-            'DEATH': {0: '20 MAY 2200'}}
-        self.assertEqual(dates_indiv[['ID', 'DEATH']].to_dict(), expected_indiv)
-
-
-# US 02 - Birth before marriage unit test.
-class TestBirthBeforeMarriage(TestCase):
-    def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
-        indivs_error = validate.birth_before_marriage(indivs_df, fams_df)
-        expected = [['@shmi@']]
-        self.assertEqual(indivs_error[['ID']].values.tolist(), expected)
-
-
-# US 03 - Birth before death
-class TestBirthBeforeDeath(TestCase):
-    def test(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
-        indivs_error = validate.birth_before_death(indivs_df)
-        expected = [['@shmi@']]
-        self.assertEqual(indivs_error[['ID']].values.tolist(), expected)
-
+# TODO US 08
 
 if __name__ == '__main__':
     unittest.main()
