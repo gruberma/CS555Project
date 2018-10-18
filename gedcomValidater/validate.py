@@ -137,11 +137,11 @@ def birth_before_parents_married(indivs_df: pd.DataFrame, families_df: pd.DataFr
     joined = joined[joined.BIRTHDAY.apply(parse_date) < joined.MARRIED.apply(parse_date)]
     return joined
 
-# US 12 - Parents too old
+
+# US 12 - Mother too old
 def mother_too_old(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
     """
-    Mother should be less than 60 years older than her children and father should be less than 80 years older
-    than his children
+    Mother should be less than 60 years older than her children than his children
     :param indivs_df:
     :param families_df:
     :return:
@@ -155,10 +155,10 @@ def mother_too_old(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
     return mother_indv_df[mother_indv_df.DIFF_MOTHER >= 60]
 
 
+# US 12 - Father too old
 def father_too_old(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
     """
-    Mother should be less than 60 years older than her children and father should be less than 80 years older
-    than his children
+    Father should be less than 80 years older than his children
     :param indivs_df:
     :param families_df:
     :return:
@@ -170,6 +170,20 @@ def father_too_old(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
     father_indv_df = join_by_fam_id_df.merge(indv, left_on='HUSBAND ID', right_on='ID', suffixes=('', '_idv_father'))
     father_indv_df['DIFF_FATHER'] = calc_delta_date(father_indv_df, "BIRTHDAY_idv_father", "BIRTHDAY")
     return father_indv_df[father_indv_df.DIFF_FATHER >= 80]
+
+
+# US 14 - Multiple births <= 5
+def multiple_births_5(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
+    """
+    Multiple births <= 5
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
+    children_df = indivs_df.merge(families_df, left_on='CHILD', right_on='ID', suffixes=('', '_fam'))
+    grouped_df = children_df.groupby(['BIRTHDAY', 'CHILD']).agg({'CHILDREN': 'count'}).reset_index()
+    res = grouped_df[grouped_df.CHILDREN > 5]
+    return res
 
 
 def calc_delta_date(df: pd.DataFrame, date1_name, date2_name):
@@ -292,6 +306,10 @@ def run_all_checks(filename: str):
         print("ERROR: INDIVIDUAL: US12: {}'s mother {} is too old. Older then individual {} years.".format(indiv_id, mother_id, diff_age))
     for index, (indiv_id, father_id, diff_age) in father_too_old(indivs_df, families_df)[['ID', 'ID_idv_father', 'DIFF_FATHER']].iterrows():
         print("ERROR: INDIVIDUAL: US12: {}'s father {} is too old. Older then individual {} years.".format(indiv_id, father_id, diff_age))
+
+    # US 14
+    for index, (fams_id, birthday, nums) in multiple_births_5(indivs_df, families_df)[['CHILD', 'BIRTHDAY', 'CHILDREN']].iterrows():
+        print("ERROR: FAMILY: US14: {} have {} birth which more than 5 birth in same day: {}.".format(fams_id, nums, birthday))
 
 
 if __name__ == "__main__":
