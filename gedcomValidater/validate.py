@@ -7,7 +7,10 @@ import sys
 import datetime
 from tabulate import tabulate
 from dateutil.parser import parse as parse_date
+from dateutil.relativedelta import relativedelta
+import numpy as np
 from typing import Tuple
+from datetime import date
 
 
 # US 01 - Dates before current date
@@ -135,6 +138,60 @@ def birth_before_parents_married(indivs_df: pd.DataFrame, families_df: pd.DataFr
     return joined
 
 
+# US 12 - Mother too old
+def mother_too_old(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
+    """
+    Mother should be less than 60 years older than her children than his children
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
+    indv: pd.DataFrame = indivs_df[indivs_df.CHILD.notnull()]
+    fams: pd.DataFrame = families_df[families_df.CHILDREN.notnull()]
+    join_by_fam_id_df = indv.merge(fams, left_on='CHILD', right_on='ID', suffixes=('', '_fam'))
+
+    mother_indv_df = join_by_fam_id_df.merge(indv, left_on='WIFE ID', right_on='ID', suffixes=('', '_idv_mother'))
+    mother_indv_df['DIFF_MOTHER'] = calc_delta_date(mother_indv_df, "BIRTHDAY_idv_mother", "BIRTHDAY")
+    return mother_indv_df[mother_indv_df.DIFF_MOTHER >= 60]
+
+
+# US 12 - Father too old
+def father_too_old(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
+    """
+    Father should be less than 80 years older than his children
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
+    indv: pd.DataFrame = indivs_df[indivs_df.CHILD.notnull()]
+    fams: pd.DataFrame = families_df[families_df.CHILDREN.notnull()]
+    join_by_fam_id_df = indv.merge(fams, left_on='CHILD', right_on='ID', suffixes=('', '_fam'))
+
+    father_indv_df = join_by_fam_id_df.merge(indv, left_on='HUSBAND ID', right_on='ID', suffixes=('', '_idv_father'))
+    father_indv_df['DIFF_FATHER'] = calc_delta_date(father_indv_df, "BIRTHDAY_idv_father", "BIRTHDAY")
+    return father_indv_df[father_indv_df.DIFF_FATHER >= 80]
+
+
+# US 14 - Multiple births <= 5
+def multiple_births_5(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
+    """
+    Multiple births <= 5
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
+    children_df = indivs_df.merge(families_df, left_on='CHILD', right_on='ID', suffixes=('', '_fam'))
+    grouped_df = children_df.groupby(['BIRTHDAY', 'CHILD']).agg({'CHILDREN': 'count'}).reset_index()
+    res = grouped_df[grouped_df.CHILDREN > 5]
+    return res
+
+
+def calc_delta_date(df: pd.DataFrame, date1_name, date2_name):
+    return [np.nan if birth is np.nan else
+            relativedelta(parse_date(death) if death is not np.nan else date.today(), parse_date(birth)).years
+            for birth, death in zip(df[date1_name], df[date2_name])]
+
+
 def get_family_id_of_child(indivs_id, families_df: pd.DataFrame) -> pd.DataFrame:
     """
     Find id of family of which indivs_id is a child.
@@ -243,6 +300,16 @@ def run_all_checks(filename: str):
     merge = birth_before_parents_married(indivs_df, families_df)
     for index, (indiv_id, marr) in merge[['ID', 'MARRIED']].iterrows():
         print("ERROR: INDIVIDUAL: US08: {}: Individual's birthday is before parents' marriage date -  {}".format(indiv_id, marr))
+
+    # US 12
+    for index, (indiv_id, mother_id, diff_age) in mother_too_old(indivs_df, families_df)[['ID', 'ID_idv_mother', 'DIFF_MOTHER']].iterrows():
+        print("ERROR: INDIVIDUAL: US12: {}'s mother {} is too old. Older then individual {} years.".format(indiv_id, mother_id, diff_age))
+    for index, (indiv_id, father_id, diff_age) in father_too_old(indivs_df, families_df)[['ID', 'ID_idv_father', 'DIFF_FATHER']].iterrows():
+        print("ERROR: INDIVIDUAL: US12: {}'s father {} is too old. Older then individual {} years.".format(indiv_id, father_id, diff_age))
+
+    # US 14
+    for index, (fams_id, birthday, nums) in multiple_births_5(indivs_df, families_df)[['CHILD', 'BIRTHDAY', 'CHILDREN']].iterrows():
+        print("ERROR: FAMILY: US14: {} have {} birth which more than 5 birth in same day: {}.".format(fams_id, nums, birthday))
 
 
 if __name__ == "__main__":
