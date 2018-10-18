@@ -11,13 +11,14 @@ from dateutil.relativedelta import relativedelta
 from datetime import date
 
 
+indivs_columns = ['ID', 'NAME', 'GENDER', 'BIRTHDAY', 'AGE', 'ALIVE', 'DEATH', 'CHILD', 'SPOUSE']
+fams_columns = ['ID', 'MARRIED', 'DIVORCED', 'HUSBAND ID', 'HUSBAND NAME', 'WIFE ID', 'WIFE NAME', 'CHILDREN']
+
+
 def parseFileToDFs(filename: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     indivs, families = fileToDicts.parseFile(filename)
     indivs_df = pd.DataFrame(indivs)
     families_df = pd.DataFrame(families)
-
-    indivs_columns = ['ID', 'NAME', 'GENDER', 'BIRTHDAY', 'AGE', 'ALIVE', 'DEATH', 'CHILD', 'SPOUSE']
-    fams_columns = ['ID', 'MARRIED', 'DIVORCED', 'HUSBAND ID', 'HUSBAND NAME', 'WIFE ID', 'WIFE NAME', 'CHILDREN']
 
     if indivs_df.empty:
         indivs_df = pd.DataFrame(columns=indivs_columns)

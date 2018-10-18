@@ -4,14 +4,21 @@ sys.path.append('..')
 sys.path.append('../gedcomValidater')
 
 from gedcomValidater import validate
-from gedcomValidater.gedcomParser.fileToDataframes import parseFileToDFs
+from gedcomValidater.gedcomParser.fileToDataframes import parseFileToDFs, indivs_columns, fams_columns
 import unittest
 from unittest import TestCase
 import numpy as np
+import pandas as pd
 
 
+# US 06
 class TestDivorceBeforeDeath(TestCase):
-    def test(self):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        fams_df = pd.DataFrame(columns=fams_columns)
+        validate.divorce_before_death(indivs_df, fams_df)
+
+    def test_errorneous(self):
         indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us06_divorce_before_death.ged")
         div_after_death = validate.divorce_before_death(indivs_df, fams_df)
         expected = {'ID': {0: '@shmi@'}, 'NAME': {0: 'Shmi /Skywalker/'},
@@ -20,8 +27,13 @@ class TestDivorceBeforeDeath(TestCase):
         self.assertEqual(div_after_death[['ID', 'NAME', 'DEATH', 'DIVORCED']].to_dict(), expected)
 
 
+# US 07
 class TestLessThan150yearsOld(TestCase):
-    def test(self):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        validate.less_than_150_years_old(indivs_df)
+
+    def test_erroneous(self):
         indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us07_less_than_150_years_old.ged")
         indivs_150 = validate.less_than_150_years_old(indivs_df)
         expected = {'ID': {0: '@ani@', 2: '@luke@'},
