@@ -200,6 +200,12 @@ def calc_delta_date(df: pd.DataFrame, date1_name, date2_name):
 
 # US 18
 def siblings_should_not_marry(indivs_df, families_df):
+    """
+    Return all siblings who are married.
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
     both_spouses = join_both_spouses_to_family(indivs_df, families_df)
     return both_spouses[both_spouses['CHILD_HUSBAND'] == both_spouses['CHILD_WIFE']]
 
