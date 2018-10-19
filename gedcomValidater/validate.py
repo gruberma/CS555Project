@@ -162,7 +162,8 @@ def join_by_spouse(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.Dat
     """
     males: pd.DataFrame = indivs_df.merge(families_df, left_on='ID', right_on='HUSBAND ID', suffixes=('', '_fam'))
     females: pd.DataFrame = indivs_df.merge(families_df, left_on='ID', right_on='WIFE ID', suffixes=('', '_fam'))
-    return males.append(females)
+    # males and females have the same index so when we combine them we have to reset the index
+    return males.append(females, ignore_index=True)
 
 
 def join_by_child(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
