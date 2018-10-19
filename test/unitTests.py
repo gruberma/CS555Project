@@ -130,6 +130,21 @@ class TestMultipleBirths5(TestCase):
         self.assertEqual(expected, indivs_error[['CHILDREN']].values.tolist())
 
 
+# US 18
+class TestSiblingsShouldNotMarry(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        fams_df = pd.DataFrame(columns=fams_columns)
+        validate.siblings_should_not_marry(indivs_df, fams_df)
+
+    def test_erroneous(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us18_siblings_should_not_marry.ged")
+        wrong_roles = validate.siblings_should_not_marry(indivs_df, fams_df)
+        expected = [{'ID_fam': '@sky2@', 'ID_HUSBAND': '@luke@', 'ID_WIFE': '@lea@'}]
+        actual = [row.to_dict() for _, row in wrong_roles[['ID_fam', 'ID_HUSBAND', 'ID_WIFE']].iterrows()]
+        self.assertEqual(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID']))
+
+
 # US 21
 class TestCorrectGenderForRole(TestCase):
     def test_empty(self):
@@ -143,7 +158,7 @@ class TestCorrectGenderForRole(TestCase):
         expected = [{'ID': '@shmi@', 'GENDER': 'F'},
                     {'ID': '@mystery@', 'GENDER': 'M'}]
         actual = [row.to_dict() for _, row in wrong_roles[['ID', 'GENDER']].iterrows()]
-        self.assertEqual(actual, expected)
+        self.assertEqual(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID']))
 
 
 if __name__ == '__main__':
