@@ -150,7 +150,7 @@ def mother_too_old(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
     fams: pd.DataFrame = families_df[families_df.CHILDREN.notnull()]
     join_by_fam_id_df = indv.merge(fams, left_on='CHILD', right_on='ID', suffixes=('', '_fam'))
 
-    mother_indv_df = join_by_fam_id_df.merge(indv, left_on='WIFE ID', right_on='ID', suffixes=('', '_idv_mother'))
+    mother_indv_df = join_by_fam_id_df.merge(indivs_df, left_on='WIFE ID', right_on='ID', suffixes=('', '_idv_mother'))
     mother_indv_df['DIFF_MOTHER'] = calc_delta_date(mother_indv_df, "BIRTHDAY_idv_mother", "BIRTHDAY")
     return mother_indv_df[mother_indv_df.DIFF_MOTHER >= 60]
 
@@ -167,7 +167,7 @@ def father_too_old(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
     fams: pd.DataFrame = families_df[families_df.CHILDREN.notnull()]
     join_by_fam_id_df = indv.merge(fams, left_on='CHILD', right_on='ID', suffixes=('', '_fam'))
 
-    father_indv_df = join_by_fam_id_df.merge(indv, left_on='HUSBAND ID', right_on='ID', suffixes=('', '_idv_father'))
+    father_indv_df = join_by_fam_id_df.merge(indivs_df, left_on='HUSBAND ID', right_on='ID', suffixes=('', '_idv_father'))
     father_indv_df['DIFF_FATHER'] = calc_delta_date(father_indv_df, "BIRTHDAY_idv_father", "BIRTHDAY")
     return father_indv_df[father_indv_df.DIFF_FATHER >= 80]
 
@@ -198,6 +198,12 @@ def calc_delta_date(df: pd.DataFrame, date1_name, date2_name):
             for date1, date2 in zip(df[date1_name], df[date2_name])]
 
 
+# US 18
+def siblings_should_not_marry(indivs_df, families_df):
+    both_spouses = join_both_spouses_to_family(indivs_df, families_df)
+    return both_spouses[both_spouses['CHILD_HUSBAND'] == both_spouses['CHILD_WIFE']]
+
+
 # US 21
 def correct_gender_for_role(indivs_df, families_df):
     """
@@ -210,7 +216,6 @@ def correct_gender_for_role(indivs_df, families_df):
     return indiv_fams[
         ((indiv_fams['GENDER'] == 'F') & (indiv_fams['ID'] == indiv_fams['HUSBAND ID'])) |
         ((indiv_fams['GENDER'] == 'M') & (indiv_fams['ID'] == indiv_fams['WIFE ID']))]
-
 
 
 def get_family_id_of_child(indivs_id, families_df: pd.DataFrame) -> pd.DataFrame:
@@ -242,6 +247,25 @@ def join_by_spouse(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.Dat
     females: pd.DataFrame = indivs_df.merge(families_df, left_on='ID', right_on='WIFE ID', suffixes=('', '_fam'))
     # males and females have the same index so when we combine them we have to reset the index
     return males.append(females, ignore_index=True)
+
+
+def join_both_spouses_to_family(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Helper function to join both spouses to the family the participate in as HUSBAND and WIFE.
+    :param indivs_df: Individuals dataframe
+    :param families_df: Families dataframe
+    :return: Table listing all individuals together with the families they are a spouse in.
+             Individuals from indivs_df might occur multiple times if they participate in multiple families.
+             They will not occur if they do not participate in any family.
+    """
+    orig_colums = indivs_df.columns
+    indivs_df.columns = [c + "_HUSBAND" for c in orig_colums]
+    husbands: pd.DataFrame = indivs_df.merge(families_df, left_on='ID_HUSBAND', right_on='HUSBAND ID', suffixes=('', '_fam'))
+    indivs_df.columns = [c + "_WIFE" for c in orig_colums]
+    both_spouses: pd.DataFrame = indivs_df.merge(husbands, left_on='ID_WIFE', right_on='WIFE ID', suffixes=('', '_fam'))
+    both_spouses.rename(columns={'ID': 'ID_fam'}, inplace=True)
+    indivs_df.columns = orig_colums
+    return both_spouses
 
 
 def join_by_child(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
@@ -332,6 +356,10 @@ def run_all_checks(filename: str):
     # US 14
     for index, (fams_id, birthday, nums) in multiple_births_5(indivs_df, families_df)[['CHILD', 'BIRTHDAY', 'CHILDREN']].iterrows():
         print("ERROR: FAMILY: US14: {} have {} birth which more than 5 birth in same day: {}.".format(fams_id, nums, birthday))
+
+    # US 18
+    # for index, (id_fam, id_husb, id_wife) in siblings_should_not_marry(indivs_df, families_df)[['ID_fam', 'ID_HUSBAND', 'ID_WIFE']].iterrows():
+    #     print("ERROR: INDIVIDUAL: US18: {} and {} are siblings but they are married in family {}".format(id_husb, id_wife, id_fam))
 
     # US 21
     for index, (id, id_fam) in correct_gender_for_role(indivs_df, families_df)[['ID', 'ID_fam']].iterrows():
