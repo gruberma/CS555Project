@@ -45,10 +45,10 @@ class TestMarriageBeforeDivorce(TestCase):
     def test(self):
         indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
         marriage_after_divs = validate.marriage_before_divorce(indivs_df, fams_df)
-        expected = {'ID': {0: '@shmi@'}, 'NAME': {0: 'Shmi /Skywalker/'},
-                    'MARRIED': {0: '20 MAY 1979'}, 'DIVORCED': {0: '20 MAY 1977'}}
-        self.assertEqual(marriage_after_divs[['ID', 'NAME', 'MARRIED', 'DIVORCED']].to_dict(),
-                         expected)
+        expected = [{'ID': '@shmi@', 'NAME': 'Shmi /Skywalker/', 'MARRIED': '20 MAY 1979', 'DIVORCED': '20 MAY 1977'},
+                    {'ID': '@mystery@', 'NAME': 'The /Force/', 'MARRIED': '20 MAY 1979', 'DIVORCED': '20 MAY 1977'}]
+        actual = [row.to_dict() for _, row in marriage_after_divs[['ID', 'NAME', 'MARRIED', 'DIVORCED']].iterrows()]
+        self.assertEqual(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID']))
 
 
 # US 05
@@ -56,10 +56,10 @@ class TestMarriageBeforeDeath(TestCase):
     def test(self):
         indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/sprint1_acceptance_file.ged")
         marriage_after_death = validate.marriage_before_death(indivs_df, fams_df)
-        expected = {'ID': {0: '@shmi@'}, 'NAME': {0: 'Shmi /Skywalker/'},
-                    'MARRIED': {0: '20 MAY 1979'}, 'DEATH': {0: '20 MAY 1976'}}
-        self.assertEqual(marriage_after_death[['ID', 'NAME', 'MARRIED', 'DEATH']].to_dict(),
-                         expected)
+        expected = [{'ID': '@shmi@', 'NAME': 'Shmi /Skywalker/', 'MARRIED': '20 MAY 1979', 'DEATH': '20 MAY 1976'}]
+        actual = [row.to_dict() for _, row in marriage_after_death[['ID', 'NAME', 'MARRIED', 'DEATH']].iterrows()]
+        self.assertEqual(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID']))
+
 
 # US 06
 class TestDivorceBeforeDeath(TestCase):
@@ -71,10 +71,11 @@ class TestDivorceBeforeDeath(TestCase):
     def test_errorneous(self):
         indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us06_divorce_before_death.ged")
         div_after_death = validate.divorce_before_death(indivs_df, fams_df)
-        expected = {'ID': {0: '@shmi@'}, 'NAME': {0: 'Shmi /Skywalker/'},
-                    'DEATH': {0: '16 MAY 1977'},
-                    'DIVORCED': {0: '10 MAY 1978'}}
-        self.assertEqual(div_after_death[['ID', 'NAME', 'DEATH', 'DIVORCED']].to_dict(), expected)
+        expected = [{'ID': '@shmi@', 'NAME': 'Shmi /Skywalker/',
+                    'DEATH': '16 MAY 1977',
+                    'DIVORCED': '10 MAY 1978'}]
+        actual = [row.to_dict() for _, row in div_after_death[['ID', 'NAME', 'DEATH', 'DIVORCED']].iterrows()]
+        self.assertEqual(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID']))
 
 
 # US 07
@@ -95,6 +96,23 @@ class TestLessThan150yearsOld(TestCase):
 
 
 # TODO US 08
+
+
+# US 21
+class TestCorrectGenderForRole(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        fams_df = pd.DataFrame(columns=fams_columns)
+        validate.correct_gender_for_role(indivs_df, fams_df)
+
+    def test_erroneous(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us21_correct_gender_for_role.ged")
+        wrong_roles = validate.correct_gender_for_role(indivs_df, fams_df)
+        expected = [{'ID': '@shmi@', 'GENDER': 'F'},
+                    {'ID': '@mystery@', 'GENDER': 'M'}]
+        actual = [row.to_dict() for _, row in wrong_roles[['ID', 'GENDER']].iterrows()]
+        self.assertEqual(actual, expected)
+
 
 if __name__ == '__main__':
     unittest.main()
