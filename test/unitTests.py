@@ -96,5 +96,38 @@ class TestLessThan150yearsOld(TestCase):
 
 # TODO US 08
 
+
+# US 12
+class TestParentsTooOld(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        fams_df = pd.DataFrame(columns=fams_columns)
+        validate.mother_too_old(indivs_df, fams_df)
+        validate.father_too_old(indivs_df, fams_df)
+
+    def test_erroneous(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us12_parents_not_too_old_fail.ged")
+        indivs_error = validate.mother_too_old(indivs_df, fams_df)
+        expected = [['@shmi@']]
+        self.assertEqual(expected, indivs_error[['ID_idv_mother']].values.tolist())
+        indivs_error = validate.father_too_old(indivs_df, fams_df)
+        expected = [['@mystery@']]
+        self.assertEqual(expected, indivs_error[['ID_idv_father']].values.tolist())
+
+
+# US 14
+class TestMultipleBirths5(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        fams_df = pd.DataFrame(columns=fams_columns)
+        validate.multiple_births_5(indivs_df, fams_df)
+
+    def test_erroneous(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us14_multiple_births_5_fail.ged")
+        indivs_error = validate.multiple_births_5(indivs_df, fams_df)
+        expected = [[7]]
+        self.assertEqual(expected, indivs_error[['CHILDREN']].values.tolist())
+
+
 if __name__ == '__main__':
     unittest.main()
