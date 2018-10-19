@@ -358,8 +358,8 @@ def run_all_checks(filename: str):
         print("ERROR: FAMILY: US14: {} have {} birth which more than 5 birth in same day: {}.".format(fams_id, nums, birthday))
 
     # US 18
-    # for index, (id_fam, id_husb, id_wife) in siblings_should_not_marry(indivs_df, families_df)[['ID_fam', 'ID_HUSBAND', 'ID_WIFE']].iterrows():
-    #     print("ERROR: INDIVIDUAL: US18: {} and {} are siblings but they are married in family {}".format(id_husb, id_wife, id_fam))
+    for index, (id_fam, id_husb, id_wife) in siblings_should_not_marry(indivs_df, families_df)[['ID_fam', 'ID_HUSBAND', 'ID_WIFE']].iterrows():
+        print("ERROR: INDIVIDUAL: US18: {} and {} are siblings but they are married in family {}".format(id_husb, id_wife, id_fam))
 
     # US 21
     for index, (id, id_fam) in correct_gender_for_role(indivs_df, families_df)[['ID', 'ID_fam']].iterrows():
