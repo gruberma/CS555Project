@@ -135,6 +135,15 @@ def birth_before_parents_married(indivs_df: pd.DataFrame, families_df: pd.DataFr
     return joined
 
 
+# US 21
+def correct_gender_for_role(indivs_df, families_df):
+    indiv_fams: pd.DataFrame = join_by_spouse(indivs_df, families_df)
+    return indiv_fams[
+        ((indiv_fams['GENDER'] == 'F') & (indiv_fams['ID'] == indiv_fams['HUSBAND ID'])) |
+        ((indiv_fams['GENDER'] == 'M') & (indiv_fams['ID'] == indiv_fams['WIFE ID']))]
+
+
+
 def get_family_id_of_child(indivs_id, families_df: pd.DataFrame) -> pd.DataFrame:
     """
     Find id of family of which indivs_id is a child.
@@ -251,3 +260,5 @@ if __name__ == "__main__":
         print("usage:", sys.argv[0], "<gedcom filepath>")
     else:
         run_all_checks(sys.argv[1])
+
+
