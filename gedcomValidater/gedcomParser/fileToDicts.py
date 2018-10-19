@@ -228,8 +228,8 @@ def parse_indi_fam(tokens):
                 individual_list.append(cur_individual)
                 cur_individual = {}
             cur_individual["ID"] = tokens[1]
-            cur_individual["CHILD"] = "N/A"
-            cur_individual["SPOUSE"] = "N/A"
+            cur_individual["CHILD"] = None
+            cur_individual["SPOUSE"] = None
         elif tokens[2] == "FAM":
             # print("Family: %s" % (cur_family))
             if bool(cur_family):
@@ -308,7 +308,7 @@ def parse_famc_fams_husb_wife_chil(tokens):
         if tokens[1] == "FAMC":
             cur_individual["CHILD"] = tokens[2]
         elif tokens[1] == "FAMS":
-            if cur_individual["SPOUSE"] == "N/A":
+            if cur_individual["SPOUSE"] is None:
                 cur_individual["SPOUSE"] = {tokens[2]}
             else:
                 cur_individual["SPOUSE"].add(tokens[2])
