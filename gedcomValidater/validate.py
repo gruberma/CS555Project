@@ -200,6 +200,12 @@ def calc_delta_date(df: pd.DataFrame, date1_name, date2_name):
 
 # US 21
 def correct_gender_for_role(indivs_df, families_df):
+    """
+    Return all individuals who take up the wrong gender role in a family the participate as a spouse
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
     indiv_fams: pd.DataFrame = join_by_spouse(indivs_df, families_df)
     return indiv_fams[
         ((indiv_fams['GENDER'] == 'F') & (indiv_fams['ID'] == indiv_fams['HUSBAND ID'])) |
