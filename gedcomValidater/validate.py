@@ -321,6 +321,10 @@ def run_all_checks(filename: str):
     for index, (fams_id, birthday, nums) in multiple_births_5(indivs_df, families_df)[['CHILD', 'BIRTHDAY', 'CHILDREN']].iterrows():
         print("ERROR: FAMILY: US14: {} have {} birth which more than 5 birth in same day: {}.".format(fams_id, nums, birthday))
 
+    # US 21
+    for index, (id, id_fam) in correct_gender_for_role(indivs_df, families_df)[['ID', 'ID_fam']].iterrows():
+        print("ERROR: INDIVIDUAL: US21: {} has the wrong gender role in family {}".format(id, id_fam))
+
 
 if __name__ == "__main__":
     # input parsing
