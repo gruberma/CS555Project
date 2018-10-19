@@ -187,9 +187,15 @@ def multiple_births_5(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
 
 
 def calc_delta_date(df: pd.DataFrame, date1_name, date2_name):
-    return [np.nan if birth is np.nan else
-            relativedelta(parse_date(death) if death is not np.nan else date.today(), parse_date(birth)).years
-            for birth, death in zip(df[date1_name], df[date2_name])]
+    """
+    Calculate delta date of two dates.
+    :param df:
+    :param date1_name:
+    :param date2_name:
+    :return:
+    """
+    return [relativedelta(parse_date(date2), parse_date(date1)).years
+            for date1, date2 in zip(df[date1_name], df[date2_name])]
 
 
 # US 21
