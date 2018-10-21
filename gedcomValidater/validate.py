@@ -200,6 +200,36 @@ def calc_delta_date(df: pd.DataFrame, date1_name, date2_name):
             for date1, date2 in zip(df[date1_name], df[date2_name])]
 
 
+# US 15
+def fewer_than_15_siblings(indivs_df, famalies_df):
+    """
+    Return all famalies where there are more then 14 children
+    :param indivs_df:
+    :param famalies_df:
+    :return:
+    """
+    return famalies_df[famalies_df["CHILDREN"].map(len) > 14]
+
+
+# US 16
+def same_male_last_name(indivs_df, famalies_df):
+    children_with_fam = join_by_child(indivs_df, famalies_df)
+    children_names = children_with_fam["NAME"].map(get_surname)
+    father_names = children_with_fam["HUSBAND NAME"].map(get_surname)
+    return children_with_fam[children_names != father_names]
+
+
+def get_surname(full_name):
+    """
+    Helper function to get the surname of a string like: FirstName /LastName/
+    :param full_name:
+    :return:
+    """
+    import re
+    surname = re.search('/(.*)/', full_name).group(1)
+    return surname
+
+
 # US 18
 def siblings_should_not_marry(indivs_df, families_df):
     """
@@ -364,6 +394,14 @@ def run_all_checks(filename: str):
     # US 14
     for index, (fams_id, birthday, nums) in multiple_births_5(indivs_df, families_df)[['CHILD', 'BIRTHDAY', 'CHILDREN']].iterrows():
         print("ERROR: FAMILY: US14: {} have {} birth which more than 5 birth in same day: {}.".format(fams_id, nums, birthday))
+
+    # US 15
+    for family_id in fewer_than_15_siblings(indivs_df, families_df)["ID"]:
+        print("ERROR: FAMILY: US15: In family {} there are more then 14 children.".format(family_id))
+
+    # US 16
+    for index, (child_id, child_name, father_name) in same_male_last_name(indivs_df, families_df)[["ID", "NAME", "HUSBAND NAME"]].iterrows():
+        print("ERROR: INDIVIDUAL: US16: {} name is: {}. Fathers name is: {}".format(child_id, child_name, father_name))
 
     # US 18
     for index, (id_fam, id_husb, id_wife) in siblings_should_not_marry(indivs_df, families_df)[['ID_fam', 'ID_HUSBAND', 'ID_WIFE']].iterrows():
