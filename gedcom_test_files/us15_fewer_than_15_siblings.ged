@@ -1,0 +1,112 @@
+0 HEAD
+0 NOTE github repository: elliot-wasem/CS555Project
+0 @mystery@ INDI
+1 NAME The /Force/
+1 SEX M
+1 FAMS @sky1@
+0 @shmi@ INDI
+1 NAME Shmi /Skywalker/
+1 SEX F
+1 BIRT
+2 DATE 25 MAY 1957
+1 DEAT
+2 DATE 16 MAY 2002
+1 FAMS @sky1@
+0 @cliegg@ INDI
+1 NAME Cliegg /Lars/
+1 SEX M
+1 BIRT
+2 DATE 25 MAY 1952
+1 DEAT
+2 DATE 19 MAY 2007
+1 FAMS @lars@
+0 @lars1@ INDI
+1 NAME Lars /larsr1/
+1 SEX M
+1 FAMC @lars@
+0 @ani1@ INDI
+1 NAME Anakin /Skywalker1/
+1 SEX M
+1 FAMC @sky1@
+0 @ani2@ INDI
+1 NAME Anakin /Skywalker2/
+1 SEX M
+1 FAMC @sky1@
+0 @ani3@ INDI
+1 NAME Anakin /Skywalker3/
+1 SEX M
+1 FAMC @sky1@
+0 @ani4@ INDI
+1 NAME Anakin /Skywalker4/
+1 SEX M
+1 FAMC @sky1@
+0 @ani5@ INDI
+1 NAME Anakin /Skywalker5/
+1 SEX M
+1 FAMC @sky1@
+0 @ani6@ INDI
+1 NAME Anakin /Skywalker6/
+1 SEX M
+1 FAMC @sky1@
+0 @ani7@ INDI
+1 NAME Anakin /Skywalker7/
+1 SEX M
+1 FAMC @sky1@
+0 @ani8@ INDI
+1 NAME Anakin /Skywalker8/
+1 SEX M
+1 FAMC @sky1@
+0 @ani9@ INDI
+1 NAME Anakin /Skywalker9/
+1 SEX M
+1 FAMC @sky1@
+0 @ani10@ INDI
+1 NAME Anakin /Skywalker10/
+1 SEX M
+1 FAMC @sky1@
+0 @ani11@ INDI
+1 NAME Anakin /Skywalker11/
+1 SEX M
+1 FAMC @sky1@
+0 @ani12@ INDI
+1 NAME Anakin /Skywalker12/
+1 SEX M
+1 FAMC @sky1@
+0 @ani13@ INDI
+1 NAME Anakin /Skywalker13/
+1 SEX M
+1 FAMC @sky1@
+0 @ani14@ INDI
+1 NAME Anakin /Skywalker14/
+1 SEX M
+1 FAMC @sky1@
+0 @ani15@ INDI
+1 NAME Anakin /Skywalker15/
+1 SEX M
+1 FAMC @sky1@
+0 @sky1@ FAM
+1 HUSB @mystery@
+1 WIFE @shmi@
+1 CHIL @ani1@
+1 CHIL @ani2@
+1 CHIL @ani3@
+1 CHIL @ani4@
+1 CHIL @ani5@
+1 CHIL @ani6@
+1 CHIL @ani7@
+1 CHIL @ani8@
+1 CHIL @ani9@
+1 CHIL @ani10@
+1 CHIL @ani11@
+1 CHIL @ani12@
+1 CHIL @ani13@
+1 CHIL @ani14@
+1 CHIL @ani15@
+1 MARR
+2 DATE 18 MAY 1977
+1 DIV
+2 DATE 10 MAY 1978
+0 @lars@ FAM
+1 HUSB @cliegg@
+1 CHIL @lars1@
+0 TRLR
