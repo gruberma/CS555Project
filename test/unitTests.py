@@ -130,6 +130,37 @@ class TestMultipleBirths5(TestCase):
         self.assertEqual(expected, indivs_error[['CHILDREN']].values.tolist())
 
 
+
+# US 15
+class TestFewerThan15Siblings(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        fams_df = pd.DataFrame(columns=fams_columns)
+        validate.siblings_should_not_marry(indivs_df, fams_df)
+
+    def test_erroneous(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us15_fewer_than_15_siblings.ged")
+        fams_error = validate.fewer_than_15_siblings(indivs_df, fams_df)
+        expected = ['@sky1@']
+        actual = fams_error["ID"].values.tolist()
+        self.assertEqual(expected, actual)
+
+
+# US 16
+class TestMaleLastName(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        fams_df = pd.DataFrame(columns=fams_columns)
+        validate.siblings_should_not_marry(indivs_df, fams_df)
+
+    def test_erroneous(self):
+        indiv_df, fams_df = parseFileToDFs("../gedcom_test_files/us16_male_last_name.ged")
+        fams_error = validate.same_male_last_name(indiv_df, fams_df)
+        expected = ['@ani1@', '@ani2@']
+        actual = fams_error["ID"].values.tolist()
+        self.assertEqual(expected, actual)
+
+
 # US 18
 class TestSiblingsShouldNotMarry(TestCase):
     def test_empty(self):
