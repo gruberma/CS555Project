@@ -218,7 +218,6 @@ def multiple_births_5(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
     return res
 
 
-# Warning: Please use this function carefully, If input dates has NaN it's may not run correctly.
 def calc_delta_date(df: pd.DataFrame, date1_name, date2_name):
     """
     Calculate delta date of two dates.
@@ -227,8 +226,8 @@ def calc_delta_date(df: pd.DataFrame, date1_name, date2_name):
     :param date2_name:
     :return:
     """
-    return [np.nan if date1 is np.nan else
-            relativedelta(parse_date(date2) if date2 is not np.nan else date.today(), parse_date(date1)).years
+    return [np.nan if date1 is np.nan or date2 is np.nan else
+            relativedelta(parse_date(date2), parse_date(date1)).years
             for date1, date2 in zip(df[date1_name], df[date2_name])]
 
 
