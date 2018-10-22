@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import sys
 
 sys.path.append('..')
@@ -95,8 +97,25 @@ class TestLessThan150yearsOld(TestCase):
         self.assertEqual(indivs_150[['ID', 'NAME', 'BIRTHDAY', 'DEATH', 'AGE']].to_dict(), expected)
 
 
-# TODO US 08
+# US 08
+class TestBirthBeforeParentsMarried(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us08_birth_before_marriage.ged")
+        indivs_violation = validate.birth_before_parents_married(indivs_df, fams_df)[['ID', 'NAME']]
+        expected = {'ID': {9: '@owen@', 18: '@luke@'},
+                    'NAME': {9: 'Owen /Lars/', 18: 'Luke /Skywalker/'}}
+        self.assertEqual(indivs_violation.to_dict(), expected)
 
+# US 09
+class TestBirthAfterParentsDeath(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us09_birth_before_death_of_parents.ged")
+        violation_mother = validate.birth_before_parents_death_mother(indivs_df, fams_df)[['ID_c', 'ID_m']]
+        violation_father = validate.birth_before_parents_death_father(indivs_df, fams_df)[['ID_c', 'ID_m']]
+        expected_mother = {'ID_c': {2: '@luke@', 3: '@lea@'}, 'ID_m': {2: '@padme@', 3: '@padme@'}}
+        expected_father = {'ID_c': {2: '@luke@'}, 'ID_m': {2: '@ani@'}}
+        self.assertEqual(violation_mother.to_dict(), expected_mother)
+        self.assertEqual(violation_father.to_dict(), expected_father)
 
 # US 12
 class TestParentsTooOld(TestCase):

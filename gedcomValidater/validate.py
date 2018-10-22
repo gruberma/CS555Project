@@ -129,7 +129,6 @@ def birth_before_parents_married(indivs_df: pd.DataFrame, families_df: pd.DataFr
     :param families_df:
     :return:
     """
-    result = ""
     inds = indivs_df[indivs_df.BIRTHDAY.notnull()]
     fams = families_df[families_df.MARRIED.notnull()]
     joined = join_by_child(inds, fams)
@@ -137,6 +136,39 @@ def birth_before_parents_married(indivs_df: pd.DataFrame, families_df: pd.DataFr
     joined = joined[joined.BIRTHDAY.apply(parse_date) < joined.MARRIED.apply(parse_date)]
     return joined
 
+# US 09 - Birth before death of parents
+def birth_before_parents_death_mother(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Detect all individuals who are born after their mother dies
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
+    indv: pd.DataFrame = indivs_df[indivs_df.CHILD.notnull()]
+    fams: pd.DataFrame = families_df[families_df.CHILDREN.notnull()]
+    join_by_fam_wife = indv.add_suffix('_c').merge(fams.add_suffix('_f'), left_on='CHILD_c', right_on='ID_f', suffixes=('', '_wife'))[['ID_c', 'BIRTHDAY_c', 'WIFE ID_f']]
+    join_by_fam_wife = join_by_fam_wife[join_by_fam_wife.BIRTHDAY_c.notnull()]
+    join_by_mother = join_by_fam_wife.merge(indivs_df[['ID', 'DEATH']].add_suffix('_m'), how='inner', left_on='WIFE ID_f', right_on='ID_m')[['ID_c', 'BIRTHDAY_c', 'ID_m', 'DEATH_m']]
+    result = join_by_mother[join_by_mother.BIRTHDAY_c.apply(parse_date) > join_by_mother.DEATH_m.apply(parse_date)]
+    return result
+
+# US 09 - Birth before death of parents
+def birth_before_parents_death_father(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Detect all individuals who are born after their father dies
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
+    indv: pd.DataFrame = indivs_df[indivs_df.CHILD.notnull()]
+    fams: pd.DataFrame = families_df[families_df.CHILDREN.notnull()]
+    join_by_fam_husband = indv.add_suffix('_c').merge(fams.add_suffix('_f'), left_on='CHILD_c', right_on='ID_f', suffixes=('', '_husband'))[['ID_c', 'BIRTHDAY_c', 'HUSBAND ID_f']]
+    join_by_fam_husband = join_by_fam_husband[join_by_fam_husband.BIRTHDAY_c.notnull()]
+    join_by_father = join_by_fam_husband.merge(indivs_df[['ID', 'DEATH']].add_suffix('_m'), how='inner', left_on='HUSBAND ID_f', right_on='ID_m')[['ID_c', 'BIRTHDAY_c', 'ID_m', 'DEATH_m']]
+    result = join_by_father[join_by_father.BIRTHDAY_c.apply(parse_date) > join_by_father.DEATH_m.apply(parse_date)]
+    return result
+
+# US 10 - Marriage after 14
 
 # US 12 - Mother too old
 def mother_too_old(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
@@ -384,6 +416,14 @@ def run_all_checks(filename: str):
     merge = birth_before_parents_married(indivs_df, families_df)
     for index, (indiv_id, marr) in merge[['ID', 'MARRIED']].iterrows():
         print("ERROR: INDIVIDUAL: US08: {}: Individual's birthday is before parents' marriage date -  {}".format(indiv_id, marr))
+
+    # US 09
+    mom = birth_before_parents_death_mother(indivs_df, families_df)
+    dad = birth_before_parents_death_father(indivs_df, families_df)
+    for index, (indiv_id, birth, mother_id, death) in mom.iterrows():
+        print("ERROR: INDIVIDUAL: US09: {}: Individual's birthday is after mother's death date - {} Mother: {} - {}".format(indiv_id, birth, mother_id, death))
+    for index, (indiv_id, birth, father_id, death) in dad.iterrows():
+        print("ERROR: INDIVIDUAL: US09: {}: Individual's birthday is after father's death date - {} Father: {} - {}".format(indiv_id, birth, father_id, death))
 
     # US 12
     for index, (indiv_id, mother_id, diff_age) in mother_too_old(indivs_df, families_df)[['ID', 'ID_idv_mother', 'DIFF_MOTHER']].iterrows():
