@@ -149,6 +149,7 @@ def birth_before_parents_death_mother(indivs_df: pd.DataFrame, families_df: pd.D
     join_by_fam_wife = indv.add_suffix('_c').merge(fams.add_suffix('_f'), left_on='CHILD_c', right_on='ID_f', suffixes=('', '_wife'))[['ID_c', 'BIRTHDAY_c', 'WIFE ID_f']]
     join_by_fam_wife = join_by_fam_wife[join_by_fam_wife.BIRTHDAY_c.notnull()]
     join_by_mother = join_by_fam_wife.merge(indivs_df[['ID', 'DEATH']].add_suffix('_m'), how='inner', left_on='WIFE ID_f', right_on='ID_m')[['ID_c', 'BIRTHDAY_c', 'ID_m', 'DEATH_m']]
+    join_by_mother = join_by_mother[join_by_mother.BIRTHDAY_c.notnull() & join_by_mother.DEATH_m.notnull()]
     result = join_by_mother[join_by_mother.BIRTHDAY_c.apply(parse_date) > join_by_mother.DEATH_m.apply(parse_date)]
     return result
 
@@ -165,6 +166,7 @@ def birth_before_parents_death_father(indivs_df: pd.DataFrame, families_df: pd.D
     join_by_fam_husband = indv.add_suffix('_c').merge(fams.add_suffix('_f'), left_on='CHILD_c', right_on='ID_f', suffixes=('', '_husband'))[['ID_c', 'BIRTHDAY_c', 'HUSBAND ID_f']]
     join_by_fam_husband = join_by_fam_husband[join_by_fam_husband.BIRTHDAY_c.notnull()]
     join_by_father = join_by_fam_husband.merge(indivs_df[['ID', 'DEATH']].add_suffix('_m'), how='inner', left_on='HUSBAND ID_f', right_on='ID_m')[['ID_c', 'BIRTHDAY_c', 'ID_m', 'DEATH_m']]
+    join_by_father = join_by_father[join_by_father.BIRTHDAY_c.notnull() & join_by_father.DEATH_m.notnull()]
     result = join_by_father[join_by_father.BIRTHDAY_c.apply(parse_date) > join_by_father.DEATH_m.apply(parse_date)]
     return result
 
