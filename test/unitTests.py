@@ -117,6 +117,18 @@ class TestBirthAfterParentsDeath(TestCase):
         self.assertEqual(violation_mother.to_dict(), expected_mother)
         self.assertEqual(violation_father.to_dict(), expected_father)
 
+# US 10
+class TestMarriageAfter14(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us10_married_before_14.ged")
+        violations = validate.marriage_before_14(indivs_df, fams_df)
+        expected = {
+            'ID': {2: '@ani@', 3: '@han@'},
+            'NAME': {2: 'Anakin /Skywalker/', 3: 'Han /Solo/'},
+            'AGE_MARRIED': {2: 1, 3: 3}
+        }
+        self.assertEqual(violations[['ID', 'NAME', 'AGE_MARRIED']].to_dict(), expected)
+
 # US 12
 class TestParentsTooOld(TestCase):
     def test_empty(self):

@@ -171,6 +171,17 @@ def birth_before_parents_death_father(indivs_df: pd.DataFrame, families_df: pd.D
     return result
 
 # US 10 - Marriage after 14
+def marriage_before_14(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Detect all individuals who are married before age 14
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
+    indivs_fams = join_by_spouse(indivs_df, families_df)[['ID', 'NAME', 'BIRTHDAY', 'MARRIED']]
+    indivs_fams_no_null = indivs_fams[indivs_fams.BIRTHDAY.notnull() & indivs_fams.MARRIED.notnull()].copy()
+    indivs_fams_no_null['AGE_MARRIED'] = calc_delta_date(indivs_fams_no_null, 'BIRTHDAY', 'MARRIED')
+    return indivs_fams_no_null[indivs_fams_no_null.AGE_MARRIED < 14]
 
 # US 12 - Mother too old
 def mother_too_old(indivs_df: pd.DataFrame, families_df: pd.DataFrame):
@@ -425,6 +436,10 @@ def run_all_checks(filename: str):
         print("ERROR: INDIVIDUAL: US09: {}: Individual's birthday is after mother's death date - {} Mother: {} - {}".format(indiv_id, birth, mother_id, death))
     for index, (indiv_id, birth, father_id, death) in dad.iterrows():
         print("ERROR: INDIVIDUAL: US09: {}: Individual's birthday is after father's death date - {} Father: {} - {}".format(indiv_id, birth, father_id, death))
+
+    # US 10
+    for index, (indiv_id, age) in marriage_before_14(indivs_df, families_df)[['ID', 'AGE_MARRIED']].iterrows():
+        print("ERROR: INDIVIDUAL: US10: {}: Individual married before the age of 14 - Age at marriage: {}".format(indiv_id, age))
 
     # US 12
     for index, (indiv_id, mother_id, diff_age) in mother_too_old(indivs_df, families_df)[['ID', 'ID_idv_mother', 'DIFF_MOTHER']].iterrows():

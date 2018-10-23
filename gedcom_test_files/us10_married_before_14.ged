@@ -1,0 +1,93 @@
+0 HEAD
+0 NOTE github repository: elliot-wasem/CS555Project
+0 @mystery@ INDI
+1 NAME The /Force/
+1 SEX M
+1 FAMS @sky1@
+0 @shmi@ INDI
+1 NAME Shmi /Skywalker/
+1 SEX F
+1 BIRT
+2 DATE 25 MAY 1957
+1 DEAT
+2 DATE 16 MAY 2002
+1 FAMS @sky1@
+1 FAMS @lars@
+0 @cliegg@ INDI
+1 NAME Cliegg /Lars/
+1 SEX M
+1 BIRT
+2 DATE 25 MAY 1952
+1 DEAT
+2 DATE 19 MAY 2007
+1 FAMS @lars@
+0 @owen@ INDI
+1 NAME Owen /Lars/
+1 SEX M
+1 BIRT
+2 DATE 25 MAY 1978
+1 DEAT
+2 DATE 19 MAY 2005
+1 FAMC @lars@
+0 @ani@ INDI
+1 NAME Anakin /Skywalker/
+1 SEX M
+1 BIRT
+2 DATE 25 MAY 1977
+1 DEAT
+2 DATE 19 MAY 2005
+1 FAMS @sky2@
+1 FAMC @sky1@
+0 @padme@ INDI
+1 NAME Padme /Amidala/
+1 SEX F
+1 FAMS @sky2@
+0 @luke@ INDI
+1 NAME Luke /Skywalker/
+1 SEX M
+1 BIRT
+2 DATE 19 MAY 2007
+1 FAMC @sky2@
+0 @lea@ INDI
+1 NAME Lea /Skywalker/
+1 SEX F
+1 FAMC @sky2@
+1 FAMS @solo@
+0 @han@ INDI
+1 NAME Han /Solo/
+1 SEX M
+1 BIRT
+2 DATE 22 FEB 2002
+1 FAMS @solo@
+0 @kylo@ INDI
+1 NAME Kylo /Ren/
+1 SEX M
+1 FAMC @solo@
+0 @sky1@ FAM
+1 HUSB @mystery@
+1 WIFE @shmi@
+1 CHIL @ani@
+1 MARR
+2 DATE 18 MAY 1977
+1 DIV
+2 DATE 10 MAY 1978
+0 @lars@ FAM
+1 HUSB @cliegg@
+1 WIFE @shmi@
+1 CHIL @owen@
+1 MARR
+2 DATE 19 MAY 1978
+0 @sky2@ FAM
+1 HUSB @ani@
+1 WIFE @padme@
+1 MARR
+2 DATE 16 MAY 1979
+1 CHIL @luke@
+1 CHIL @lea@
+0 @solo@ FAM
+1 HUSB @han@
+1 WIFE @lea@
+1 MARR
+2 DATE 19 MAY 2005
+1 CHIL @kylo@
+0 TRLR
