@@ -98,10 +98,6 @@
 1 NAME Anakin /Skywalker/
 1 SEX M
 1 FAMC @sky1@
-0 @ani15@ INDI
-1 NAME Anakin /Skywalker/
-1 SEX M
-1 FAMC @sky1@
 0 @sky1@ FAM
 1 WIFE @mystery@
 1 HUSB @shmi@
@@ -124,7 +120,6 @@
 1 CHIL @ani12@
 1 CHIL @ani13@
 1 CHIL @ani14@
-1 CHIL @ani15@
 0 @sky2@ FAM
 1 HUSB @ani@
 1 WIFE @owen@
