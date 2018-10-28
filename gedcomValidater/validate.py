@@ -12,6 +12,7 @@ from typing import Tuple
 from datetime import date
 from sprint_1_stories import *
 from sprint_2_stories import *
+from sprint_3_stories import *
 
 def run_all_checks(filename: str):
     indivs_df, families_df = gedcomParser.fileToDataframes.parseFileToDFs(filename)
@@ -102,6 +103,10 @@ def run_all_checks(filename: str):
     # US 21
     for index, (id, id_fam) in correct_gender_for_role(indivs_df, families_df)[['ID', 'ID_fam']].iterrows():
         print("ERROR: INDIVIDUAL: US21: {} has the wrong gender role in family {}".format(id, id_fam))
+
+    # US 31
+    for index, (id, age) in list_living_single_older_than_30(indivs_df)[['ID', 'AGE']].iterrows():
+        print("ERROR: INDIVIDUAL: US31: {} has never been married and is older than 30 with an age of {}".format(id, age))
 
     ## Sprint 3
 

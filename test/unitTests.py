@@ -223,5 +223,18 @@ class TestCorrectGenderForRole(TestCase):
         self.assertEqual(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID']))
 
 
+# US 31
+class TestSingleAfterAge30(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        validate.list_living_single_older_than_30(indivs_df)
+
+    def test_erroneous(self):
+        indivs_df, _ = parseFileToDFs("../gedcom_test_files/us31_list_single_older_than_30.ged")
+        violations = validate.list_living_single_older_than_30(indivs_df)
+        expected = {'ID': {6: '@buke@', 8: '@luke@'}, 'AGE': {6: 52.0, 8: 41.0}, 'SPOUSE': {6: None, 8: None}}
+        self.assertEqual(expected, violations[['ID', 'AGE', 'SPOUSE']].to_dict())
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
