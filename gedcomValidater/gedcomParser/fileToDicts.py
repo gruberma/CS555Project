@@ -68,6 +68,8 @@ def parseFile(filename: str):
             cid = indi["CHILD"]
             for family in family_list:
                 if cid == family["ID"]:
+                    if not "CHILDREN" in family:
+                        family.update({"CHILDREN": {}})
                     if not indi["ID"] in family["CHILDREN"]:
                         family["CHILDREN"].add(indi["ID"])
 
