@@ -13,6 +13,17 @@ from typing import Tuple
 from datetime import date
 from utils import *
 
+# US 29
+def list_deceased(indivs_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    List all deceased individuals
+    :param indivs_df:
+    :return:
+    """
+    indivs = indivs_df[indivs_df.DEATH.notnull()]
+    indivs = indivs[indivs.DEATH.apply(parse_date) <= datetime.datetime.now()]
+    return indivs
+
 # US 31
 def list_living_single_older_than_30(indivs_df: pd.DataFrame) -> pd.DataFrame:
     """

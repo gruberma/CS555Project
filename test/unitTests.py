@@ -222,6 +222,20 @@ class TestCorrectGenderForRole(TestCase):
         actual = [row.to_dict() for _, row in wrong_roles[['ID', 'GENDER']].iterrows()]
         self.assertEqual(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID']))
 
+# US 29
+class TestShowDead(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        validate.list_living_single_older_than_30(indivs_df)
+
+    def test_dead_people(self):
+        indivs_df, _ = parseFileToDFs("../gedcom_test_files/us29_list_dead_people.ged")
+        violations = validate.list_deceased(indivs_df)
+        expected = {
+            'ID': {1: '@shmi@', 2: '@cliegg@', 3: '@owen@', 4: '@ani@'},
+            'BIRTHDAY': {1: '25 MAY 1957', 2: '25 MAY 1952', 3: '25 MAY 1978', 4: '25 MAY 1977'},
+            'DEATH': {1: '16 MAY 2002', 2: '28 OCT 2018', 3: '19 MAY 2005', 4: '19 MAY 2005'}}
+        self.assertEqual(violations[['ID', 'BIRTHDAY', 'DEATH']].to_dict(), expected)
 
 # US 31
 class TestSingleAfterAge30(TestCase):
