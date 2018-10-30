@@ -13,6 +13,18 @@ import numpy as np
 import pandas as pd
 
 
+class TestParser(TestCase):
+    def test_ALIVE(self):
+        indivs_df, _ = parseFileToDFs("../gedcom_test_files/parser_test_ALIVE.ged")
+        expected = [{'ID': '@mystery@', 'ALIVE': True},
+                    {'ID': '@shmi@', 'ALIVE': False},
+                    {'ID': '@owen@', 'ALIVE': True},
+                    {'ID': '@ani@', 'ALIVE': False}]
+        actual = [row.to_dict() for _, row in indivs_df[['ID', 'ALIVE']].iterrows()]
+        for act, exp in zip(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID'])):
+            self.assertEqual(act, exp)
+
+
 # US 01
 class TestDatesBeforeCurrentDate(TestCase):
     def test(self):
