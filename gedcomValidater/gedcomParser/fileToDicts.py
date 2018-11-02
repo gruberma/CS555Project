@@ -69,7 +69,7 @@ def parseFile(filename: str):
             for family in family_list:
                 if cid == family["ID"]:
                     if not "CHILDREN" in family:
-                        family.update({"CHILDREN": {}})
+                        family.update({"CHILDREN": set()})
                     if not indi["ID"] in family["CHILDREN"]:
                         family["CHILDREN"].add(indi["ID"])
 
@@ -238,7 +238,7 @@ def parse_indi_fam(tokens):
                 family_list.append(cur_family)
                 cur_family = {}
             cur_family["ID"] = tokens[1]
-            cur_family["CHILDREN"] = {}
+            cur_family["CHILDREN"] = set()
         return True
     # write_it(["<-- ", tokens[0], "|", tokens[1], "|N|", "".join(str(e) for e in tokens[2:])])
     return False
