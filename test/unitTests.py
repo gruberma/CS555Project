@@ -24,6 +24,10 @@ class TestParser(TestCase):
         for act, exp in zip(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID'])):
             self.assertEqual(act, exp)
 
+    # no asserts, just crash-test
+    def test_no_CHIL_backlink(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/parser_test_no_CHIL_backlink.ged")
+
 
 # US 01
 class TestDatesBeforeCurrentDate(TestCase):

@@ -1,0 +1,11 @@
+0 HEAD
+0 @mystery@ INDI
+1 FAMS @sky1@
+0 @shmi@ INDI
+1 FAMS @sky1@
+0 @owen@ INDI
+1 NAME Owen /Lars/
+1 FAMC @sky1@
+0 @sky1@ FAM
+1 HUSB @mystery@
+1 WIFE @shmi@
