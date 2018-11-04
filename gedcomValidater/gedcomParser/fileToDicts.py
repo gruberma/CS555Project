@@ -55,7 +55,7 @@ def parseFile(filename: str):
                 pass
                 # write_it(["<-- ", line_tokens[0], "|", line_tokens[1], "|N|", " ".join(str(e) for e in line_tokens[2:]), "\n"])
         # appends current individual to individual_list
-        if individual_list:
+        if cur_individual != {}:
             individual_list.append(cur_individual)
         # appends current family to family_list
         if cur_family != {}:

@@ -28,6 +28,20 @@ class TestParser(TestCase):
     def test_no_CHIL_backlink(self):
         indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/parser_test_no_CHIL_backlink.ged")
 
+    def test_minimal_gedcom(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/parser_test_minimal.ged")
+        self.assertEqual(list(indivs_df.columns), indivs_columns)
+        self.assertEqual(list(fams_df.columns), fams_columns)
+        self.assertFalse(indivs_df.empty)
+        self.assertFalse(fams_df.empty)
+
+    def test_empty_gedcom(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/parser_test_empty.ged")
+        self.assertEqual(list(indivs_df.columns), indivs_columns)
+        self.assertEqual(list(fams_df.columns), fams_columns)
+        self.assertTrue(indivs_df.empty)
+        self.assertTrue(fams_df.empty)
+
 
 # US 01
 class TestDatesBeforeCurrentDate(TestCase):

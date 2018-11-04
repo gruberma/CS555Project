@@ -23,12 +23,10 @@ def parseFileToDFs(filename: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     if indivs_df.empty:
         indivs_df = pd.DataFrame(columns=indivs_columns)
     else:
-        if 'BIRTHDAY' not in indivs_df.columns:
-            indivs_df['BIRTHDAY'] = np.nan
-        if 'DEATH' not in indivs_df.columns:
-            indivs_df['DEATH'] = np.nan
-        if 'GENDER' not in indivs_df.columns:
-            indivs_df['GENDER'] = np.nan
+        # Add missing columns
+        for col in indivs_columns:
+            if col not in indivs_df.columns:
+                indivs_df[col] = np.nan
         # Calculate age
         indivs_df['AGE'] = [None if pd.isna(birth) else
                 relativedelta(date.today() if pd.isna(death) else parse_date(death), parse_date(birth)).years
@@ -42,10 +40,10 @@ def parseFileToDFs(filename: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     if families_df.empty:
         families_df = pd.DataFrame(columns=fams_columns)
     else:
-        if 'MARRIED' not in families_df:
-            families_df['MARRIED'] = np.nan
-        if 'DIVORCED' not in families_df:
-            families_df['DIVORCED'] = np.nan
+        # Add missing columns
+        for col in fams_columns:
+            if col not in families_df:
+                families_df[col] = np.nan
         # Reorder columns
         families_df = families_df[fams_columns]
 
