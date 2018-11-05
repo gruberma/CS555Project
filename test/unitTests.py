@@ -260,9 +260,9 @@ class TestOrderSiblingsByAge(TestCase):
         ordered_fams_df = validate.order_siblings_by_age(indivs_df, fams_df)
         self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][0][0], '@ani4@')
         self.assertTrue(pd.isna(list(ordered_fams_df['CHILDREN'])[0][0][1]))
-        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][1], ('@ani@', 15138.0))
-        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][2], ('@ani2@', 14409.0))
-        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][3], ('@ani3@', 14408.0))
+        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][1], ('@ani@', 8401.0))
+        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][2], ('@ani2@', 7672.0))
+        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][3], ('@ani3@', 7671.0))
 
 
 # US 29
