@@ -11,7 +11,7 @@ from dateutil.relativedelta import relativedelta
 from datetime import date
 
 
-indivs_columns = ['ID', 'NAME', 'GENDER', 'BIRTHDAY', 'AGE', 'ALIVE', 'DEATH', 'CHILD', 'SPOUSE']
+indivs_columns = ['ID', 'NAME', 'GENDER', 'BIRTHDAY', 'AGE', 'AGE_in_days', 'ALIVE', 'DEATH', 'CHILD', 'SPOUSE']
 fams_columns = ['ID', 'MARRIED', 'DIVORCED', 'HUSBAND ID', 'HUSBAND NAME', 'WIFE ID', 'WIFE NAME', 'CHILDREN']
 
 
@@ -31,6 +31,9 @@ def parseFileToDFs(filename: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
         indivs_df['AGE'] = [None if pd.isna(birth) else
                 relativedelta(date.today() if pd.isna(death) else parse_date(death), parse_date(birth)).years
                 for birth, death in zip(indivs_df['BIRTHDAY'], indivs_df['DEATH'])]
+        indivs_df['AGE_in_days'] = [None if pd.isna(birth) else
+                            ((date.today() if pd.isna(death) else parse_date(death).date()) - parse_date(birth).date()).days
+                            for birth, death in zip(indivs_df['BIRTHDAY'], indivs_df['DEATH'])]
         # Calculate alive
         indivs_df['ALIVE'] = [pd.isna(death) or parse_date(death).date() > date.today()
                 for death in indivs_df['DEATH']]

@@ -252,6 +252,19 @@ class TestCorrectGenderForRole(TestCase):
         actual = [row.to_dict() for _, row in wrong_roles[['ID', 'GENDER']].iterrows()]
         self.assertEqual(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID']))
 
+
+# US 28
+class TestOrderSiblingsByAge(TestCase):
+    def test_errorneous(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us28_order_siblings_by_age.ged")
+        ordered_fams_df = validate.order_siblings_by_age(indivs_df, fams_df)
+        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][0][0], '@ani4@')
+        self.assertTrue(pd.isna(list(ordered_fams_df['CHILDREN'])[0][0][1]))
+        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][1], ('@ani@', 15138.0))
+        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][2], ('@ani2@', 14409.0))
+        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][3], ('@ani3@', 14408.0))
+
+
 # US 29
 class TestShowDead(TestCase):
     def test_empty(self):
