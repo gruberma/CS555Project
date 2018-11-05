@@ -21,7 +21,7 @@ def run_all_checks(filename: str):
     print(tabulate_df(indivs_df))
     print()
     print("Families:")
-    print(tabulate_df(families_df))
+    print(tabulate_df(order_siblings_by_age(indivs_df, families_df)))
     print()
 
     ## Sprint 1
