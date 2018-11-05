@@ -106,6 +106,14 @@ def run_all_checks(filename: str):
 
 
     ## Sprint 3
+    # US 23
+    for index, (id, name) in unique_ids(indivs_df)[['ID', 'NAME']].iterrows():
+        print("ERROR: INDIVIDUAL: US23: ID {} already exists".format(id))
+
+    # US 25
+    for index, (id, name, birthday) in unique_first_names_in_families(indivs_df, families_df)[['ID', 'NAME', 'BIRTHDAY']].iterrows():
+        print("ERROR: INDIVIDUAL: US25: Individual with ID {} has same name ({}) and birthday ({}) as other individual in the family".format(id, name, birthday))
+
 
     # US 29
     for index, (id, birth, death) in list_deceased(indivs_df)[['ID', 'BIRTHDAY', 'DEATH']].iterrows():
