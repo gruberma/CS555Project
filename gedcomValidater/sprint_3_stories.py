@@ -30,7 +30,8 @@ def unique_first_names_in_families(indivs_df: pd.DataFrame, fam_df: pd.DataFrame
     :return:
     """
     children_with_fam = join_by_child(indivs_df, fam_df)
-    return children_with_fam[children_with_fam.duplicated(['NAME', 'BIRTHDAY', 'ID_fam'])]
+    if not children_with_fam.empty:
+        return children_with_fam[children_with_fam.duplicated(['NAME', 'BIRTHDAY', 'ID_fam'])]
 
 # US 28
 def order_siblings_by_age(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
