@@ -12,6 +12,25 @@ from typing import Tuple
 from datetime import date
 from utils import *
 
+# US 23
+def unique_ids(indivs_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Detect all individuals where the ID and the birth date is the same in the entire .ged file
+    :param indivs_df:
+    :return:
+    """
+    return indivs_df[indivs_df.duplicated(['ID', 'BIRTHDAY'])]
+
+
+# US 25
+def unique_first_names_in_families(indivs_df: pd.DataFrame, fam_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Detect all individuals where the first name and the birth date is the same inside of a family.
+    :param indivs_df:
+    :return:
+    """
+    children_with_fam = join_by_child(indivs_df, fam_df)
+    return children_with_fam[children_with_fam.duplicated(['NAME', 'BIRTHDAY', 'ID_fam'])]
 
 # US 28
 def order_siblings_by_age(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
