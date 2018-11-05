@@ -237,6 +237,32 @@ class TestSiblingsShouldNotMarry(TestCase):
         self.assertEqual(sorted(actual, key=lambda d: d['ID_fam']), sorted(expected, key=lambda d: d['ID_fam']))
 
 
+# US 23
+class TestUniqueIDs(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        validate.unique_ids(indivs_df)
+
+    def test_erroneous(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us23_unique_ids.ged")
+        violations = validate.unique_ids(indivs_df)
+        expected = {'ID': {2: '@shmi@'}, 'BIRTHDAY': {2: '25 MAY 1957'}}
+        self.assertEqual(expected, violations[['ID', 'BIRTHDAY']].to_dict())
+
+
+# US 25
+class TestUniqueFirstNamesInFamily(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        fam_df = pd.DataFrame(columns=fams_columns)
+        validate.unique_first_names_in_families(indivs_df, fam_df)
+
+    def test_erroneous(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us25_unique_first_names.ged")
+        violations = validate.unique_first_names_in_families(indivs_df, fams_df)
+        expected = {'ID': {6: '@ani2@'}, 'BIRTHDAY': {6: '25 MAY 1977'}, 'NAME': {6: 'Anakin /Skywalker/'}}
+        self.assertEqual(expected, violations[['ID', 'BIRTHDAY', 'NAME']].to_dict())
+
 # US 21
 class TestCorrectGenderForRole(TestCase):
     def test_empty(self):
