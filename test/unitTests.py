@@ -279,6 +279,14 @@ class TestCorrectGenderForRole(TestCase):
         self.assertEqual(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID']))
 
 
+# US 27
+class TestIncludeIndividualsAge(TestCase):
+    def test_errorneous(self):
+        indivs_df, _ = parseFileToDFs("../gedcom_test_files/us27_include_individuals_age.ged")
+        self.assertTrue(pd.isna(indivs_df['BIRTHDAY'][0]))
+        self.assertEqual(indivs_df['BIRTHDAY'][1], "25 MAY 1957")
+
+
 # US 28
 class TestOrderSiblingsByAge(TestCase):
     def test_errorneous(self):
