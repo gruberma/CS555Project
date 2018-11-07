@@ -122,7 +122,15 @@ def run_all_checks(filename: str):
     # US 31
     for index, (id, age) in list_living_single_older_than_30(indivs_df)[['ID', 'AGE']].iterrows():
         print("ERROR: INDIVIDUAL: US31: {} has never been married and is older than 30 with an age of {}".format(id, age))
+    
 
+    # US 23
+    for index, (name, birthday) in list_unique_name_birthday(indivs_df)[['NAME', 'BIRTHDAY']].iterrows():
+        print("ERROR: INDIVIDUAL: US23: Name: {} and Birthday: {} already exists".format(name, birthday))
+
+    # US 30
+    for index, (id, name) in list_living_married(indivs_df)[['ID', 'NAME']].iterrows():
+        print("ERROR: INDIVIDUAL: US30: Individual with ID: {} Name: {} are living and married".format(id, name))
 
 
 if __name__ == "__main__":

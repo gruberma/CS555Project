@@ -76,3 +76,23 @@ def list_living_single_older_than_30(indivs_df: pd.DataFrame) -> pd.DataFrame:
     indivs = indivs[indivs.SPOUSE.isnull() & indivs.DEATH.isnull()]
     indivs = indivs[indivs.AGE > 30]
     return indivs
+
+# US 23
+def list_unique_name_birthday(indivs_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Detect all individuals with the same name and birth date
+    :param indivs_df:
+    :return:
+    """
+    return indivs_df[indivs_df.duplicated(['NAME', 'BIRTHDAY'])]
+
+# US 30
+def list_living_married(indivs_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    List all living married people in a GEDCOM file 
+    :param indivs_df:
+    :return:
+    """
+    spouse_df = indivs_df[indivs_df.SPOUSE.notnull()]
+    living_df = spouse_df[spouse_df.DEATH.isnull()]
+    return living_df
