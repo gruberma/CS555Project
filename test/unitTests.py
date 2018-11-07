@@ -293,11 +293,10 @@ class TestOrderSiblingsByAge(TestCase):
     def test_errorneous(self):
         indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us28_order_siblings_by_age.ged")
         ordered_fams_df = validate.order_siblings_by_age(indivs_df, fams_df)
-        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][0][0], '@ani4@')
-        self.assertTrue(pd.isna(list(ordered_fams_df['CHILDREN'])[0][0][1]))
-        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][1], ('@ani@', 8401.0))
-        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][2], ('@ani2@', 7672.0))
-        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][3], ('@ani3@', 7671.0))
+        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][0], ('@ani4@', 'no birthday'))
+        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][1], ('@ani@', '8401.0 days old'))
+        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][2], ('@ani2@', '7672.0 days old'))
+        self.assertEqual(list(ordered_fams_df['CHILDREN'])[0][3], ('@ani3@', '7671.0 days old'))
 
 
 # US 29

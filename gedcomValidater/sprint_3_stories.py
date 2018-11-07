@@ -51,7 +51,7 @@ def order_siblings_by_age(indivs_df: pd.DataFrame, families_df: pd.DataFrame) ->
         child_age = [(c, indivs_df[indivs_df['ID'] == c].reset_index()['AGE_in_days'][0]) for c in cs]
         child_age = [(c, a) for c, a in child_age if pd.isna(a)]\
                     + sorted([(c, a) for c, a in child_age if not pd.isna(a)], key=lambda ca: ca[1], reverse=True)
-        new_children.append([(c, a) for c, a in child_age])
+        new_children.append([(c, "no birthday" if pd.isna(a) else str(a)+" days old") for c, a in child_age])
     fams_df_copy = families_df.copy()
     fams_df_copy['CHILDREN'] = new_children
     return fams_df_copy
