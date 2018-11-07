@@ -3,10 +3,10 @@
 import sys
 
 sys.path.append('..')
-sys.path.append('../gedcomValidater')
+sys.path.append('../gedcomValidator')
 
-from gedcomValidater import validate
-from gedcomValidater.gedcomParser.fileToDataframes import parseFileToDFs, indivs_columns, fams_columns
+from gedcomValidator import validate
+from gedcomValidator.gedcomParser.fileToDataframes import parseFileToDFs, indivs_columns, fams_columns
 import unittest
 from unittest import TestCase
 import numpy as np
