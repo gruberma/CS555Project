@@ -106,9 +106,9 @@ def run_all_checks(filename: str):
 
 
     ## Sprint 3
-    # US 23
-    for index, (id, name) in unique_ids(indivs_df)[['ID', 'NAME']].iterrows():
-        print("ERROR: INDIVIDUAL: US23: ID {} already exists".format(id))
+    # US 22
+    for index, series in unique_ids(indivs_df, families_df)[['ID']].iterrows():
+        print("ERROR: INDIVIDUAL/FAMILY: US22: ID {} already exists".format(series["ID"]))
 
     # US 25
     for index, (id, name, birthday) in unique_first_names_in_families(indivs_df, families_df)[['ID', 'NAME', 'BIRTHDAY']].iterrows():

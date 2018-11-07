@@ -12,14 +12,17 @@ from typing import Tuple
 from datetime import date
 from utils import *
 
-# US 23
-def unique_ids(indivs_df: pd.DataFrame) -> pd.DataFrame:
+# US 22
+def unique_ids(indivs_df: pd.DataFrame, fams_df: pd.DataFrame) -> pd.DataFrame:
     """
-    Detect all individuals where the ID and the birth date is the same in the entire .ged file
+    Detect all individuals/families where the ID is duplicated
     :param indivs_df:
     :return:
     """
-    return indivs_df[indivs_df.duplicated(['ID', 'BIRTHDAY'])]
+    indivs_duplicate = indivs_df[indivs_df.duplicated(['ID'])]
+    fams_duplicate = fams_df[fams_df.duplicated(['ID'])]
+    result = pd.concat([indivs_duplicate[["ID"]], fams_duplicate[["ID"]]])
+    return result
 
 
 # US 25

@@ -237,6 +237,20 @@ class TestSiblingsShouldNotMarry(TestCase):
         self.assertEqual(sorted(actual, key=lambda d: d['ID_fam']), sorted(expected, key=lambda d: d['ID_fam']))
 
 
+# US 22
+class TestUniqueIDs(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        fams_df = pd.DataFrame(columns=fams_columns)
+        validate.unique_ids(indivs_df, fams_df)
+
+    def test_erroneous(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us22_unique_ids.ged")
+        violations = validate.unique_ids(indivs_df, fams_df)
+        expected = {'ID': {2: '@shmi@', 1: '@sky1@'}}
+        self.assertEqual(expected, violations[['ID']].to_dict())
+
+
 # US 25
 class TestUniqueFirstNamesInFamily(TestCase):
     def test_empty(self):
@@ -264,6 +278,14 @@ class TestCorrectGenderForRole(TestCase):
                     {'ID': '@mystery@', 'GENDER': 'M'}]
         actual = [row.to_dict() for _, row in wrong_roles[['ID', 'GENDER']].iterrows()]
         self.assertEqual(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID']))
+
+
+# US 27
+class TestIncludeIndividualsAge(TestCase):
+    def test_errorneous(self):
+        indivs_df, _ = parseFileToDFs("../gedcom_test_files/us27_include_individuals_age.ged")
+        self.assertTrue(pd.isna(indivs_df['BIRTHDAY'][0]))
+        self.assertEqual(indivs_df['BIRTHDAY'][1], "25 MAY 1957")
 
 
 # US 28
