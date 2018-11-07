@@ -110,27 +110,25 @@ def run_all_checks(filename: str):
     for index, series in unique_ids(indivs_df, families_df)[['ID']].iterrows():
         print("ERROR: INDIVIDUAL/FAMILY: US22: ID {} already exists".format(series["ID"]))
 
+    # US 23
+    for index, (name, birthday) in list_unique_name_birthday(indivs_df)[['NAME', 'BIRTHDAY']].iterrows():
+        print("ERROR: INDIVIDUAL: US23: Name: {} and Birthday: {} already exists".format(name, birthday))
+
     # US 25
     for index, (id, name, birthday) in unique_first_names_in_families(indivs_df, families_df)[['ID', 'NAME', 'BIRTHDAY']].iterrows():
         print("ERROR: INDIVIDUAL: US25: Individual with ID {} has same name ({}) and birthday ({}) as other individual in the family".format(id, name, birthday))
-
 
     # US 29
     for index, (id, birth, death) in list_deceased(indivs_df)[['ID', 'BIRTHDAY', 'DEATH']].iterrows():
         print("NOTICE: INDIVIDUAL: US29: {} is dead. BIRTHDAY: {} - DEATH DATE: {}".format(id, birth, death))
 
-    # US 31
-    for index, (id, age) in list_living_single_older_than_30(indivs_df)[['ID', 'AGE']].iterrows():
-        print("ERROR: INDIVIDUAL: US31: {} has never been married and is older than 30 with an age of {}".format(id, age))
-    
-
-    # US 23
-    for index, (name, birthday) in list_unique_name_birthday(indivs_df)[['NAME', 'BIRTHDAY']].iterrows():
-        print("ERROR: INDIVIDUAL: US23: Name: {} and Birthday: {} already exists".format(name, birthday))
-
     # US 30
     for index, (id, name) in list_living_married(indivs_df)[['ID', 'NAME']].iterrows():
         print("ERROR: INDIVIDUAL: US30: Individual with ID: {} Name: {} are living and married".format(id, name))
+
+    # US 31
+    for index, (id, age) in list_living_single_older_than_30(indivs_df)[['ID', 'AGE']].iterrows():
+        print("ERROR: INDIVIDUAL: US31: {} has never been married and is older than 30 with an age of {}".format(id, age))
 
 
 if __name__ == "__main__":
