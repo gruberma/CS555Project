@@ -237,17 +237,17 @@ class TestSiblingsShouldNotMarry(TestCase):
         self.assertEqual(sorted(actual, key=lambda d: d['ID_fam']), sorted(expected, key=lambda d: d['ID_fam']))
 
 
-# US 23
+# US 22
 class TestUniqueIDs(TestCase):
     def test_empty(self):
         indivs_df = pd.DataFrame(columns=indivs_columns)
         validate.unique_ids(indivs_df)
 
     def test_erroneous(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us23_unique_ids.ged")
-        violations = validate.unique_ids(indivs_df)
-        expected = {'ID': {2: '@shmi@'}, 'BIRTHDAY': {2: '25 MAY 1957'}}
-        self.assertEqual(expected, violations[['ID', 'BIRTHDAY']].to_dict())
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us22_unique_ids.ged")
+        violations = validate.unique_ids(indivs_df, fams_df)
+        expected = {'ID': {2: '@shmi@', 1: '@sky1@'}}
+        self.assertEqual(expected, violations[['ID']].to_dict())
 
 
 # US 25
