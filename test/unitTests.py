@@ -237,19 +237,6 @@ class TestSiblingsShouldNotMarry(TestCase):
         self.assertEqual(sorted(actual, key=lambda d: d['ID_fam']), sorted(expected, key=lambda d: d['ID_fam']))
 
 
-# US 23
-class TestUniqueIDs(TestCase):
-    def test_empty(self):
-        indivs_df = pd.DataFrame(columns=indivs_columns)
-        validate.unique_ids(indivs_df)
-
-    def test_erroneous(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us23_unique_ids.ged")
-        violations = validate.unique_ids(indivs_df)
-        expected = {'ID': {2: '@shmi@'}, 'BIRTHDAY': {2: '25 MAY 1957'}}
-        self.assertEqual(expected, violations[['ID', 'BIRTHDAY']].to_dict())
-
-
 # US 25
 class TestUniqueFirstNamesInFamily(TestCase):
     def test_empty(self):
@@ -317,6 +304,31 @@ class TestSingleAfterAge30(TestCase):
         violations = validate.list_living_single_older_than_30(indivs_df)
         expected = {'ID': {6: '@buke@', 8: '@luke@'}, 'AGE': {6: 52.0, 8: 41.0}, 'SPOUSE': {6: None, 8: None}}
         self.assertEqual(expected, violations[['ID', 'AGE', 'SPOUSE']].to_dict())
+
+
+# US23
+class TestUniqueNameBirthday(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        validate.list_unique_name_birthday(indivs_df)
+
+    def test_erroneous(self):
+        indivs_df, _ = parseFileToDFs("../gedcom_test_files/us23_unique_name_birthday.ged")
+        violations = validate.list_unique_name_birthday(indivs_df)
+        expected = {'NAME': {2: 'Shmi /Skywalker/'}}
+        self.assertEqual(expected, violations[['NAME']].to_dict())
+
+# US30
+class TestLivingMarried(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        validate.list_living_married(indivs_df)
+
+    def test_erroneous(self):
+        indivs_df, _ = parseFileToDFs("../gedcom_test_files/us30_list_living_married.ged")
+        violations = validate.list_living_married(indivs_df)
+        expected = {'ID': {0: '@mystery@', 1: '@shmi@'}}
+        self.assertEqual(expected, violations[['ID']].to_dict())
 
 
 if __name__ == '__main__':
