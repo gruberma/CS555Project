@@ -11,6 +11,10 @@
 
 # Usage
 
+## To get the source code for sprint 1, 2, 3
+[Download Project Source Code](https://github.com/gruberma/CS555Project/releases)
+
+
 ## To run the validator on the sprint 3 acceptance test file execute
 
 `CS555Project/gedcomValidator/validate.py  CS555Project/gedcom_test_files/sprint3_acceptance_file.ged`
