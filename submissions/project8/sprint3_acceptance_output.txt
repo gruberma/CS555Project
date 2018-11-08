@@ -1,0 +1,35 @@
+Individuals:
++----+-----------+---------------------+----------+-------------+-------+---------------+---------+-------------+---------+------------+
+|    | ID        | NAME                | GENDER   | BIRTHDAY    |   AGE |   AGE_in_days | ALIVE   | DEATH       | CHILD   | SPOUSE     |
+|----+-----------+---------------------+----------+-------------+-------+---------------+---------+-------------+---------+------------|
+|  0 | @mystery@ | The /Skywalker/     | M        | 25 MAY 1950 |    68 |         25003 | True    | nan         |         | {'@sky1@'} |
+|  1 | @shmi@    | Shmi /Skywalker/    | F        | 25 MAY 1957 |    61 |         22446 | True    | nan         |         | {'@sky1@'} |
+|  2 | @shmi@    | Shmi /Skywalker/    | F        | 25 MAY 1957 |    61 |         22446 | True    | nan         |         | {'@sky1@'} |
+|  3 | @ani@     | Anakin /Skywalker/  | M        | 25 MAY 1979 |    39 |         14411 | True    | nan         | @sky1@  |            |
+|  4 | @ani2@    | Anakin /Skywalker/  | M        | 25 MAY 1979 |    39 |         14411 | True    | nan         | @sky1@  |            |
+|  5 | @cliegg@  | Cliegg /Skywalker/  | M        | 25 MAY 1952 |    54 |         20082 | False   | 19 MAY 2007 |         | {'@lars@'} |
+|  6 | @ani3@    | Anakin /Skywalker/  | M        | 25 MAY 1979 |    39 |         14411 | True    | nan         | @lars@  |            |
+|  7 | @ani4@    | Anakin4 /Skywalker/ | M        | 25 MAY 1977 |    41 |         15141 | True    | nan         | @lars@  |            |
++----+-----------+---------------------+----------+-------------+-------+---------------+---------+-------------+---------+------------+
+
+Families:
++----+--------+-------------+-------------+--------------+--------------------+-----------+------------------+--------------------------------------------------------------+
+|    | ID     | MARRIED     | DIVORCED    | HUSBAND ID   | HUSBAND NAME       | WIFE ID   | WIFE NAME        | CHILDREN                                                     |
+|----+--------+-------------+-------------+--------------+--------------------+-----------+------------------+--------------------------------------------------------------|
+|  0 | @sky1@ | 18 MAY 1977 | 10 MAY 1978 | @mystery@    | The /Skywalker/    | @shmi@    | Shmi /Skywalker/ | [('@ani@', '14411 days old'), ('@ani2@', '14411 days old')]  |
+|  1 | @lars@ | nan         | nan         | @cliegg@     | Cliegg /Skywalker/ | nan       | nan              | [('@ani4@', '15141 days old'), ('@ani3@', '14411 days old')] |
++----+--------+-------------+-------------+--------------+--------------------+-----------+------------------+--------------------------------------------------------------+
+
+ERROR: INDIVIDUAL/FAMILY: US22: ID @shmi@ already exists
+ERROR: INDIVIDUAL: US23: Name: Shmi /Skywalker/ and Birthday: 25 MAY 1957 already exists
+ERROR: INDIVIDUAL: US23: Name: Anakin /Skywalker/ and Birthday: 25 MAY 1979 already exists
+ERROR: INDIVIDUAL: US23: Name: Anakin /Skywalker/ and Birthday: 25 MAY 1979 already exists
+ERROR: INDIVIDUAL: US25: Individual with ID @ani2@ has same name (Anakin /Skywalker/) and birthday (25 MAY 1979) as other individual in the family
+NOTICE: INDIVIDUAL: US29: @cliegg@ is dead. BIRTHDAY: 25 MAY 1952 - DEATH DATE: 19 MAY 2007
+ERROR: INDIVIDUAL: US30: Individual with ID: @mystery@ Name: The /Skywalker/ are living and married
+ERROR: INDIVIDUAL: US30: Individual with ID: @shmi@ Name: Shmi /Skywalker/ are living and married
+ERROR: INDIVIDUAL: US30: Individual with ID: @shmi@ Name: Shmi /Skywalker/ are living and married
+ERROR: INDIVIDUAL: US31: @ani@ has never been married and is older than 30 with an age of 39
+ERROR: INDIVIDUAL: US31: @ani2@ has never been married and is older than 30 with an age of 39
+ERROR: INDIVIDUAL: US31: @ani3@ has never been married and is older than 30 with an age of 39
+ERROR: INDIVIDUAL: US31: @ani4@ has never been married and is older than 30 with an age of 41
