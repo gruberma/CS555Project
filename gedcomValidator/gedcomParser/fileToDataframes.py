@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from . import fileToDicts
 import pandas as pd
 import sys
@@ -51,19 +49,3 @@ def parseFileToDFs(filename: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
         families_df = families_df[fams_columns]
 
     return indivs_df, families_df
-
-
-def printTables(filename: str):
-    indivs_df, families_df = parseFileToDFs(filename)
-    print('Individuals')
-    print(tabulate(indivs_df, headers='keys', tablefmt='psql'))
-    print('Families')
-    print(tabulate(families_df, headers='keys', tablefmt='psql'))
-
-
-if __name__ == "__main__":
-    # input parsing
-    if len(sys.argv) != 2:
-        print("usage:", sys.argv[0], "<gedcom filepath>")
-    else:
-        printTables(sys.argv[1])

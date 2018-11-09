@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-"""GEDCOM Parser
-usage: ./fileToDicts.py <gedcom filepath>"""
-
 # Description:
 # last_level_0 and last_level_1 are used to track what the last tag of that
 # level was (for purposes of detecting context)
@@ -360,13 +356,3 @@ def lookup_name(pid):
         if pid in x.values():
             return x.get("NAME")
     return "NULL_NAME"
-
-
-if __name__ == "__main__":
-    # input parsing
-    program_name = sys.argv[0]
-    arguments = sys.argv[1:]
-    if len(arguments) > 1:
-        print("usage:", program_name, "<gedcom filepath>")
-    else:
-        print(parseFile(arguments[0]))
