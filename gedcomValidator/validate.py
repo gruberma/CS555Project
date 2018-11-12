@@ -13,6 +13,7 @@ from datetime import date
 from sprint_1_stories import *
 from sprint_2_stories import *
 from sprint_3_stories import *
+from sprint_4_stories import *
 
 def run_all_checks(filename: str):
     indivs_df, families_df = gedcomParser.fileToDataframes.parseFileToDFs(filename)
@@ -130,6 +131,11 @@ def run_all_checks(filename: str):
     for index, (id, age) in list_living_single_older_than_30(indivs_df)[['ID', 'AGE']].iterrows():
         print("ERROR: INDIVIDUAL: US31: {} has never been married and is older than 30 with an age of {}".format(id, age))
 
+        
+    ## Sprint 4
+    # US 42
+    #(indivs_birth, indivs_death, fams_marriage, fams_divorce) = reject_illegitimate_dates(indivs_df, families_df)
+    reject_illegitimate_dates(indivs_df, families_df)
 
 if __name__ == "__main__":
     # input parsing

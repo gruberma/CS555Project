@@ -11,6 +11,7 @@ import numpy as np
 from typing import Tuple
 from datetime import date
 
+
 def calc_delta_date(df: pd.DataFrame, date1_name, date2_name):
     """
     Calculate delta date of two dates.

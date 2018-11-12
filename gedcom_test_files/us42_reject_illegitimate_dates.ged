@@ -1,0 +1,66 @@
+0 HEAD
+0 NOTE github repository: elliot-wasem/CS555Project
+0 @mystery@ INDI
+1 NAME The /Skywalker/
+1 SEX M
+1 BIRT
+2 DATE 44 MAY 1950
+1 FAMS @sky1@
+0 @shmi@ INDI
+1 NAME Shmi /Skywalker/
+1 SEX F
+1 BIRT
+2 DATE 29 FEB 1923
+1 FAMS @sky1@
+0 @shmi@ INDI
+1 NAME Shmi /Skywalker/
+1 SEX F
+1 BIRT
+2 DATE 25 MAY 1957
+1 FAMS @sky1@
+0 @ani@ INDI
+1 NAME Anakin /Skywalker/
+1 SEX M
+1 BIRT
+2 DATE 25 MAY 1979
+1 FAMC @sky1@
+0 @ani2@ INDI
+1 NAME Anakin /Skywalker/
+1 SEX M
+1 BIRT
+2 DATE 25 MAY 1979
+1 FAMC @sky1@
+0 @cliegg@ INDI
+1 NAME Cliegg /Skywalker/
+1 SEX M
+1 BIRT
+2 DATE 25 MAY 1952
+1 DEAT
+2 DATE 19 MAY 2007
+1 FAMS @lars@
+0 @ani3@ INDI
+1 NAME Anakin /Skywalker/
+1 SEX M
+1 BIRT
+2 DATE 25 MAY 1979
+1 FAMC @lars@
+0 @ani4@ INDI
+1 NAME Anakin4 /Skywalker/
+1 SEX M
+1 BIRT
+2 DATE 25 MAY 1977
+1 FAMC @lars@
+0 @sky1@ FAM
+1 HUSB @mystery@
+1 WIFE @shmi@
+1 MARR
+2 DATE 18 MAY
+1 DIV
+2 DATE 99 MAY 1978
+1 CHIL @ani@
+1 CHIL @ani2@
+0 @lars@ FAM
+1 HUSB @cliegg@
+1 CHIL @ani3@
+1 CHIL @ani4@
+0 TRLR

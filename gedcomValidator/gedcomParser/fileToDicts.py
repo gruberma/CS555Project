@@ -9,6 +9,8 @@
 
 import sys
 import re
+import datetime
+import numpy as np
 
 last_level_0 = ""
 last_level_1 = ""
@@ -69,6 +71,8 @@ def parseFile(filename: str):
                     if not indi["ID"] in family["CHILDREN"]:
                         family["CHILDREN"].add(indi["ID"])
 
+        print(individual_list)
+        print(family_list)
         return individual_list, family_list
 
 
@@ -329,9 +333,9 @@ def parse_famc_fams_husb_wife_chil(tokens):
 
 def parse_date(tokens):
     """checks that 'DATE' was in proper format"""
-    months = {"JAN": True, "FEB": True, "MAR": True, "APR": True, "MAY": True, "JUN": True, "JUL": True, "AUG": True,
-              "SEP": True, "OCT": True, "NOV": True, "DEC": True}
-    if len(tokens) == 5 and tokens[1] == "DATE" and tokens[2].isdigit() and tokens[2] and months.get(tokens[3], False) and tokens[4].isdigit():
+    months = {"JAN": True, "FEB": True, "MAR": True, "APR": True, "MAY": True, "JUN": True, "JUL": True, "AUG": True, "SEP": True, "OCT": True, "NOV": True, "DEC": True}
+
+    if len(tokens) == 5 and tokens[1] == "DATE" and tokens[2].isdigit() and tokens[2] and months.get(tokens[3], False) and tokens[4].isdigit() and date_is_legitimate(tokens[2:]):
         if last_level_1 == "BIRT":
             cur_individual["BIRTHDAY"] = " ".join(tokens[2:])
         elif last_level_1 == "DEAT":
@@ -340,14 +344,25 @@ def parse_date(tokens):
             cur_family["DIVORCED"] = " ".join(tokens[2:])
         elif last_level_1 == "MARR":
             cur_family["MARRIED"] = " ".join(tokens[2:])
-        # write_it(["<-- ", tokens[0], "|", tokens[1], "|Y|", " ".join(str(e) for e in tokens[2:])])
         return True
-    # write_it(["<-- ", tokens[0], "|", tokens[1], "|N|", " ".join(str(e) for e in tokens[2:])])
+    else:
+        print("ERROR: PARSER: US42: DATE '{}' is illegitimate".format(' '.join(tokens[2:])))
+        if last_level_1 == "BIRT":
+            cur_individual["BIRTHDAY"] = np.nan
+        elif last_level_1 == "DEAT":
+            cur_individual["DEATH"] = np.nan
+        elif last_level_1 == "DIV":
+            cur_family["DIVORCED"] = np.nan
+        elif last_level_1 == "MARR":
+            cur_family["MARRIED"] = np.nan
+
     return False
 
 
 def lookup_name(pid):
-    """looks up name of husband in current and past individuals"""
+    """
+    looks up name of husband in current and past individuals
+    """
     global cur_individual
     global individual_list
     if pid in cur_individual.values():
@@ -356,3 +371,18 @@ def lookup_name(pid):
         if pid in x.values():
             return x.get("NAME")
     return "NULL_NAME"
+
+
+def date_is_legitimate(supposed_date):
+    """
+    returns true if date is valid, false otherwise
+    """
+    months_to_int = {"JAN": 1, "FEB": 2, "MAR": 3, "APR": 4, "MAY": 5, "JUN": 6, "JUL": 7, "AUG": 8, "SEP": 9, "OCT": 10, "NOV": 11, "DEC": 12}
+
+    correct_date = None
+    try:
+        datetime.datetime(int(supposed_date[2]), months_to_int.get(supposed_date[1]), int(supposed_date[0]))
+        correct_date = True
+    except ValueError:
+        correct_date = False
+    return correct_date
