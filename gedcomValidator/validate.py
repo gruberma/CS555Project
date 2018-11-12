@@ -13,6 +13,7 @@ from datetime import date
 from sprint_1_stories import *
 from sprint_2_stories import *
 from sprint_3_stories import *
+from sprint_4_stories import *
 
 def run_all_checks(filename: str):
     indivs_df, families_df = gedcomParser.fileToDataframes.parseFileToDFs(filename)

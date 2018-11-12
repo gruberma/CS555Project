@@ -351,6 +351,14 @@ class TestLivingMarried(TestCase):
         expected = {'ID': {0: '@mystery@', 1: '@shmi@'}}
         self.assertEqual(expected, violations[['ID']].to_dict())
 
+# US32
+class TestListAllMultipleBirths(TestCase):
+    def test(self):
+        indivs_df, _ = parseFileToDFs("../gedcom_test_files/us32_list_multiple_births.ged")
+        multipleBirths = validate.multipleBirths(indivs_df)
+        expected = {'@luke@', '@lea@'}
+        self.assertEqual(expected, set(multipleBirths['ID'].values))
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
