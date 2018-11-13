@@ -379,6 +379,13 @@ class TestIncompleteDatesAccepted(TestCase):
         self.assertTrue(date_is_legitimate(['2002']))
     def test_invalid(self):
         self.assertFalse(date_is_legitimate(['DODO', '1999']))
+# US32
+class TestListAllMultipleBirths(TestCase):
+    def test(self):
+        indivs_df, _ = parseFileToDFs("../gedcom_test_files/us32_list_multiple_births.ged")
+        multipleBirths = validate.multipleBirths(indivs_df)
+        expected = {'@luke@', '@lea@'}
+        self.assertEqual(expected, set(multipleBirths['ID'].values))
 
 
 if __name__ == '__main__':
