@@ -70,9 +70,6 @@ def parseFile(filename: str):
                         family.update({"CHILDREN": set()})
                     if not indi["ID"] in family["CHILDREN"]:
                         family["CHILDREN"].add(indi["ID"])
-
-        print(individual_list)
-        print(family_list)
         return individual_list, family_list
 
 
@@ -335,15 +332,15 @@ def parse_date(tokens):
     """checks that 'DATE' was in proper format"""
     months = {"JAN": True, "FEB": True, "MAR": True, "APR": True, "MAY": True, "JUN": True, "JUL": True, "AUG": True, "SEP": True, "OCT": True, "NOV": True, "DEC": True}
 
-    if len(tokens) == 5 and tokens[1] == "DATE" and tokens[2].isdigit() and tokens[2] and months.get(tokens[3], False) and tokens[4].isdigit() and date_is_legitimate(tokens[2:]):
+    if tokens[1] == "DATE"  and date_is_legitimate(tokens[2:]):
         if last_level_1 == "BIRT":
-            cur_individual["BIRTHDAY"] = " ".join(tokens[2:])
+            cur_individual["BIRTHDAY"] = " ".join(finish_date(tokens[2:]))
         elif last_level_1 == "DEAT":
-            cur_individual["DEATH"] = " ".join(tokens[2:])
+            cur_individual["DEATH"] = " ".join(finish_date(tokens[2:]))
         elif last_level_1 == "DIV":
-            cur_family["DIVORCED"] = " ".join(tokens[2:])
+            cur_family["DIVORCED"] = " ".join(finish_date(tokens[2:]))
         elif last_level_1 == "MARR":
-            cur_family["MARRIED"] = " ".join(tokens[2:])
+            cur_family["MARRIED"] = " ".join(finish_date(tokens[2:]))
         return True
     else:
         print("ERROR: PARSER: US42: DATE '{}' is illegitimate".format(' '.join(tokens[2:])))
@@ -375,14 +372,39 @@ def lookup_name(pid):
 
 def date_is_legitimate(supposed_date):
     """
-    returns true if date is valid, false otherwise
+    returns true if date is valid, false otherwise.
+    A date is valid iff it is in the format [{day}, {month}, {year}], [{month}, {year}], or [{year}]
     """
     months_to_int = {"JAN": 1, "FEB": 2, "MAR": 3, "APR": 4, "MAY": 5, "JUN": 6, "JUL": 7, "AUG": 8, "SEP": 9, "OCT": 10, "NOV": 11, "DEC": 12}
-
     correct_date = None
-    try:
-        datetime.datetime(int(supposed_date[2]), months_to_int.get(supposed_date[1]), int(supposed_date[0]))
-        correct_date = True
-    except ValueError:
-        correct_date = False
+    if len(supposed_date) == 3:
+        if supposed_date[0].isdigit() and isinstance(supposed_date[1], str) and supposed_date[2].isdigit():
+            try:
+                datetime.datetime(int(supposed_date[2]), months_to_int.get(supposed_date[1], -1), int(supposed_date[0]))
+                correct_date = True
+            except ValueError:
+                correct_date = False
+    elif len(supposed_date) == 2:
+        if isinstance(supposed_date[0], str) and supposed_date[1].isdigit():
+            try:
+                datetime.datetime(int(supposed_date[1]), months_to_int.get(supposed_date[0], -1), 1)
+                correct_date = True
+            except ValueError:
+                correct_date = False
+    elif len(supposed_date) == 1:
+        if isinstance(int(supposed_date[0]), int):
+            try:
+                datetime.datetime(int(supposed_date[0]), 1, 1)
+                correct_date = True
+            except ValueError:
+                correct_date = False
     return correct_date
+
+def finish_date(old_date):
+    """if date is incomplete, completes it"""
+    if len(old_date) == 1:
+        return ['1', "JAN", old_date[0]]
+    elif len(old_date) == 2:
+        return ['1', old_date[0], old_date[1]]
+    else:
+        return old_date

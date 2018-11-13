@@ -18,7 +18,7 @@ from sprint_4_stories import *
 def run_all_checks(filename: str):
     indivs_df, families_df = gedcomParser.fileToDataframes.parseFileToDFs(filename)
 
-    print("Individuals:")
+    print("\nIndividuals:")
     print(tabulate_df(indivs_df))
     print()
     print("Families:")
@@ -63,8 +63,9 @@ def run_all_checks(filename: str):
 
     # US 08
     merge = birth_before_parents_married(indivs_df, families_df)
-    for index, (indiv_id, marr) in merge[['ID', 'MARRIED']].iterrows():
-        print("ERROR: INDIVIDUAL: US08: {}: Individual's birthday is before parents' marriage date -  {}".format(indiv_id, marr))
+    if not merge.empty:
+        for index, (indiv_id, marr) in merge[['ID', 'MARRIED']].iterrows():
+            print("ERROR: INDIVIDUAL: US08: {}: Individual's birthday is before parents' marriage date -  {}".format(indiv_id, marr))
 
     ## Sprint 2
     # US 09
@@ -133,9 +134,8 @@ def run_all_checks(filename: str):
 
         
     ## Sprint 4
-    # US 42
-    #(indivs_birth, indivs_death, fams_marriage, fams_divorce) = reject_illegitimate_dates(indivs_df, families_df)
-    reject_illegitimate_dates(indivs_df, families_df)
+    # US 42 && 41
+    # !!! Stories implemented in fileToDicts.py via methods date_is_legitimate() and finish_date(), along with some editing of parse_date() !!!
 
 if __name__ == "__main__":
     # input parsing

@@ -8,9 +8,13 @@ sys.path.append('../gedcomValidator')
 from gedcomValidator import validate
 from gedcomValidator.gedcomParser.fileToDataframes import parseFileToDFs, indivs_columns, fams_columns
 import unittest
+import sys
 from unittest import TestCase
 import numpy as np
 import pandas as pd
+sys.path.append("../gedcomValidator/gedcomParser/")
+from fileToDicts import date_is_legitimate
+from fileToDicts import finish_date
 
 
 class TestParser(TestCase):
@@ -350,6 +354,31 @@ class TestLivingMarried(TestCase):
         violations = validate.list_living_married(indivs_df)
         expected = {'ID': {0: '@mystery@', 1: '@shmi@'}}
         self.assertEqual(expected, violations[['ID']].to_dict())
+
+# US41
+class TestInvalidDates(TestCase):
+    def test_empty(self):
+        self.assertFalse(date_is_legitimate([]))
+    def test_valid(self):
+        self.assertTrue(date_is_legitimate(['1', 'JAN', '1999']))
+        self.assertTrue(date_is_legitimate(['28', 'FEB', '1999']))
+        self.assertTrue(date_is_legitimate(['29', 'FEB', '2016']))
+    def test_invalid(self):
+        self.assertFalse(date_is_legitimate(['29', 'FEB', '1999']))
+        self.assertFalse(date_is_legitimate(['-29', 'FEB', '1999']))
+        self.assertFalse(date_is_legitimate(['44', 'FEB', '1999']))
+        self.assertFalse(date_is_legitimate(['1', 'DODO', '1999']))
+        self.assertFalse(date_is_legitimate(['1', '1999']))
+        
+# US42
+class TestIncompleteDatesAccepted(TestCase):
+    def test_empty(self):
+        self.assertFalse(date_is_legitimate([]))
+    def test_valid(self):
+        self.assertTrue(date_is_legitimate(['MAY', '2002']))
+        self.assertTrue(date_is_legitimate(['2002']))
+    def test_invalid(self):
+        self.assertFalse(date_is_legitimate(['DODO', '1999']))
 
 
 if __name__ == '__main__':
