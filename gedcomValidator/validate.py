@@ -126,14 +126,19 @@ def run_all_checks(filename: str):
 
     # US 30
     for index, (id, name) in list_living_married(indivs_df)[['ID', 'NAME']].iterrows():
-        print("ERROR: INDIVIDUAL: US30: Individual with ID: {} Name: {} are living and married".format(id, name))
+        print("NOTICE: INDIVIDUAL: US30: Individual with ID: {} Name: {} are living and married".format(id, name))
 
     # US 31
     for index, (id, age) in list_living_single_older_than_30(indivs_df)[['ID', 'AGE']].iterrows():
-        print("ERROR: INDIVIDUAL: US31: {} has never been married and is older than 30 with an age of {}".format(id, age))
+        print("NOTICE: INDIVIDUAL: US31: {} has never been married and is older than 30 with an age of {}".format(id, age))
 
-        
+
     ## Sprint 4
+
+    # US 32
+    for index, (id, birth, child) in multipleBirths(indivs_df)[['ID', 'BIRTHDAY', 'CHILD']].iterrows():
+        print("NOTICE: INDIVIDUAL: US32: {} is one of multiple children born to the {} family on {}".format(id, child, birth))
+
     # US 42 && 41
     # !!! Stories implemented in fileToDicts.py via methods date_is_legitimate() and finish_date(), along with some editing of parse_date() !!!
 
