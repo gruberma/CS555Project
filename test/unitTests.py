@@ -355,6 +355,30 @@ class TestLivingMarried(TestCase):
         expected = {'ID': {0: '@mystery@', 1: '@shmi@'}}
         self.assertEqual(expected, violations[['ID']].to_dict())
 
+# US 35
+class TestListRecentBirths(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        validate.list_recent_births(indivs_df)
+
+    def test_erroneous(self):
+        indivs_df, _ = parseFileToDFs("../gedcom_test_files/us35_list_recent_births.ged")
+        output = validate.list_recent_births(indivs_df)
+        expected = {'ID': {1: '@shmi@'}}
+        self.assertEqual(output[["ID"]].to_dict(), expected)
+
+# US 36
+class TestListRecentDeaths(TestCase):
+    def test_empty(self):
+        indivs_df = pd.DataFrame(columns=indivs_columns)
+        validate.list_recent_deaths(indivs_df)
+
+    def test_erroneous(self):
+        indivs_df, _ = parseFileToDFs("../gedcom_test_files/us36_list_recent_deaths.ged")
+        output = validate.list_recent_deaths(indivs_df)
+        expected = {'ID': {1: '@shmi@'}}
+        self.assertEqual(output[["ID"]].to_dict(), expected)
+
 # US41
 class TestInvalidDates(TestCase):
     def test_empty(self):

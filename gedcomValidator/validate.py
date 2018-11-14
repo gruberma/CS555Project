@@ -142,6 +142,16 @@ def run_all_checks(filename: str):
     # US 42 && 41
     # !!! Stories implemented in fileToDicts.py via methods date_is_legitimate() and finish_date(), along with some editing of parse_date() !!!
 
+    # US 35
+    for index, (id, name) in list_recent_births(indivs_df)[['ID', 'NAME']].iterrows():
+        print("NOTICE: INDIVIDUAL: US35: {} was born in the last 30 days".format(name))
+
+    # US 36
+    for index, (id, name) in list_recent_deaths(indivs_df)[['ID', 'NAME']].iterrows():
+        print("NOTICE: INDIVIDUAL: US36: {} died in the last 30 days".format(name))
+
+
+
 if __name__ == "__main__":
     # input parsing
     if len(sys.argv) != 2:
