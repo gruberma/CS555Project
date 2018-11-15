@@ -25,6 +25,9 @@ def run_all_checks(filename: str):
     print(tabulate_df(order_siblings_by_age(indivs_df, families_df)))
     print()
 
+    print("\n+---------------------------------------------+")
+    print("|NOTE: US 41 and US 42 print above the tables!|")
+    print("+---------------------------------------------+\n")
     ## Sprint 1
     # US 01
     inds_birth, inds_death, fams_marriage, fams_divorce = dates_before_current_date(indivs_df, families_df)
