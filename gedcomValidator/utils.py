@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 
 import pandas as pd
-import gedcomParser.fileToDataframes
-import sys
-import datetime
 from tabulate import tabulate
 from dateutil.parser import parse as parse_date
 from dateutil.relativedelta import relativedelta
 import numpy as np
-from typing import Tuple
-from datetime import date
+from functools import reduce
+import operator as op
+from typing import Set
 
 
 def calc_delta_date(df: pd.DataFrame, date1_name, date2_name):
@@ -107,8 +105,31 @@ def join_by_child(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.Data
 
 def tabulate_df(df: pd.DataFrame) -> str:
     """
-    Helper function to format a dataframe
-    :param df: dataframe
+    Helper function to format a data-frame
+    :param df: data-frame
     :return: string table
     """
     return tabulate(df, headers='keys', tablefmt='psql')
+
+
+def get_descendants(individual_id, fams_df):
+    """
+    Given an individual, return all his/her descendants
+    :param individual_id: id of an individual
+    :param fams_df: families data-frame holding the family-tree
+    :return: set of individual-ids of all descendants
+    """
+    children = get_children(individual_id, fams_df)
+    return children | reduce(op.or_, [get_descendants(c, fams_df) for c in children], set())
+
+
+def get_children(individual_id, fams_df) -> Set[str]:
+    """
+    Given an individual, return all his/her children
+    :param individual_id: id of an individual
+    :param fams_df: families data-frame holding the family-tree
+    :return: set of individual-ids of all children
+    """
+    families = fams_df[(fams_df['HUSBAND ID'] == individual_id) | (fams_df['WIFE ID'] == individual_id)]
+    children = reduce(op.or_, families['CHILDREN'], set())
+    return children

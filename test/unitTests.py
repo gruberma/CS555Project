@@ -5,16 +5,13 @@ import sys
 sys.path.append('..')
 sys.path.append('../gedcomValidator')
 
-from gedcomValidator import validate
+from gedcomValidator import validate, utils
 from gedcomValidator.gedcomParser.fileToDataframes import parseFileToDFs, indivs_columns, fams_columns
+from gedcomValidator.gedcomParser.fileToDicts import date_is_legitimate, finish_date
 import unittest
-import sys
 from unittest import TestCase
 import numpy as np
 import pandas as pd
-sys.path.append("../gedcomValidator/gedcomParser/")
-from fileToDicts import date_is_legitimate
-from fileToDicts import finish_date
 
 
 class TestParser(TestCase):
@@ -45,6 +42,20 @@ class TestParser(TestCase):
         self.assertEqual(list(fams_df.columns), fams_columns)
         self.assertTrue(indivs_df.empty)
         self.assertTrue(fams_df.empty)
+
+
+class TestUtils(TestCase):
+    def test_getChildren(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/utils_test_getDescendents.ged")
+        children = utils.get_children("@shmi@", fams_df)
+        expected = {'@owen@', '@ani@'}
+        self.assertEqual(expected, children)
+
+    def test_getDescendents(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/utils_test_getDescendents.ged")
+        descendents = utils.get_descendants("@mystery@", fams_df)
+        expected = {'@ani@', '@luke@', '@lea@', '@kylo@'}
+        self.assertEqual(expected, descendents)
 
 
 # US 01
