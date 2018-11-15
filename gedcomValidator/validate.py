@@ -150,6 +150,11 @@ def run_all_checks(filename: str):
     for index, (id, name) in list_recent_deaths(indivs_df)[['ID', 'NAME']].iterrows():
         print("NOTICE: INDIVIDUAL: US36: {} died in the last 30 days".format(name))
 
+    # US 37
+    for index, (id, spouses, desc) \
+            in list_recent_survivors(indivs_df, families_df)[['ID', 'living spouses', 'living descendants']].iterrows():
+        print("NOTICE: INDIVIDUAL: US37: {} died in the last 30 days. He/She leaves behind his/her spouse(s) {} and "
+              "his/her descendant {}".format(id, spouses, desc))
 
 
 if __name__ == "__main__":

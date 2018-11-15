@@ -7,7 +7,7 @@ sys.path.append('../gedcomValidator')
 
 from gedcomValidator import validate, utils
 from gedcomValidator.gedcomParser.fileToDataframes import parseFileToDFs, indivs_columns, fams_columns
-from gedcomValidator.gedcomParser.fileToDicts import date_is_legitimate, finish_date
+from gedcomValidator.gedcomParser.fileToDicts import date_is_legitimate
 import unittest
 from unittest import TestCase
 import numpy as np
@@ -125,8 +125,8 @@ class TestDivorceBeforeDeath(TestCase):
         indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us06_divorce_before_death.ged")
         div_after_death = validate.divorce_before_death(indivs_df, fams_df)
         expected = [{'ID': '@shmi@', 'NAME': 'Shmi /Skywalker/',
-                    'DEATH': '16 MAY 1977',
-                    'DIVORCED': '10 MAY 1978'}]
+                     'DEATH': '16 MAY 1977',
+                     'DIVORCED': '10 MAY 1978'}]
         actual = [row.to_dict() for _, row in div_after_death[['ID', 'NAME', 'DEATH', 'DIVORCED']].iterrows()]
         self.assertEqual(sorted(actual, key=lambda dict: dict['ID']), sorted(expected, key=lambda dict: dict['ID']))
 
@@ -157,6 +157,7 @@ class TestBirthBeforeParentsMarried(TestCase):
                     'NAME': {9: 'Owen /Lars/', 18: 'Luke /Skywalker/'}}
         self.assertEqual(indivs_violation.to_dict(), expected)
 
+
 # US 09
 class TestBirthAfterParentsDeath(TestCase):
     def test(self):
@@ -167,6 +168,7 @@ class TestBirthAfterParentsDeath(TestCase):
         expected_father = {'ID_c': {2: '@luke@'}, 'ID_m': {2: '@ani@'}}
         self.assertEqual(violation_mother.to_dict(), expected_mother)
         self.assertEqual(violation_father.to_dict(), expected_father)
+
 
 # US 10
 class TestMarriageAfter14(TestCase):
@@ -179,6 +181,7 @@ class TestMarriageAfter14(TestCase):
             'AGE_MARRIED': {2: 1, 3: 3}
         }
         self.assertEqual(violations[['ID', 'NAME', 'AGE_MARRIED']].to_dict(), expected)
+
 
 # US 12
 class TestParentsTooOld(TestCase):
@@ -210,7 +213,6 @@ class TestMultipleBirths5(TestCase):
         indivs_error = validate.multiple_births_5(indivs_df, fams_df)
         expected = [[7]]
         self.assertEqual(expected, indivs_error[['CHILDREN']].values.tolist())
-
 
 
 # US 15
@@ -285,6 +287,7 @@ class TestUniqueFirstNamesInFamily(TestCase):
         expected = {'ID': {6: '@ani2@'}, 'BIRTHDAY': {6: '25 MAY 1977'}, 'NAME': {6: 'Anakin /Skywalker/'}}
         self.assertEqual(expected, violations[['ID', 'BIRTHDAY', 'NAME']].to_dict())
 
+
 # US 21
 class TestCorrectGenderForRole(TestCase):
     def test_empty(self):
@@ -335,6 +338,7 @@ class TestShowDead(TestCase):
             'DEATH': {1: '16 MAY 2002', 2: '28 OCT 2018', 3: '19 MAY 2005', 4: '19 MAY 2005'}}
         self.assertEqual(violations[['ID', 'BIRTHDAY', 'DEATH']].to_dict(), expected)
 
+
 # US 31
 class TestSingleAfterAge30(TestCase):
     def test_empty(self):
@@ -360,6 +364,7 @@ class TestUniqueNameBirthday(TestCase):
         expected = {'NAME': {2: 'Shmi /Skywalker/'}}
         self.assertEqual(expected, violations[['NAME']].to_dict())
 
+
 # US30
 class TestLivingMarried(TestCase):
     def test_empty(self):
@@ -371,6 +376,7 @@ class TestLivingMarried(TestCase):
         violations = validate.list_living_married(indivs_df)
         expected = {'ID': {0: '@mystery@', 1: '@shmi@'}}
         self.assertEqual(expected, violations[['ID']].to_dict())
+
 
 # US 35
 class TestListRecentBirths(TestCase):
@@ -384,6 +390,7 @@ class TestListRecentBirths(TestCase):
         expected = {'ID': {1: '@shmi@'}}
         self.assertEqual(output[["ID"]].to_dict(), expected)
 
+
 # US 36
 class TestListRecentDeaths(TestCase):
     def test_empty(self):
@@ -396,30 +403,38 @@ class TestListRecentDeaths(TestCase):
         expected = {'ID': {1: '@shmi@'}}
         self.assertEqual(output[["ID"]].to_dict(), expected)
 
+
 # US41
 class TestInvalidDates(TestCase):
     def test_empty(self):
         self.assertFalse(date_is_legitimate([]))
+
     def test_valid(self):
         self.assertTrue(date_is_legitimate(['1', 'JAN', '1999']))
         self.assertTrue(date_is_legitimate(['28', 'FEB', '1999']))
         self.assertTrue(date_is_legitimate(['29', 'FEB', '2016']))
+
     def test_invalid(self):
         self.assertFalse(date_is_legitimate(['29', 'FEB', '1999']))
         self.assertFalse(date_is_legitimate(['-29', 'FEB', '1999']))
         self.assertFalse(date_is_legitimate(['44', 'FEB', '1999']))
         self.assertFalse(date_is_legitimate(['1', 'DODO', '1999']))
         self.assertFalse(date_is_legitimate(['1', '1999']))
-        
+
+
 # US42
 class TestIncompleteDatesAccepted(TestCase):
     def test_empty(self):
         self.assertFalse(date_is_legitimate([]))
+
     def test_valid(self):
         self.assertTrue(date_is_legitimate(['MAY', '2002']))
         self.assertTrue(date_is_legitimate(['2002']))
+
     def test_invalid(self):
         self.assertFalse(date_is_legitimate(['DODO', '1999']))
+
+
 # US32
 class TestListAllMultipleBirths(TestCase):
     def test(self):
@@ -427,6 +442,19 @@ class TestListAllMultipleBirths(TestCase):
         multipleBirths = validate.multipleBirths(indivs_df)
         expected = {'@luke@', '@lea@'}
         self.assertEqual(expected, set(multipleBirths['ID'].values))
+
+
+# US37
+class TestListRecentSurvivors(TestCase):
+    def test(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/us37_list_recent_survivors.ged")
+        recent_survivors = validate.list_recent_survivors(indivs_df, fams_df)
+        expected = [{'ID': '@shmi@', 'living spouses': {'@mystery@'},
+                     'living descendants': {'@ani@', '@luke@', '@lea@', '@kylo@'}},
+                    {'ID': '@ani@', 'living spouses': {'@padme@'},
+                     'living descendants': {'@luke@', '@lea@', '@kylo@'}}]
+        actual = [row.to_dict() for _, row in recent_survivors[['ID', 'living spouses', 'living descendants']].iterrows()]
+        self.assertEqual(sorted(actual, key=lambda d: d['ID']), sorted(expected, key=lambda d: d['ID']))
 
 
 if __name__ == '__main__':

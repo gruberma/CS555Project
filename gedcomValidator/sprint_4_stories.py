@@ -1,19 +1,13 @@
 #!/usr/bin/python3
 
 
-import pandas as pd
-import gedcomParser.fileToDataframes
-import sys
 import datetime
-from tabulate import tabulate
+
+import pandas as pd
 from dateutil.parser import parse as parse_date
-from dateutil.relativedelta import relativedelta
-import numpy as np
-from typing import Tuple
-from datetime import date
 from utils import *
 
-from dateutil.parser import parse as parse_date
+
 # US 42 - Reject illegitimate dates
 
 # US 32
@@ -40,3 +34,19 @@ def list_recent_deaths(indivs_df: pd.DataFrame) -> pd.DataFrame:
     start_date = datetime.datetime.now() + datetime.timedelta(-30)
     indivs_df = indivs_df[~indivs_df['DEATH'].isna()]
     return indivs_df[indivs_df["DEATH"].apply(parse_date) > start_date]
+
+
+# US 37
+def list_recent_survivors(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Returns the recent_deaths data-frame with two new columns: one for all living spouse of the decedent and one for
+    all living descendants for the decedent :param indivs_df: :param families_df: :return:
+    """
+    recent_deaths = list_recent_deaths(indivs_df)
+    recent_deaths['living spouses'] = [
+        {s for s in get_spouses(dead, families_df) if all(indivs_df[indivs_df['ID'] == s]['ALIVE'])}
+        for dead in recent_deaths['ID']]
+    recent_deaths['living descendants'] = [
+        {d for d in get_descendants(dead, families_df) if all(indivs_df[indivs_df['ID'] == d]['ALIVE'])}
+        for dead in recent_deaths['ID']]
+    return recent_deaths
