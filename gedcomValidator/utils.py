@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
+import operator as op
+from functools import reduce
+from typing import Set
+
+import numpy as np
 import pandas as pd
-from tabulate import tabulate
 from dateutil.parser import parse as parse_date
 from dateutil.relativedelta import relativedelta
-import numpy as np
-from functools import reduce
-import operator as op
-from typing import Set
+from tabulate import tabulate
 
 
 def calc_delta_date(df: pd.DataFrame, date1_name, date2_name):
@@ -49,6 +50,7 @@ def get_family_id_of_child(indivs_id, families_df: pd.DataFrame) -> pd.DataFrame
                 return famid
     return None
 
+
 def join_by_spouse(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
     """
     Helper function to join an individual to all families he participates in as a spouse.
@@ -75,7 +77,8 @@ def join_both_spouses_to_family(indivs_df: pd.DataFrame, families_df: pd.DataFra
     """
     orig_colums = indivs_df.columns
     indivs_df.columns = [c + "_HUSBAND" for c in orig_colums]
-    husbands: pd.DataFrame = indivs_df.merge(families_df, left_on='ID_HUSBAND', right_on='HUSBAND ID', suffixes=('', '_fam'))
+    husbands: pd.DataFrame = indivs_df.merge(families_df, left_on='ID_HUSBAND', right_on='HUSBAND ID',
+                                             suffixes=('', '_fam'))
     indivs_df.columns = [c + "_WIFE" for c in orig_colums]
     both_spouses: pd.DataFrame = indivs_df.merge(husbands, left_on='ID_WIFE', right_on='WIFE ID', suffixes=('', '_fam'))
     both_spouses.rename(columns={'ID': 'ID_fam'}, inplace=True)
@@ -112,7 +115,7 @@ def tabulate_df(df: pd.DataFrame) -> str:
     return tabulate(df, headers='keys', tablefmt='psql')
 
 
-def get_descendants(individual_id, fams_df):
+def get_descendants(individual_id, fams_df) -> Set[str]:
     """
     Given an individual, return all his/her descendants
     :param individual_id: id of an individual
@@ -133,3 +136,14 @@ def get_children(individual_id, fams_df) -> Set[str]:
     families = fams_df[(fams_df['HUSBAND ID'] == individual_id) | (fams_df['WIFE ID'] == individual_id)]
     children = reduce(op.or_, families['CHILDREN'], set())
     return children
+
+
+def get_spouses(individual_id, fams_df) -> Set[str]:
+    """
+    Given an individual, return all his/her (ex)spouses
+    :param individual_id: id of an individual
+    :param fams_df: families data-frame holding the family-tree
+    :return: set of individual-ids of all (ex)spouses
+    """
+    return set(fams_df[fams_df['HUSBAND ID'] == individual_id]['WIFE ID']) \
+        | set(fams_df[fams_df['WIFE ID'] == individual_id]['HUSBAND ID'])

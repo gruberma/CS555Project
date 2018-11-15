@@ -45,17 +45,23 @@ class TestParser(TestCase):
 
 
 class TestUtils(TestCase):
-    def test_getChildren(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/utils_test_getDescendents.ged")
+    def test_get_children(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/utils_test_get_descendents.ged")
         children = utils.get_children("@shmi@", fams_df)
         expected = {'@owen@', '@ani@'}
         self.assertEqual(expected, children)
 
-    def test_getDescendents(self):
-        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/utils_test_getDescendents.ged")
+    def test_get_descendents(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/utils_test_get_descendents.ged")
         descendents = utils.get_descendants("@mystery@", fams_df)
         expected = {'@ani@', '@luke@', '@lea@', '@kylo@'}
         self.assertEqual(expected, descendents)
+
+    def test_get_spouses(self):
+        indivs_df, fams_df = parseFileToDFs("../gedcom_test_files/utils_test_get_descendents.ged")
+        self.assertEqual({'@mystery@', '@cliegg@'}, utils.get_spouses("@shmi@", fams_df))
+        self.assertEqual({'@lea@'}, utils.get_spouses("@han@", fams_df))
+        self.assertEqual(set(), utils.get_spouses("@luke@", fams_df))
 
 
 # US 01
