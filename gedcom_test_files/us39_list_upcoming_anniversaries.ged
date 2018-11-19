@@ -1,0 +1,23 @@
+0 HEAD
+0 NOTE github repository: elliot-wasem/CS555Project
+0 @mystery@ INDI
+1 NAME The /Force/
+1 SEX M
+0 @shmi@ INDI
+1 NAME Shmi /Skywalker/
+1 SEX F
+1 BIRT
+2 DATE 25 MAY 1997
+0 @shmi1@ INDI
+1 NAME Shmiclone /Skywalker/
+1 SEX F
+1 BIRT
+2 DATE 1 MAY 1997
+0 @sky1@ FAM
+1 HUSB @mystery@
+1 WIFE @shmi@
+1 MARR
+2 DATE 18 DEC 2015
+1 DIV
+2 DATE 10 MAY 2016
+0 TRLR

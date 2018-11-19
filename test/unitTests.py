@@ -457,5 +457,24 @@ class TestListRecentSurvivors(TestCase):
         self.assertEqual(sorted(actual, key=lambda d: d['ID']), sorted(expected, key=lambda d: d['ID']))
 
 
+# US38
+class TestListUpcomingBirthday(TestCase):
+    def test(self):
+        indivs_df, _ = parseFileToDFs("../gedcom_test_files/us38_list_upcoming_birthday.ged")
+        upcoming_birthday_df = validate.list_upcoming_birthday(indivs_df)
+        expected = [{'ID': '@shmi1@', 'NAME': 'Shmiclone /Skywalker/', 'DAYS_TO_BIRTHDAY': 27}]
+        actual = [row.to_dict() for _, row in upcoming_birthday_df[['ID', 'NAME', 'DAYS_TO_BIRTHDAY']].iterrows()]
+        self.assertEqual(sorted(actual, key=lambda d: d['ID']), sorted(expected, key=lambda d: d['ID']))
+
+
+# US39
+class TestListUpcomingAniversary(TestCase):
+    def test(self):
+        _, fams_df = parseFileToDFs("../gedcom_test_files/us39_list_upcoming_anniversaries.ged")
+        upcoming_aniversary_df = validate.list_upcoming_anniversaries(fams_df)
+        expected = {'HUSBAND NAME': {0: 'The /Force/'}}
+        self.assertEqual(expected, upcoming_aniversary_df[['HUSBAND NAME']].to_dict())
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -6,7 +6,7 @@ import datetime
 import pandas as pd
 from dateutil.parser import parse as parse_date
 from utils import *
-
+from datetime import date
 
 # US 42 - Reject illegitimate dates
 
@@ -50,3 +50,32 @@ def list_recent_survivors(indivs_df: pd.DataFrame, families_df: pd.DataFrame) ->
         {d for d in get_descendants(dead, families_df) if all(indivs_df[indivs_df['ID'] == d]['ALIVE'])}
         for dead in recent_deaths['ID']]
     return recent_deaths
+
+
+# US 38
+def list_upcoming_birthday(indivs_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    List all living people in a GEDCOM file whose birthdays occur in the next 30 days
+    """
+    indivs = indivs_df[indivs_df.DEATH.isna() & ~indivs_df.BIRTHDAY.isna()].copy()
+    curyear = date.today().year
+    indivs['DAYS_TO_BIRTHDAY'] = [None if pd.isna(birth) else
+                    ((date(curyear, parse_date(birth).date().month, parse_date(birth).date().day)) - date.today()).days
+                    for birth in indivs['BIRTHDAY']]
+    indivs = indivs[(indivs['DAYS_TO_BIRTHDAY'] <= 30) & (indivs['DAYS_TO_BIRTHDAY'] >= 0)]
+    return indivs
+
+
+# US39
+def list_upcoming_anniversaries(families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    List all living couples in a GEDCOM file whose marriage anniversaries occur in the next 30 days
+    """
+    fam_df = families_df[~families_df.MARRIED.isna()].copy()
+    curyear = date.today().year
+    fam_df['DAYS_TO_ANNIVERSARY'] = [None if pd.isna(married) else
+                    ((date(curyear, parse_date(married).date().month, parse_date(married).date().day)) - date.today()).days
+                    for married in fam_df['MARRIED']]
+    fam_df = fam_df[(fam_df['DAYS_TO_ANNIVERSARY'] <= 30) & (fam_df['DAYS_TO_ANNIVERSARY'] >= 0)]
+    print(tabulate(fam_df))
+    return fam_df

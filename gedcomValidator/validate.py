@@ -159,6 +159,14 @@ def run_all_checks(filename: str):
         print("NOTICE: INDIVIDUAL: US37: {} died in the last 30 days. He/She leaves behind his/her spouse(s) {} and "
               "his/her descendant {}".format(id, spouses, desc))
 
+    # US 38
+    for index, (id, name, days_to_birthday) in list_upcoming_birthday(indivs_df)[['ID', 'NAME', 'DAYS_TO_BIRTHDAY']].iterrows():
+        print("NOTICE: INDIVIDUAL: US38: {} {}'s birthdays occur in the next 30 days ({} days) ".format(id, name, days_to_birthday))
+
+    # US 39
+    for index, (hus_name, wife_name, DAYS_TO_ANNIVERSARY) in list_upcoming_anniversaries(families_df)[['HUSBAND NAME', 'WIFE NAME', 'DAYS_TO_ANNIVERSARY']].iterrows():
+        print("NOTICE: INDIVIDUAL: US39: Couple {} {}'s anniversary occur in the next 30 days ({} days) ".format(hus_name, wife_name, DAYS_TO_ANNIVERSARY))
+
 
 if __name__ == "__main__":
     # input parsing
