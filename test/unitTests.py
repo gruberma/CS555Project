@@ -479,9 +479,9 @@ class TestListUpcomingAniversary(TestCase):
 class TestListOrphans(TestCase):
     def test(self):
         indivs_df, families_df = parseFileToDFs("../gedcom_test_files/us33_list_orphans.ged")
-        orphans_df = validate.list_orphans(indivs_df, families_df)
+        orphans = validate.list_orphans(indivs_df, families_df)
         expected = {'@I1@'}
-        self.assertEqual(expected, set(orphans_df['ID'].values)) 
+        self.assertEqual(expected, orphans)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

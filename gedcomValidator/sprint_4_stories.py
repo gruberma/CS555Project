@@ -22,6 +22,20 @@ def multipleBirths(indivs_df: pd.DataFrame) -> pd.DataFrame:
     return indivs_df.merge(birth_child_multi.reset_index()[['BIRTHDAY', 'CHILD']])
 
 
+# US 33 - List Orphans
+def list_orphans(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    List all orphans (parents dead, current age under 18)
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
+    both = join_both_spouses_to_family(indivs_df, families_df)
+    both_dead = both[~both['ALIVE_HUSBAND'].isna() & ~both['ALIVE_WIFE'].isna()]
+    orphans = reduce(op.or_, both_dead['CHILDREN'], set())
+    return orphans
+
+
 # US 35
 def list_recent_births(indivs_df: pd.DataFrame) -> pd.DataFrame:
     start_date = datetime.datetime.now() + datetime.timedelta(-30)
@@ -81,19 +95,4 @@ def list_upcoming_anniversaries(families_df: pd.DataFrame) -> pd.DataFrame:
     print(tabulate(fam_df))
     return fam_df
 
-#US 33 - List Orphans
-def list_orphans(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
-    """
-    List all orphans (parents dead, current age under 18)
-    :param indivs_df:
-    :param families_df:
-    :return:
-    """
-   # print("\n" + str(families_df))
-    dead_people = indivs_df[~indivs_df['DEATH'].isna()] #find all dead people
-  #  print("\n DEAD PEOPLE ARE: \n" + str(dead_people))
-    spouse_joined = join_by_spouse(dead_people, families_df).reset_index() #find all married couples where husband and wife are both dead
-    children = get_children_of_couple(spouse_joined['HUSBAND ID'], spouse_joined['WIFE ID'], families_df) #find children of dead parents
-    children = children[children.AGE < 18]
-  #  print(children)
-    return indivs_df.merge(children)
+
