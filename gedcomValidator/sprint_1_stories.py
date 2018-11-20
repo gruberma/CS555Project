@@ -133,6 +133,7 @@ def birth_before_parents_married(indivs_df: pd.DataFrame, families_df: pd.DataFr
     inds = indivs_df[indivs_df.BIRTHDAY.notnull()]
     fams = families_df[families_df.MARRIED.notnull()]
     joined = join_by_child(inds, fams)
+
     if joined.empty:
         return joined
     joined = joined[joined.BIRTHDAY.notnull() & joined.MARRIED.notnull()]

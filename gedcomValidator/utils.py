@@ -137,6 +137,16 @@ def get_children(individual_id, fams_df) -> Set[str]:
     children = reduce(op.or_, families['CHILDREN'], set())
     return children
 
+def get_children_of_couple(husband_id, wife_id, fams_df) -> Set[str]:
+    """
+    Given a husband's id and a wife's id, get the children of that couple
+    :param wife_id: id of wife
+    :param husband_id: id of husband
+    :return: set of individual-ids of all children of given couple
+    """
+    families = fams_df[(fams_df['HUSBAND ID'] == husband_id) & (fams_df['WIFE ID'] == wife_id)]
+    children = reduce(op.or_, families['CHILDREN'], set())
+    return children 
 
 def get_spouses(individual_id, fams_df) -> Set[str]:
     """

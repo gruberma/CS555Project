@@ -31,6 +31,7 @@ def list_recent_births(indivs_df: pd.DataFrame) -> pd.DataFrame:
 
 # US 36
 def list_recent_deaths(indivs_df: pd.DataFrame) -> pd.DataFrame:
+    print("\n" + str(indivs_df))
     start_date = datetime.datetime.now() + datetime.timedelta(-30)
     indivs_df = indivs_df[~indivs_df['DEATH'].isna()]
     return indivs_df[indivs_df["DEATH"].apply(parse_date) > start_date]
@@ -53,38 +54,46 @@ def list_recent_survivors(indivs_df: pd.DataFrame, families_df: pd.DataFrame) ->
 
 
 # US 38
-def list_upcoming_birthday(indivs_df: pd.DataFrame, test_today = None) -> pd.DataFrame:
+def list_upcoming_birthday(indivs_df: pd.DataFrame) -> pd.DataFrame:
     """
     List all living people in a GEDCOM file whose birthdays occur in the next 30 days
     """
-    if test_today:
-        today_date = test_today
-    else:
-        today_date = date.today()
-
     indivs = indivs_df[indivs_df.DEATH.isna() & ~indivs_df.BIRTHDAY.isna()].copy()
-    curyear = today_date.year
+    curyear = date.today().year
     indivs['DAYS_TO_BIRTHDAY'] = [None if pd.isna(birth) else
-                    ((date(curyear, parse_date(birth).date().month, parse_date(birth).date().day)) - today_date).days
+                    ((date(curyear, parse_date(birth).date().month, parse_date(birth).date().day)) - date.today()).days
                     for birth in indivs['BIRTHDAY']]
     indivs = indivs[(indivs['DAYS_TO_BIRTHDAY'] <= 30) & (indivs['DAYS_TO_BIRTHDAY'] >= 0)]
     return indivs
 
 
 # US39
-def list_upcoming_anniversaries(families_df: pd.DataFrame, test_today = None) -> pd.DataFrame:
+def list_upcoming_anniversaries(families_df: pd.DataFrame) -> pd.DataFrame:
     """
     List all living couples in a GEDCOM file whose marriage anniversaries occur in the next 30 days
     """
-    if test_today:
-        today_date = test_today
-    else:
-        today_date = date.today()
-
     fam_df = families_df[~families_df.MARRIED.isna()].copy()
-    curyear = today_date.year
+    curyear = date.today().year
     fam_df['DAYS_TO_ANNIVERSARY'] = [None if pd.isna(married) else
-                    ((date(curyear, parse_date(married).date().month, parse_date(married).date().day)) - today_date).days
+                    ((date(curyear, parse_date(married).date().month, parse_date(married).date().day)) - date.today()).days
                     for married in fam_df['MARRIED']]
     fam_df = fam_df[(fam_df['DAYS_TO_ANNIVERSARY'] <= 30) & (fam_df['DAYS_TO_ANNIVERSARY'] >= 0)]
+    print(tabulate(fam_df))
     return fam_df
+
+#US 33 - List Orphans
+def list_orphans(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    List all orphans (parents dead, current age under 18)
+    :param indivs_df:
+    :param families_df:
+    :return:
+    """
+   # print("\n" + str(families_df))
+    dead_people = indivs_df[~indivs_df['DEATH'].isna()] #find all dead people
+  #  print("\n DEAD PEOPLE ARE: \n" + str(dead_people))
+    spouse_joined = join_by_spouse(dead_people, families_df).reset_index() #find all married couples where husband and wife are both dead
+    children = get_children_of_couple(spouse_joined['HUSBAND ID'], spouse_joined['WIFE ID'], families_df) #find children of dead parents
+    children = children[children.AGE < 18]
+  #  print(children)
+    return indivs_df.merge(children)
