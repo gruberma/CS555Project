@@ -472,7 +472,7 @@ class TestListUpcomingBirthday(TestCase):
 class TestListUpcomingAniversary(TestCase):
     def test(self):
         _, fams_df = parseFileToDFs("../gedcom_test_files/us39_list_upcoming_anniversaries.ged")
-        upcoming_aniversary_df = validate.list_upcoming_anniversaries(fams_df)
+        upcoming_aniversary_df = validate.list_upcoming_anniversaries(fams_df, date(2018, 11, 18))
         expected = {'HUSBAND NAME': {0: 'The /Force/'}}
         self.assertEqual(expected, upcoming_aniversary_df[['HUSBAND NAME']].to_dict())
 
