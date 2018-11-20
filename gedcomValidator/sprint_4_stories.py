@@ -7,6 +7,10 @@ import pandas as pd
 from dateutil.parser import parse as parse_date
 from utils import *
 from datetime import date
+from typing import List, Set, Tuple
+import itertools as it
+from dateutil.relativedelta import relativedelta
+import numpy as np
 
 # US 42 - Reject illegitimate dates
 
@@ -95,4 +99,24 @@ def list_upcoming_anniversaries(families_df: pd.DataFrame) -> pd.DataFrame:
     print(tabulate(fam_df))
     return fam_df
 
+
+# US13
+def siblings_spacing(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> List[Tuple[str, str, int]]:
+    """
+     more than 8 months apart or less than 2 days apart
+    :return: 
+    """
+    def getBirthday(indiv_id):
+        matches = indivs_df[indivs_df['ID'] == indiv_id]
+        if matches is not None:
+            return parse_date(matches['BIRTHDAY'].values[0])
+
+    children: List[Set[str]] = families_df['CHILDREN']
+    child_pairs: List[List[Tuple[str, str]]] = [list(it.combinations(siblings, 2)) for siblings in children]
+    strange_children: List[Tuple[str, str, int]] = \
+        {(c1, c2, np.abs(relativedelta(getBirthday(c1), getBirthday(c2)).days))
+            for family_pairs in child_pairs for c1, c2 in family_pairs
+            if (np.abs(relativedelta(getBirthday(c1), getBirthday(c2)).days) > 2) and
+               (np.abs(relativedelta(getBirthday(c1), getBirthday(c2)).months) < 8)}
+    return strange_children
 

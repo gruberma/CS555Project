@@ -483,5 +483,15 @@ class TestListOrphans(TestCase):
         expected = {'@I1@'}
         self.assertEqual(expected, orphans)
 
+
+# US13
+class TestSiblingSpacing(TestCase):
+    def test(self):
+        indivs_df, families_df = parseFileToDFs("../gedcom_test_files/us13_sibling_spacing.ged")
+        strange_siblings = validate.siblings_spacing(indivs_df, families_df)
+        expected = {('@I1@', '@I4@', 6)}
+        expected2 = {('@I4@', '@I1@', 6)}
+        self.assertTrue(strange_siblings == expected or strange_siblings == expected2)
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
