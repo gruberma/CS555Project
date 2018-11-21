@@ -168,8 +168,12 @@ def run_all_checks(filename: str):
         print("NOTICE: INDIVIDUAL: US39: Couple {} {}'s anniversary occur in the next 30 days ({} days) ".format(hus_name, wife_name, DAYS_TO_ANNIVERSARY))
 
     # US 33
-    for index, (hus_name, wife_name, name) in list_orphans(indivs_df, families_df)[['HUSBAND NAME', 'WIFE NAME', 'NAME']].iterrows():
-        print("NOTICE: INDIVIDUAL: US33: Couple {} {} are both dead, and child {} is an orphan) ".format(hus_name, wife_name, child))
+    for id in list_orphans(indivs_df, families_df):
+        print("NOTICE: INDIVIDUAL: US33: Individual with id {} is an orphan ".format(id))
+
+    # US 13
+    for (sib_id, sib_id, days) in siblings_spacing(indivs_df, families_df):
+        print("NOTICE: INDIVIDUAL: US13: Siblings with ids {} and {} were born {} days apart, violating sibling spacing".format(sib_id, sib_id, days))
 
 
 if __name__ == "__main__":
