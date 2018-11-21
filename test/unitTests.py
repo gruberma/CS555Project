@@ -12,6 +12,7 @@ import unittest
 from unittest import TestCase
 import numpy as np
 import pandas as pd
+from datetime import date
 
 
 class TestParser(TestCase):
@@ -461,7 +462,7 @@ class TestListRecentSurvivors(TestCase):
 class TestListUpcomingBirthday(TestCase):
     def test(self):
         indivs_df, _ = parseFileToDFs("../gedcom_test_files/us38_list_upcoming_birthday.ged")
-        upcoming_birthday_df = validate.list_upcoming_birthday(indivs_df)
+        upcoming_birthday_df = validate.list_upcoming_birthday(indivs_df, date(2018, 11, 18))
         expected = [{'ID': '@shmi1@', 'NAME': 'Shmiclone /Skywalker/', 'DAYS_TO_BIRTHDAY': 27}]
         actual = [row.to_dict() for _, row in upcoming_birthday_df[['ID', 'NAME', 'DAYS_TO_BIRTHDAY']].iterrows()]
         self.assertEqual(sorted(actual, key=lambda d: d['ID']), sorted(expected, key=lambda d: d['ID']))
@@ -471,7 +472,7 @@ class TestListUpcomingBirthday(TestCase):
 class TestListUpcomingAniversary(TestCase):
     def test(self):
         _, fams_df = parseFileToDFs("../gedcom_test_files/us39_list_upcoming_anniversaries.ged")
-        upcoming_aniversary_df = validate.list_upcoming_anniversaries(fams_df)
+        upcoming_aniversary_df = validate.list_upcoming_anniversaries(fams_df, date(2018, 11, 18))
         expected = {'HUSBAND NAME': {0: 'The /Force/'}}
         self.assertEqual(expected, upcoming_aniversary_df[['HUSBAND NAME']].to_dict())
 
@@ -480,10 +481,11 @@ class TestListOrphans(TestCase):
     def test(self):
         indivs_df, families_df = parseFileToDFs("../gedcom_test_files/us33_list_orphans.ged")
         orphans = validate.list_orphans(indivs_df, families_df)
-        expected = {'@I1@'}
-        self.assertEqual(expected, orphans)
+        expected =['@lea@', '@luke@']
+        expected2 =['@luke@', '@lea@']
+        self.assertTrue((orphans == expected) or (orphans == expected2))
 
-
+   
 # US13
 class TestSiblingSpacing(TestCase):
     def test(self):
