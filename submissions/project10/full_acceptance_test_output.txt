@@ -1,0 +1,158 @@
+ERROR: PARSER: US42: DATE '30 FEB 2000' is illegitimate
+
+Individuals:
++----+-------+------------------+----------+-------------+-------+---------------+---------+-------------+---------+----------+
+|    | ID    | NAME             | GENDER   | BIRTHDAY    |   AGE |   AGE_in_days | ALIVE   | DEATH       | CHILD   | SPOUSE   |
+|----+-------+------------------+----------+-------------+-------+---------------+---------+-------------+---------+----------|
+|  0 | @I1@  | Suzy /Smith/     | M        | 5 FEB 1970  |    48 |         17820 | False   | 20 NOV 2018 |         | {'@F1@'} |
+|  1 | @I2@  | Mike /Smith/     | M        | 7 DEC 1970  |    47 |         17515 | False   | 20 NOV 2018 | @F2@    | {'@F1@'} |
+|  2 | @I3@  | Sally /Smith/    | F        | 10 NOV 2018 |     0 |            11 | True    | nan         | @F1@    |          |
+|  3 | @I4@  | Mitchell /Smith/ | M        | 10 NOV 2018 |     0 |            11 | True    | nan         | @F1@    |          |
+|  4 | @I5@  | Bobby /Smith/    | M        | 16 NOV 2018 |     0 |             5 | True    | nan         | @F1@    |          |
+|  5 | @I6@  | Richard /Smith/  | M        | 4 JAN 1971  |   -27 |         -9865 | False   | 1 JAN 1944  |         | {'@F2@'} |
+|  6 | @I7@  | Molly /Smith/    | F        | 4 JAN 1950  |    68 |         25158 | True    | nan         |         | {'@F2@'} |
+|  7 | @I8@  | Matt /Smith/     | M        | 5 FEB 1850  |   168 |         61650 | True    | nan         | @F2@    | {'@F3@'} |
+|  8 | @I9@  | Sarah /Smith/    | F        | 4 JUL 2000  |   -50 |        -18447 | False   | 1 JAN 1950  |         | {'@F3@'} |
+|  9 | @I10@ | 1 /Smith/        | M        | 1 JAN 1970  |    48 |         17856 | True    | nan         | @F3@    |          |
+| 10 | @I11@ | 2 /Smith/        | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    |          |
+| 11 | @I12@ | 3 /Smith/        | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    |          |
+| 12 | @I13@ | 4 /Smith/        | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    |          |
+| 13 | @I14@ | 5 /Smith/        | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    |          |
+| 14 | @I15@ | 6 /Smith/        | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    |          |
+| 15 | @I16@ | 7 /Smith/        | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    |          |
+| 16 | @I16@ | 7 /Smith/        | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    |          |
+| 17 | @I18@ | 9 /Smith/        | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    |          |
+| 18 | @I19@ | 10 /Smath/       | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    |          |
+| 19 | @I20@ | 11 /Smath/       | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    |          |
+| 20 | @I21@ | 12 /Smith/       | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    |          |
+| 21 | @I22@ | 13 /Smith/       | M        | 1 JAN 2020  |    -1 |          -406 | True    | nan         | @F3@    |          |
+| 22 | @I23@ | 14 /Smith/       | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    |          |
+| 23 | @I24@ | 15 /Smith/       | M        | 1 JAN 1990  |    28 |         10551 | True    | nan         | @F3@    | {'@F4@'} |
+| 24 | @I25@ | 16 /Smith/       | F        | 1 DEC 1990  |    27 |         10217 | True    | nan         | @F3@    | {'@F4@'} |
++----+-------+------------------+----------+-------------+-------+---------------+---------+-------------+---------+----------+
+
+Families:
++----+------+-------------+-------------+--------------+-----------------+-----------+---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|    | ID   | MARRIED     | DIVORCED    | HUSBAND ID   | HUSBAND NAME    | WIFE ID   | WIFE NAME     | CHILDREN                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|----+------+-------------+-------------+--------------+-----------------+-----------+---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  0 | @F1@ | nan         | nan         | @I2@         | Mike /Smith/    | @I1@      | Suzy /Smith/  | [('@I4@', '11 days old'), ('@I3@', '11 days old'), ('@I5@', '5 days old')]                                                                                                                                                                                                                                                                                                                                                                         |
+|  1 | @F2@ | 30 NOV 1969 | 14 FEB 1945 | @I6@         | Richard /Smith/ | @I7@      | Molly /Smith/ | [('@I8@', '61650 days old'), ('@I2@', '17515 days old')]                                                                                                                                                                                                                                                                                                                                                                                           |
+|  2 | @F3@ | 1 FEB 2010  | nan         | @I8@         | Matt /Smith/    | @I9@      | Sarah /Smith/ | [('@I10@', '17856 days old'), ('@I14@', '10551 days old'), ('@I15@', '10551 days old'), ('@I19@', '10551 days old'), ('@I11@', '10551 days old'), ('@I18@', '10551 days old'), ('@I21@', '10551 days old'), ('@I12@', '10551 days old'), ('@I13@', '10551 days old'), ('@I23@', '10551 days old'), ('@I24@', '10551 days old'), ('@I20@', '10551 days old'), ('@I16@', '10551 days old'), ('@I25@', '10217 days old'), ('@I22@', '-406 days old')] |
+|  3 | @F4@ | 5 DEC 2015  | nan         | @I24@        | 15 /Smith/      | @I25@     | 16 /Smith/    | []                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
++----+------+-------------+-------------+--------------+-----------------+-----------+---------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
++---------------------------------------------+
+|NOTE: US 41 and US 42 print above the tables!|
++---------------------------------------------+
+
+ERROR: INDIVIDUAL: US01: @I22@: Dates before current date - Birth 1 JAN 2020
+ERROR: INDIVIDUAL: US02: @I6@: Birth should occur before marriage - Birthday 4 JAN 1971: MARRIED 30 NOV 1969
+ERROR: INDIVIDUAL: US03: @I6@: Birth should occur before death - Birthday 4 JAN 1971: Death 1 JAN 1944
+ERROR: INDIVIDUAL: US03: @I9@: Birth should occur before death - Birthday 4 JUL 2000: Death 1 JAN 1950
+ERROR: INDIVIDUAL: US04: @I6@: Marriage after divorce - Marriage 30 NOV 1969: Divorce 14 FEB 1945
+ERROR: INDIVIDUAL: US04: @I7@: Marriage after divorce - Marriage 30 NOV 1969: Divorce 14 FEB 1945
+ERROR: INDIVIDUAL: US05: @I6@: Marriage after death - Marriage 30 NOV 1969: Death 1 JAN 1944
+ERROR: INDIVIDUAL: US05: @I9@: Marriage after death - Marriage 1 FEB 2010: Death 1 JAN 1950
+ERROR: INDIVIDUAL: US06: @I6@: Divorced after death - Divorce 14 FEB 1945: Death 1 JAN 1944
+ERROR: INDIVIDUAL: US07: @I8@: More than 150 years old - Birth 5 FEB 1850: Death nan
+ERROR: INDIVIDUAL: US08: @I8@: Individual's birthday is before parents' marriage date -  30 NOV 1969
+ERROR: INDIVIDUAL: US08: @I10@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I11@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I12@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I13@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I14@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I15@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I16@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I16@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I18@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I19@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I20@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I21@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I23@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I24@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US08: @I25@: Individual's birthday is before parents' marriage date -  1 FEB 2010
+ERROR: INDIVIDUAL: US09: @I10@: Individual's birthday is after mother's death date - 1 JAN 1970 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I11@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I12@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I13@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I14@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I15@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I16@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I16@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I18@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I19@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I20@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I21@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I22@: Individual's birthday is after mother's death date - 1 JAN 2020 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I23@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I24@: Individual's birthday is after mother's death date - 1 JAN 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I25@: Individual's birthday is after mother's death date - 1 DEC 1990 Mother: @I9@ - 1 JAN 1950
+ERROR: INDIVIDUAL: US09: @I2@: Individual's birthday is after father's death date - 7 DEC 1970 Father: @I6@ - 1 JAN 1944
+ERROR: INDIVIDUAL: US10: @I6@: Individual married before the age of 14 - Age at marriage: -1
+ERROR: INDIVIDUAL: US10: @I9@: Individual married before the age of 14 - Age at marriage: 9
+ERROR: INDIVIDUAL: US12: @I10@'s father @I8@ is too old. Older then individual 119 years.
+ERROR: INDIVIDUAL: US12: @I11@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I12@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I13@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I14@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I15@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I16@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I16@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I18@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I19@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I20@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I21@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I22@'s father @I8@ is too old. Older then individual 169 years.
+ERROR: INDIVIDUAL: US12: @I23@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I24@'s father @I8@ is too old. Older then individual 139 years.
+ERROR: INDIVIDUAL: US12: @I25@'s father @I8@ is too old. Older then individual 140 years.
+ERROR: FAMILY: US14: @F3@ have 13 birth which more than 5 birth in same day: 1 JAN 1990.
+ERROR: FAMILY: US15: In family @F3@ there are more then 14 children.
+ERROR: INDIVIDUAL: US16: @I19@ name is: 10 /Smath/. Fathers name is: Matt /Smith/
+ERROR: INDIVIDUAL: US16: @I20@ name is: 11 /Smath/. Fathers name is: Matt /Smith/
+ERROR: INDIVIDUAL: US18: @I24@ and @I25@ are siblings but they are married in family @F4@
+ERROR: INDIVIDUAL: US21: @I1@ has the wrong gender role in family @F1@
+ERROR: INDIVIDUAL/FAMILY: US22: ID @I16@ already exists
+ERROR: INDIVIDUAL: US23: Name: 7 /Smith/ and Birthday: 1 JAN 1990 already exists
+ERROR: INDIVIDUAL: US25: Individual with ID @I16@ has same name (7 /Smith/) and birthday (1 JAN 1990) as other individual in the family
+NOTICE: INDIVIDUAL: US29: @I1@ is dead. BIRTHDAY: 5 FEB 1970 - DEATH DATE: 20 NOV 2018
+NOTICE: INDIVIDUAL: US29: @I2@ is dead. BIRTHDAY: 7 DEC 1970 - DEATH DATE: 20 NOV 2018
+NOTICE: INDIVIDUAL: US29: @I6@ is dead. BIRTHDAY: 4 JAN 1971 - DEATH DATE: 1 JAN 1944
+NOTICE: INDIVIDUAL: US29: @I9@ is dead. BIRTHDAY: 4 JUL 2000 - DEATH DATE: 1 JAN 1950
+NOTICE: INDIVIDUAL: US30: Individual with ID: @I7@ Name: Molly /Smith/ are living and married
+NOTICE: INDIVIDUAL: US30: Individual with ID: @I8@ Name: Matt /Smith/ are living and married
+NOTICE: INDIVIDUAL: US30: Individual with ID: @I24@ Name: 15 /Smith/ are living and married
+NOTICE: INDIVIDUAL: US30: Individual with ID: @I25@ Name: 16 /Smith/ are living and married
+NOTICE: INDIVIDUAL: US31: @I10@ has never been married and is older than 30 with an age of 48
+NOTICE: INDIVIDUAL: US32: @I3@ is one of multiple children born to the @F1@ family on 10 NOV 2018
+NOTICE: INDIVIDUAL: US32: @I4@ is one of multiple children born to the @F1@ family on 10 NOV 2018
+NOTICE: INDIVIDUAL: US32: @I11@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US32: @I12@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US32: @I13@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US32: @I14@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US32: @I15@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US32: @I16@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US32: @I16@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US32: @I18@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US32: @I19@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US32: @I20@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US32: @I21@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US32: @I23@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US32: @I24@ is one of multiple children born to the @F3@ family on 1 JAN 1990
+NOTICE: INDIVIDUAL: US35: Sally /Smith/ was born in the last 30 days
+NOTICE: INDIVIDUAL: US35: Mitchell /Smith/ was born in the last 30 days
+NOTICE: INDIVIDUAL: US35: Bobby /Smith/ was born in the last 30 days
+NOTICE: INDIVIDUAL: US35: 13 /Smith/ was born in the last 30 days
+NOTICE: INDIVIDUAL: US36: Suzy /Smith/ died in the last 30 days
+NOTICE: INDIVIDUAL: US36: Mike /Smith/ died in the last 30 days
+NOTICE: INDIVIDUAL: US37: @I1@ died in the last 30 days. He/She leaves behind his/her spouse(s) set() and his/her descendant {'@I5@', '@I4@', '@I3@'}
+NOTICE: INDIVIDUAL: US37: @I2@ died in the last 30 days. He/She leaves behind his/her spouse(s) set() and his/her descendant {'@I5@', '@I4@', '@I3@'}
+NOTICE: INDIVIDUAL: US38: @I25@ 16 /Smith/'s birthdays occur in the next 30 days (10 days)
+NOTICE: INDIVIDUAL: US39: Couple Richard /Smith/ Molly /Smith/'s anniversary occur in the next 30 days (9 days)
+NOTICE: INDIVIDUAL: US39: Couple 15 /Smith/ 16 /Smith/'s anniversary occur in the next 30 days (14 days)
+NOTICE: INDIVIDUAL: US33: Individual with id @I5@ is an orphan
+NOTICE: INDIVIDUAL: US33: Individual with id @I4@ is an orphan
+NOTICE: INDIVIDUAL: US33: Individual with id @I3@ is an orphan
+NOTICE: INDIVIDUAL: US13: Siblings with ids @I5@ and @I3@ were born 6 days apart, violating sibling spacing
+NOTICE: INDIVIDUAL: US13: Siblings with ids @I5@ and @I4@ were born 6 days apart, violating sibling spacing

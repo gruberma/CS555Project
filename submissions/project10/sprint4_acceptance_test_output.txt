@@ -1,0 +1,49 @@
+ERROR: PARSER: US42: DATE '30 FEB 2000' is illegitimate
+
+Individuals:
++----+------+------------------+----------+-------------+-------+---------------+---------+-------------+---------+----------+
+|    | ID   | NAME             | GENDER   | BIRTHDAY    |   AGE |   AGE_in_days | ALIVE   | DEATH       | CHILD   | SPOUSE   |
+|----+------+------------------+----------+-------------+-------+---------------+---------+-------------+---------+----------|
+|  0 | @I1@ | Suzy /Smith/     | F        | 5 FEB 1970  |    48 |         17820 | False   | 20 NOV 2018 |         | {'@F1@'} |
+|  1 | @I2@ | Mike /Smith/     | M        | 7 JAN 1970  |    48 |         17849 | False   | 20 NOV 2018 | @F2@    | {'@F1@'} |
+|  2 | @I3@ | Sally /Smith/    | F        | 10 NOV 2018 |     0 |            11 | True    | nan         | @F1@    |          |
+|  3 | @I4@ | Mitchell /Smith/ | M        | 10 NOV 2018 |     0 |            11 | True    | nan         | @F1@    |          |
+|  4 | @I5@ | Bobby /Smith/    | M        | 16 NOV 2018 |     0 |             5 | True    | nan         | @F1@    |          |
+|  5 | @I6@ | Richard /Smith/  | M        | 30 NOV 1950 |    67 |         24828 | True    | nan         |         | {'@F2@'} |
+|  6 | @I7@ | Molly /Smith/    | F        | 7 DEC 1950  |    67 |         24821 | True    | nan         |         | {'@F2@'} |
++----+------+------------------+----------+-------------+-------+---------------+---------+-------------+---------+----------+
+
+Families:
++----+------+-------------+------------+--------------+-----------------+-----------+---------------+----------------------------------------------------------------------------+
+|    | ID   | MARRIED     |   DIVORCED | HUSBAND ID   | HUSBAND NAME    | WIFE ID   | WIFE NAME     | CHILDREN                                                                   |
+|----+------+-------------+------------+--------------+-----------------+-----------+---------------+----------------------------------------------------------------------------|
+|  0 | @F1@ | nan         |        nan | @I2@         | Mike /Smith/    | @I1@      | Suzy /Smith/  | [('@I3@', '11 days old'), ('@I4@', '11 days old'), ('@I5@', '5 days old')] |
+|  1 | @F2@ | 30 NOV 1969 |        nan | @I6@         | Richard /Smith/ | @I7@      | Molly /Smith/ | [('@I2@', '17849 days old')]                                               |
++----+------+-------------+------------+--------------+-----------------+-----------+---------------+----------------------------------------------------------------------------+
+
+
++---------------------------------------------+
+|NOTE: US 41 and US 42 print above the tables!|
++---------------------------------------------+
+
+NOTICE: INDIVIDUAL: US29: @I1@ is dead. BIRTHDAY: 5 FEB 1970 - DEATH DATE: 20 NOV 2018
+NOTICE: INDIVIDUAL: US29: @I2@ is dead. BIRTHDAY: 7 JAN 1970 - DEATH DATE: 20 NOV 2018
+NOTICE: INDIVIDUAL: US30: Individual with ID: @I6@ Name: Richard /Smith/ are living and married
+NOTICE: INDIVIDUAL: US30: Individual with ID: @I7@ Name: Molly /Smith/ are living and married
+NOTICE: INDIVIDUAL: US32: @I3@ is one of multiple children born to the @F1@ family on 10 NOV 2018
+NOTICE: INDIVIDUAL: US32: @I4@ is one of multiple children born to the @F1@ family on 10 NOV 2018
+NOTICE: INDIVIDUAL: US35: Sally /Smith/ was born in the last 30 days
+NOTICE: INDIVIDUAL: US35: Mitchell /Smith/ was born in the last 30 days
+NOTICE: INDIVIDUAL: US35: Bobby /Smith/ was born in the last 30 days
+NOTICE: INDIVIDUAL: US36: Suzy /Smith/ died in the last 30 days
+NOTICE: INDIVIDUAL: US36: Mike /Smith/ died in the last 30 days
+NOTICE: INDIVIDUAL: US37: @I1@ died in the last 30 days. He/She leaves behind his/her spouse(s) set() and his/her descendant {'@I5@', '@I3@', '@I4@'}
+NOTICE: INDIVIDUAL: US37: @I2@ died in the last 30 days. He/She leaves behind his/her spouse(s) set() and his/her descendant {'@I5@', '@I3@', '@I4@'}
+NOTICE: INDIVIDUAL: US38: @I6@ Richard /Smith/'s birthdays occur in the next 30 days (9 days)
+NOTICE: INDIVIDUAL: US38: @I7@ Molly /Smith/'s birthdays occur in the next 30 days (16 days)
+NOTICE: INDIVIDUAL: US39: Couple Richard /Smith/ Molly /Smith/'s anniversary occur in the next 30 days (9 days)
+NOTICE: INDIVIDUAL: US33: Individual with id @I5@ is an orphan
+NOTICE: INDIVIDUAL: US33: Individual with id @I3@ is an orphan
+NOTICE: INDIVIDUAL: US33: Individual with id @I4@ is an orphan
+NOTICE: INDIVIDUAL: US13: Siblings with ids @I5@ and @I3@ were born 6 days apart, violating sibling spacing
+NOTICE: INDIVIDUAL: US13: Siblings with ids @I5@ and @I4@ were born 6 days apart, violating sibling spacing
