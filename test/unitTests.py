@@ -481,10 +481,11 @@ class TestListOrphans(TestCase):
     def test(self):
         indivs_df, families_df = parseFileToDFs("../gedcom_test_files/us33_list_orphans.ged")
         orphans = validate.list_orphans(indivs_df, families_df)
-        expected = {'@I1@'}
-        self.assertEqual(expected, orphans)
+        expected =['@lea@', '@luke@']
+        expected2 =['@luke@', '@lea@']
+        self.assertTrue((orphans == expected) or (orphans == expected2))
 
-
+   
 # US13
 class TestSiblingSpacing(TestCase):
     def test(self):

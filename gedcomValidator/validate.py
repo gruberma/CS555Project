@@ -172,8 +172,8 @@ def run_all_checks(filename: str):
         print("NOTICE: INDIVIDUAL: US33: Individual with id {} is an orphan ".format(id))
 
     # US 13
-    for (sib_id, sib_id, days) in siblings_spacing(indivs_df, families_df):
-        print("NOTICE: INDIVIDUAL: US13: Siblings with ids {} and {} were born {} days apart, violating sibling spacing".format(sib_id, sib_id, days))
+    for (sib_id1, sib_id2, days) in siblings_spacing(indivs_df, families_df):
+        print("NOTICE: INDIVIDUAL: US13: Siblings with ids {} and {} were born {} days apart, violating sibling spacing".format(sib_id1, sib_id2, days))
 
 
 if __name__ == "__main__":

@@ -50,14 +50,12 @@ def list_orphans(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataF
 #    print("\n husband alive is \n" + str(both['ALIVE_HUSBAND']))
 #    print("\n wife alive is \n" + str(both['ALIVE_WIFE']))
     for index, (ALIVE_HUSBAND, ALIVE_WIFE, wife_id, husb_id) in both[['ALIVE_HUSBAND', 'ALIVE_WIFE', 'ID_WIFE', 'ID_HUSBAND']].iterrows():
-        if ALIVE_HUSBAND | ALIVE_WIFE:
-#            print("\n we found a living person \n")
-
-        else:
+        if (ALIVE_HUSBAND == False & ALIVE_WIFE == False):
             any_dead_couples = True
             temp = pd.DataFrame()
             temp = both[(both['ID_WIFE'] == wife_id) & (both['ID_HUSBAND'] == husb_id)]
             both_dead = pd.concat([both_dead, temp])
+
 #    print("\n \n both dead is \n" + str(both_dead))
     if any_dead_couples:
         dead_ppls_children = both_dead['CHILDREN'] #this is a series
@@ -70,8 +68,6 @@ def list_orphans(indivs_df: pd.DataFrame, families_df: pd.DataFrame) -> pd.DataF
                 if child_age < 18:
                     orphanlist.append(child_id)
     return orphanlist
-
-
 
 # US 35
 def list_recent_births(indivs_df: pd.DataFrame) -> pd.DataFrame:
